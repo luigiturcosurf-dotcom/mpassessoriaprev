@@ -22,18 +22,19 @@
         a { text-decoration: none; color: inherit; }
 
         :root {
-            --gold: #d4af37;
-            --gold-light: #e8cc6a;
-            --gold-dark: #a8893a;
+            --gold: #5AFF59;
+            --gold-light: #7aff7a;
+            --gold-dark: #3de03c;
             --cream: #f0e6c8;
             --dark: #050505;
             --dark-2: #0e0e0e;
             --dark-3: #141414;
             --dark-card: #1a1a1a;
             --text-muted: #b8b8b8;
-            --cta-green: #c8eb45;
-            --cta-green-hover: #d8f56a;
-            --cta-shadow: rgba(200, 235, 69, 0.35);
+            --cta-green: #5AFF59;
+            --cta-green-hover: #7aff7a;
+            --cta-shadow: rgba(90, 255, 89, 0.35);
+            --accent-green: #5AFF59;
             --whatsapp: #25D366;
         }
 
@@ -54,7 +55,7 @@
             content: '';
             flex: 1;
             height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(212,175,55,0.6), transparent);
+            background: linear-gradient(90deg, transparent, rgba(90,255,89,0.6), transparent);
         }
         .divider svg {
             width: 22px;
@@ -85,7 +86,7 @@
         .cta-button:hover {
             background: var(--cta-green-hover);
             transform: translateY(-2px);
-            box-shadow: 0 10px 36px rgba(200, 235, 69, 0.45);
+            box-shadow: 0 10px 36px rgba(90, 255, 89, 0.45);
         }
         .cta-button svg { width: 22px; height: 22px; fill: #111; }
 
@@ -126,77 +127,22 @@
 
         .hero-visual {
             position: relative;
-            height: min(78vh, 640px);
             display: flex;
-            align-items: flex-end;
-            justify-content: center;
-        }
-        .hero-chevrons {
-            position: absolute;
-            inset: 0;
-            display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 0;
-            z-index: 1;
-            pointer-events: none;
+            height: min(78vh, 620px);
         }
-        .hero-chevrons span {
-            display: block;
-            width: 0;
-            height: 0;
-            border-left: 130px solid transparent;
-            border-right: 130px solid transparent;
-            border-top: 72px solid var(--cream);
-            opacity: 0.92;
-            margin-top: -28px;
-        }
-        .hero-chevrons span:nth-child(1) { opacity: 0.35; transform: scale(1.35); }
-        .hero-chevrons span:nth-child(2) { opacity: 0.55; transform: scale(1.15); }
-        .hero-chevrons span:nth-child(3) { opacity: 0.75; }
-        .hero-chevrons span:nth-child(4) { opacity: 0.92; }
-
-        .hero-visual-bg {
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 92%;
-            height: 88%;
-            border-radius: 12px;
-            overflow: hidden;
-            z-index: 2;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-        }
-        .hero-visual-bg img {
+        .hero-completo {
             width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center;
-        }
-        .hero-visual-bg::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(180deg, transparent 40%, rgba(5,5,5,0.7) 100%);
-        }
-
-        .hero-silhouette {
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 55%;
-            max-width: 320px;
-            z-index: 3;
-            filter: drop-shadow(0 8px 24px rgba(0,0,0,0.6));
+            max-width: 480px;
+            height: auto;
+            filter: drop-shadow(0 16px 48px rgba(90, 255, 89, 0.12));
         }
 
         /* ===== MARQUEE ===== */
         .marquee-bar {
             background: #0a0a0a;
-            border-top: 1px solid rgba(212,175,55,0.15);
+            border-top: 1px solid rgba(90,255,89,0.15);
             padding: 14px 0;
             overflow: hidden;
         }
@@ -256,28 +202,49 @@
         }
         .elig-card {
             background: var(--dark-card);
-            border: 1px solid rgba(212,175,55,0.2);
+            border: 1px solid rgba(90,255,89,0.2);
             border-radius: 16px;
             padding: 32px 24px;
             text-align: center;
             transition: all 0.3s;
         }
         .elig-card:hover {
-            border-color: rgba(212,175,55,0.5);
+            border-color: rgba(90,255,89,0.5);
             transform: translateY(-4px);
             box-shadow: 0 12px 32px rgba(0,0,0,0.4);
         }
-        .elig-icon {
-            width: 64px;
-            height: 64px;
-            margin: 0 auto 18px;
-            background: rgba(212,175,55,0.12);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .elig-card-img {
+            width: 100%;
+            height: 160px;
+            margin: -32px -24px 20px;
+            border-radius: 16px 16px 0 0;
+            overflow: hidden;
+            border-bottom: 2px solid rgba(90, 255, 89, 0.3);
         }
-        .elig-icon svg { width: 28px; height: 28px; fill: var(--gold); }
+        .elig-card-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+        }
+        .section-duo-images {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-top: 40px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .section-duo-images img {
+            width: 100%;
+            max-height: 200px;
+            object-fit: contain;
+            background: rgba(90, 255, 89, 0.05);
+            border: 1px solid rgba(90, 255, 89, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+        }
         .elig-card h3 {
             font-size: 1rem;
             font-weight: 700;
@@ -330,7 +297,7 @@
         }
         .benefit-card {
             background: var(--dark-card);
-            border: 1px solid rgba(212,175,55,0.25);
+            border: 1px solid rgba(90,255,89,0.25);
             border-radius: 14px;
             padding: 24px 20px;
             text-align: center;
@@ -341,16 +308,24 @@
             transform: translateY(-4px);
         }
         .benefit-card-icon {
-            width: 72px;
-            height: 72px;
+            width: 90px;
+            height: 90px;
             margin: 0 auto 16px;
-            background: rgba(212,175,55,0.1);
+            background: rgba(90, 255, 89, 0.06);
+            border: 1px solid rgba(90, 255, 89, 0.2);
             border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
+            padding: 12px;
         }
-        .benefit-card-icon svg { width: 36px; height: 36px; fill: var(--gold); }
+        .benefit-card-icon img,
+        .benefit-card-icon svg {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        .benefit-card-icon svg { fill: var(--accent-green); }
         .benefit-card h4 {
             font-size: 0.88rem;
             font-weight: 700;
@@ -376,7 +351,7 @@
             margin-top: 48px;
             background: linear-gradient(135deg, rgba(15,13,10,0.97), rgba(8,8,8,0.98)),
                         url('assets/hero-bg.jpg') center/cover;
-            border: 1px solid rgba(212,175,55,0.25);
+            border: 1px solid rgba(90,255,89,0.25);
             border-radius: 24px 8px 24px 8px;
             padding: 48px 40px;
         }
@@ -398,7 +373,7 @@
             flex-shrink: 0;
             width: 24px;
             height: 24px;
-            background: rgba(212,175,55,0.2);
+            background: rgba(90,255,89,0.2);
             border: 1px solid var(--gold);
             border-radius: 4px;
             display: flex;
@@ -539,20 +514,16 @@
             .hero-logo { margin: 0 auto 24px; }
             .hero-subtitle { margin: 0 auto; }
             .divider { max-width: 400px; margin-left: auto; margin-right: auto; }
-            .hero-visual { height: 420px; margin-top: 20px; }
+            .hero-visual { height: auto; margin-top: 20px; }
+            .section-duo-images { grid-template-columns: 1fr; max-width: 320px; }
             .eligibility-cards { grid-template-columns: 1fr; max-width: 440px; margin-left: auto; margin-right: auto; }
             .benefits-grid { grid-template-columns: repeat(2, 1fr); }
             .testimonials-row { grid-template-columns: 1fr; }
             .trust-panel { padding: 32px 24px; }
         }
         @media (max-width: 640px) {
-            .hero-visual { height: 340px; }
-            .hero-chevrons span {
-                border-left-width: 80px;
-                border-right-width: 80px;
-                border-top-width: 44px;
-                margin-top: -18px;
-            }
+            .hero-completo { max-width: 320px; }
+            .elig-card-img { height: 140px; }
             .benefits-grid { grid-template-columns: 1fr; }
             .step-row { padding: 22px 20px; gap: 18px; }
             .step-num { font-size: 2rem; min-width: 50px; }
@@ -579,13 +550,7 @@
             </a>
         </div>
         <div class="hero-visual">
-            <div class="hero-chevrons">
-                <span></span><span></span><span></span><span></span>
-            </div>
-            <div class="hero-visual-bg">
-                <img src="assets/hero-bg.jpg" alt="Plantação rural em estufa" loading="eager">
-            </div>
-            <img src="assets/hero-silhouette.png" alt="Trabalhador rural" class="hero-silhouette" loading="eager">
+            <img src="assets/hero-completo.svg" alt="Família rural - Aposentadoria Rural" class="hero-completo" loading="eager">
         </div>
     </div>
     <div class="marquee-bar">
@@ -615,24 +580,29 @@
         </div>
         <p class="section-subtitle">A Aposentadoria Rural é um direito de quem trabalhou no campo. <strong>Se você cumpre os requisitos abaixo:</strong></p>
 
+        <div class="section-duo-images">
+            <img src="assets/foto-1.svg" alt="Direito à aposentadoria rural" loading="lazy">
+            <img src="assets/foto-2.svg" alt="Trabalho no campo" loading="lazy">
+        </div>
+
         <div class="eligibility-cards">
             <div class="elig-card">
-                <div class="elig-icon">
-                    <svg viewBox="0 0 24 24"><path d="M12 6c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2m0 10c2.7 0 5.8 1.29 6 2H6c.23-.72 3.31-2 6-2m0-12C9.79 4 8 5.79 8 8s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 10c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                <div class="elig-card-img">
+                    <img src="assets/elig-agricultor.jpg" alt="Agricultor e lavrador" loading="lazy">
                 </div>
                 <h3>Agricultor(a) e Lavrador(a)</h3>
                 <p>Trabalhou no campo em regime de economia familiar? Mulheres a partir dos <strong>55 anos</strong> e homens a partir dos <strong>60 anos</strong> com 15 anos de atividade rural comprovada.</p>
             </div>
             <div class="elig-card">
-                <div class="elig-icon">
-                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                <div class="elig-card-img">
+                    <img src="assets/elig-pescador.jpg" alt="Pescador artesanal" loading="lazy">
                 </div>
                 <h3>Pescador(a) Artesanal</h3>
                 <p>Pescadores artesanais e extrativistas também têm direito à aposentadoria rural, <strong>mesmo sem contribuições mensais ao INSS</strong>.</p>
             </div>
             <div class="elig-card">
-                <div class="elig-icon">
-                    <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+                <div class="elig-card-img">
+                    <img src="assets/elig-parceiros.jpg" alt="Parceiros e trabalhadores rurais" loading="lazy">
                 </div>
                 <h3>Parceiros e Trabalhadores Rurais</h3>
                 <p>Parceiros, meeiros, arrendatários e trabalhadores rurais que comprovem tempo de atividade no campo.</p>
@@ -679,32 +649,32 @@
 
         <div class="benefits-grid">
             <div class="benefit-card">
-                <div class="benefit-card-icon"><svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg></div>
+                <div class="benefit-card-icon"><img src="assets/benefit-seguranca.svg" alt="Segurança financeira" loading="lazy"></div>
                 <h4>Segurança Financeira</h4>
                 <p>Renda mensal garantida para manter sua rotina com tranquilidade.</p>
             </div>
             <div class="benefit-card">
-                <div class="benefit-card-icon"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>
+                <div class="benefit-card-icon"><img src="assets/benefit-tranquilidade.svg" alt="Tranquilidade familiar" loading="lazy"></div>
                 <h4>Tranquilidade Familiar</h4>
                 <p>Paz emocional para você e para quem depende de você.</p>
             </div>
             <div class="benefit-card">
-                <div class="benefit-card-icon"><svg viewBox="0 0 24 24"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg></div>
+                <div class="benefit-card-icon"><img src="assets/benefit-valores.svg" alt="Valores atrasados" loading="lazy"></div>
                 <h4>Valores Atrasados</h4>
                 <p>Receber retroativos que podem chegar a milhares de reais.</p>
             </div>
             <div class="benefit-card">
-                <div class="benefit-card-icon"><svg viewBox="0 0 24 24"><path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg></div>
+                <div class="benefit-card-icon"><img src="assets/melhora%20dinheiro.webp" alt="Liberdade financeira" loading="lazy"></div>
                 <h4>Liberdade Financeira</h4>
                 <p>Pagar contas, estudar e planejar o futuro sem depender de favores.</p>
             </div>
             <div class="benefit-card">
-                <div class="benefit-card-icon"><svg viewBox="0 0 24 24"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm-2 14l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg></div>
+                <div class="benefit-card-icon"><img src="assets/benefit-reconhecimento.svg" alt="Reconhecimento" loading="lazy"></div>
                 <h4>Reconhecimento</h4>
                 <p>Seu esforço e história no campo finalmente valorizados pela lei.</p>
             </div>
             <div class="benefit-card">
-                <div class="benefit-card-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg></div>
+                <div class="benefit-card-icon"><img src="assets/benefit-dignidade.svg" alt="Dignidade" loading="lazy"></div>
                 <h4>Dignidade</h4>
                 <p>Liberdade para viver com paz e planejar o futuro com segurança.</p>
             </div>
