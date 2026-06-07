@@ -7,14 +7,13 @@
     <meta name="description" content="Descubra se você tem direito à Aposentadoria Rural. Análise gratuita e rápida. MP Assessoria Previdenciária - Cuidando do seu direito.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Playfair+Display:wght@500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        /* ===== RESET & BASE ===== */
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
         body {
             font-family: 'Montserrat', sans-serif;
-            background-color: #0a0a0a;
+            background: #050505;
             color: #f5f5f5;
             line-height: 1.6;
             overflow-x: hidden;
@@ -22,436 +21,446 @@
         img { max-width: 100%; height: auto; display: block; }
         a { text-decoration: none; color: inherit; }
 
-        /* ===== COLORS ===== */
         :root {
-            --gold: #c9a84c;
-            --gold-light: #e2c97e;
+            --gold: #d4af37;
+            --gold-light: #e8cc6a;
             --gold-dark: #a8893a;
-            --dark-bg: #0a0a0a;
-            --dark-section: #111111;
+            --cream: #f0e6c8;
+            --dark: #050505;
+            --dark-2: #0e0e0e;
+            --dark-3: #141414;
             --dark-card: #1a1a1a;
-            --dark-card-hover: #222222;
-            --text-primary: #f5f5f5;
-            --text-secondary: #b0b0b0;
-            --green-whatsapp: #25D366;
+            --text-muted: #b8b8b8;
+            --cta-green: #c8eb45;
+            --cta-green-hover: #d8f56a;
+            --cta-shadow: rgba(200, 235, 69, 0.35);
+            --whatsapp: #25D366;
         }
 
-        /* ===== CONTAINER ===== */
         .container {
-            max-width: 1200px;
+            max-width: 1180px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 0 24px;
         }
 
-        /* ===== HERO SECTION ===== */
+        /* ===== DIVIDER ===== */
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin: 22px 0;
+        }
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(212,175,55,0.6), transparent);
+        }
+        .divider svg {
+            width: 22px;
+            height: 22px;
+            fill: var(--gold);
+            flex-shrink: 0;
+        }
+
+        /* ===== CTA ===== */
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            background: var(--cta-green);
+            color: #111;
+            padding: 18px 38px;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 0.92rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 28px var(--cta-shadow);
+            border: none;
+            cursor: pointer;
+        }
+        .cta-button:hover {
+            background: var(--cta-green-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 36px rgba(200, 235, 69, 0.45);
+        }
+        .cta-button svg { width: 22px; height: 22px; fill: #111; }
+
+        /* ===== HERO ===== */
         .hero {
             position: relative;
             min-height: 100vh;
-            display: flex;
-            align-items: center;
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1510 50%, #0a0a0a 100%);
+            background: var(--dark);
             overflow: hidden;
         }
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -20%;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(201, 168, 76, 0.08) 0%, transparent 70%);
-            border-radius: 50%;
-        }
-        .hero .container {
+        .hero-inner {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 60px;
+            min-height: calc(100vh - 52px);
             align-items: center;
-            padding-top: 40px;
-            padding-bottom: 40px;
+            gap: 40px;
+            padding: 48px 24px 32px;
+            max-width: 1180px;
+            margin: 0 auto;
         }
-        .hero-logo {
-            max-width: 180px;
-            margin-bottom: 30px;
-        }
-        .hero-badge {
-            display: inline-block;
-            background: rgba(201, 168, 76, 0.15);
-            border: 1px solid rgba(201, 168, 76, 0.3);
-            color: var(--gold-light);
-            padding: 8px 20px;
-            border-radius: 50px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            margin-bottom: 20px;
-        }
+        .hero-logo { max-width: 160px; margin-bottom: 28px; }
         .hero h1 {
             font-family: 'Playfair Display', serif;
-            font-size: 2.8rem;
+            font-size: clamp(1.6rem, 3.2vw, 2.35rem);
             font-weight: 700;
-            line-height: 1.2;
-            margin-bottom: 20px;
+            line-height: 1.25;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
-        .hero h1 .highlight {
-            color: var(--gold);
+        .hero h1 .gold { color: var(--gold); }
+        .hero-subtitle {
+            font-size: 1rem;
+            color: var(--text-muted);
+            line-height: 1.75;
+            max-width: 520px;
         }
-        .hero p.subtitle {
-            font-size: 1.1rem;
-            color: var(--text-secondary);
-            margin-bottom: 35px;
-            line-height: 1.7;
-        }
-        .hero-image {
+        .hero-subtitle strong { color: #fff; }
+
+        .hero-visual {
             position: relative;
+            height: min(78vh, 640px);
             display: flex;
+            align-items: flex-end;
             justify-content: center;
-            align-items: center;
         }
-        .hero-image-placeholder {
-            width: 100%;
-            max-width: 500px;
-            aspect-ratio: 4/3;
-            background: linear-gradient(135deg, #1a1510 0%, #2a2015 100%);
-            border-radius: 20px;
-            border: 1px solid rgba(201, 168, 76, 0.2);
+        .hero-chevrons {
+            position: absolute;
+            inset: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 15px;
+            gap: 0;
+            z-index: 1;
+            pointer-events: none;
         }
-        .hero-image-placeholder svg {
-            width: 80px;
-            height: 80px;
-            fill: var(--gold);
-            opacity: 0.5;
+        .hero-chevrons span {
+            display: block;
+            width: 0;
+            height: 0;
+            border-left: 130px solid transparent;
+            border-right: 130px solid transparent;
+            border-top: 72px solid var(--cream);
+            opacity: 0.92;
+            margin-top: -28px;
         }
-        .hero-image-placeholder span {
-            color: var(--gold);
-            opacity: 0.5;
-            font-size: 0.85rem;
+        .hero-chevrons span:nth-child(1) { opacity: 0.35; transform: scale(1.35); }
+        .hero-chevrons span:nth-child(2) { opacity: 0.55; transform: scale(1.15); }
+        .hero-chevrons span:nth-child(3) { opacity: 0.75; }
+        .hero-chevrons span:nth-child(4) { opacity: 0.92; }
+
+        .hero-visual-bg {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 92%;
+            height: 88%;
+            border-radius: 12px;
+            overflow: hidden;
+            z-index: 2;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        }
+        .hero-visual-bg img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+        .hero-visual-bg::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, transparent 40%, rgba(5,5,5,0.7) 100%);
         }
 
-        /* ===== CTA BUTTON ===== */
-        .cta-button {
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
-            color: #0a0a0a;
-            padding: 16px 36px;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 20px rgba(201, 168, 76, 0.3);
-        }
-        .cta-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(201, 168, 76, 0.4);
-        }
-        .cta-button svg {
-            width: 22px;
-            height: 22px;
-            fill: #0a0a0a;
-        }
-        .cta-whatsapp {
-            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
-            color: #fff;
-            box-shadow: 0 4px 20px rgba(37, 211, 102, 0.3);
-        }
-        .cta-whatsapp:hover {
-            box-shadow: 0 8px 30px rgba(37, 211, 102, 0.4);
-        }
-        .cta-whatsapp svg {
-            fill: #fff;
+        .hero-silhouette {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 55%;
+            max-width: 320px;
+            z-index: 3;
+            filter: drop-shadow(0 8px 24px rgba(0,0,0,0.6));
         }
 
         /* ===== MARQUEE ===== */
-        .marquee-section {
-            background: linear-gradient(90deg, var(--gold-dark), var(--gold), var(--gold-dark));
+        .marquee-bar {
+            background: #0a0a0a;
+            border-top: 1px solid rgba(212,175,55,0.15);
             padding: 14px 0;
             overflow: hidden;
         }
         .marquee-track {
             display: flex;
-            animation: marquee 30s linear infinite;
+            animation: marquee 28s linear infinite;
             white-space: nowrap;
         }
         .marquee-item {
-            display: flex;
+            display: inline-flex;
             align-items: center;
-            gap: 15px;
-            padding: 0 30px;
+            gap: 10px;
+            padding: 0 28px;
             font-weight: 700;
-            font-size: 0.9rem;
-            color: #0a0a0a;
+            font-size: 0.82rem;
+            color: var(--gold-light);
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
         }
-        .marquee-item::after {
-            content: '\2605';
-            font-size: 0.7rem;
-        }
+        .marquee-item::after { content: '▼'; font-size: 0.55rem; opacity: 0.7; }
         @keyframes marquee {
             0% { transform: translateX(0); }
             100% { transform: translateX(-50%); }
         }
 
-        /* ===== SECTION STYLING ===== */
-        .section {
-            padding: 80px 0;
-        }
-        .section-dark {
-            background-color: var(--dark-section);
-        }
+        /* ===== SECTIONS ===== */
+        .section { padding: 80px 0; }
+        .section-dark { background: var(--dark-2); }
         .section-title {
             font-family: 'Playfair Display', serif;
-            font-size: 2.2rem;
+            font-size: clamp(1.5rem, 3vw, 2.1rem);
             font-weight: 700;
             text-align: center;
-            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            line-height: 1.3;
+            max-width: 900px;
+            margin: 0 auto;
         }
-        .section-title .highlight {
-            color: var(--gold);
-        }
+        .section-title .gold { color: var(--gold); }
         .section-subtitle {
             text-align: center;
-            color: var(--text-secondary);
-            font-size: 1.05rem;
-            max-width: 700px;
-            margin: 0 auto 50px;
-            line-height: 1.7;
+            color: var(--text-muted);
+            font-size: 1rem;
+            max-width: 720px;
+            margin: 18px auto 0;
+            line-height: 1.75;
         }
+        .section-subtitle strong { color: #fff; }
 
-        /* ===== QUEM TEM DIREITO ===== */
-        .eligibility-grid {
+        /* ===== ELIGIBILITY ===== */
+        .eligibility-cards {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
+            gap: 24px;
             margin-top: 50px;
         }
-        .eligibility-card {
+        .elig-card {
             background: var(--dark-card);
-            border: 1px solid rgba(201, 168, 76, 0.15);
+            border: 1px solid rgba(212,175,55,0.2);
             border-radius: 16px;
-            padding: 35px 30px;
+            padding: 32px 24px;
             text-align: center;
-            transition: all 0.3s ease;
+            transition: all 0.3s;
         }
-        .eligibility-card:hover {
-            border-color: rgba(201, 168, 76, 0.4);
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        .elig-card:hover {
+            border-color: rgba(212,175,55,0.5);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(0,0,0,0.4);
         }
-        .eligibility-icon {
-            width: 70px;
-            height: 70px;
-            margin: 0 auto 20px;
-            background: rgba(201, 168, 76, 0.1);
+        .elig-icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 18px;
+            background: rgba(212,175,55,0.12);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
         }
-        .eligibility-icon svg {
-            width: 32px;
-            height: 32px;
-            fill: var(--gold);
-        }
-        .eligibility-card h3 {
-            font-size: 1.15rem;
+        .elig-icon svg { width: 28px; height: 28px; fill: var(--gold); }
+        .elig-card h3 {
+            font-size: 1rem;
             font-weight: 700;
-            margin-bottom: 12px;
             color: var(--gold-light);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
         }
-        .eligibility-card p {
-            font-size: 0.92rem;
-            color: var(--text-secondary);
-            line-height: 1.6;
+        .elig-card p { font-size: 0.88rem; color: var(--text-muted); line-height: 1.65; }
+
+        /* ===== STEPS ===== */
+        .steps-section { background: #fff; color: #111; padding: 80px 0; }
+        .steps-section .section-title { color: #111; }
+        .steps-section .section-subtitle { color: #555; }
+        .steps-list { margin-top: 48px; display: flex; flex-direction: column; gap: 14px; }
+        .step-row {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+            padding: 28px 36px;
+            background: linear-gradient(135deg, rgba(10,10,10,0.92), rgba(20,18,14,0.95)),
+                        url('assets/hero-bg.jpg') center/cover;
+            border-radius: 4px;
+            color: #fff;
+            transition: transform 0.3s;
+        }
+        .step-row:hover { transform: translateX(6px); }
+        .step-num {
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: var(--cream);
+            line-height: 1;
+            min-width: 70px;
+            opacity: 0.9;
+        }
+        .step-row h3 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+        .steps-cta { text-align: center; margin-top: 44px; }
+
+        /* ===== BENEFITS ===== */
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 48px;
+        }
+        .benefit-card {
+            background: var(--dark-card);
+            border: 1px solid rgba(212,175,55,0.25);
+            border-radius: 14px;
+            padding: 24px 20px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        .benefit-card:hover {
+            border-color: var(--gold);
+            transform: translateY(-4px);
+        }
+        .benefit-card-icon {
+            width: 72px;
+            height: 72px;
+            margin: 0 auto 16px;
+            background: rgba(212,175,55,0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .benefit-card-icon svg { width: 36px; height: 36px; fill: var(--gold); }
+        .benefit-card h4 {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--gold-light);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+        .benefit-card p { font-size: 0.82rem; color: var(--text-muted); line-height: 1.55; }
+
+        .urgency-text {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            max-width: 680px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
-        /* ===== COMO FUNCIONA ===== */
-        .steps-grid {
+        /* ===== TRUST PANEL ===== */
+        .trust-panel {
+            margin-top: 48px;
+            background: linear-gradient(135deg, rgba(15,13,10,0.97), rgba(8,8,8,0.98)),
+                        url('assets/hero-bg.jpg') center/cover;
+            border: 1px solid rgba(212,175,55,0.25);
+            border-radius: 24px 8px 24px 8px;
+            padding: 48px 40px;
+        }
+        .trust-checklist {
+            list-style: none;
+            margin: 32px 0 40px;
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 30px;
-            margin-top: 50px;
+            gap: 14px;
         }
-        .step-card {
-            background: var(--dark-card);
-            border: 1px solid rgba(255,255,255,0.05);
-            border-radius: 16px;
-            padding: 30px;
+        .trust-checklist li {
             display: flex;
-            gap: 20px;
             align-items: flex-start;
-            transition: all 0.3s ease;
+            gap: 14px;
+            font-size: 0.95rem;
+            font-weight: 500;
         }
-        .step-card:hover {
-            border-color: rgba(201, 168, 76, 0.3);
-        }
-        .step-number {
+        .trust-checklist li::before {
+            content: '✓';
             flex-shrink: 0;
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-            border-radius: 12px;
+            width: 24px;
+            height: 24px;
+            background: rgba(212,175,55,0.2);
+            border: 1px solid var(--gold);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            color: var(--gold);
+            font-weight: 800;
+        }
+        .testimonials-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        .testimonial-card {
+            background: rgba(0,0,0,0.5);
+            border-left: 3px solid var(--gold);
+            border-bottom: 3px solid var(--gold);
+            border-radius: 0 12px 0 0;
+            padding: 24px 20px;
+        }
+        .testimonial-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+        .testimonial-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: 2px solid var(--gold);
+            background: linear-gradient(135deg, var(--gold-dark), var(--gold));
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 800;
-            font-size: 1.2rem;
-            color: #0a0a0a;
-        }
-        .step-card h3 {
-            font-size: 1.05rem;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-        .step-card p {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            line-height: 1.6;
-        }
-
-        /* ===== BENEFICIOS ===== */
-        .benefits-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 25px;
-            margin-top: 50px;
-            max-width: 900px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        .benefit-item {
-            display: flex;
-            align-items: center;
-            gap: 18px;
-            background: var(--dark-card);
-            border-radius: 14px;
-            padding: 25px;
-            border: 1px solid rgba(255,255,255,0.05);
-            transition: all 0.3s ease;
-        }
-        .benefit-item:hover {
-            border-color: rgba(201, 168, 76, 0.3);
-        }
-        .benefit-icon {
-            flex-shrink: 0;
-            width: 50px;
-            height: 50px;
-            background: rgba(201, 168, 76, 0.1);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .benefit-icon svg {
-            width: 24px;
-            height: 24px;
-            fill: var(--gold);
-        }
-        .benefit-item span {
-            font-weight: 600;
-            font-size: 0.95rem;
-        }
-
-        /* ===== POR QUE CONFIAR ===== */
-        .trust-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 25px;
-            margin-top: 50px;
-        }
-        .trust-item {
-            text-align: center;
-            padding: 25px 15px;
-        }
-        .trust-item svg {
-            width: 40px;
-            height: 40px;
-            fill: var(--gold);
-            margin-bottom: 15px;
-        }
-        .trust-item h4 {
-            font-size: 0.95rem;
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-        .trust-item p {
-            font-size: 0.82rem;
-            color: var(--text-secondary);
-            line-height: 1.5;
-        }
-
-        /* ===== DEPOIMENTOS ===== */
-        .testimonials-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
-            margin-top: 50px;
-        }
-        .testimonial-card {
-            background: var(--dark-card);
-            border-radius: 16px;
-            padding: 30px;
-            border: 1px solid rgba(255,255,255,0.05);
-        }
-        .testimonial-stars {
-            color: var(--gold);
+            color: #111;
             font-size: 1.1rem;
-            margin-bottom: 15px;
-        }
-        .testimonial-text {
-            font-size: 0.92rem;
-            color: var(--text-secondary);
-            line-height: 1.7;
-            margin-bottom: 20px;
-            font-style: italic;
-        }
-        .testimonial-author {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .testimonial-avatar {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 1.1rem;
-            color: #0a0a0a;
         }
         .testimonial-name {
-            font-weight: 600;
+            font-weight: 700;
+            color: var(--gold-light);
             font-size: 0.9rem;
+        }
+        .testimonial-text {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.65;
+            font-style: italic;
         }
 
         /* ===== FAQ ===== */
-        .faq-list {
-            max-width: 800px;
-            margin: 50px auto 0;
-        }
-        .faq-item {
-            border-bottom: 1px solid rgba(255,255,255,0.08);
-        }
+        .faq-list { max-width: 780px; margin: 48px auto 0; }
+        .faq-item { border-bottom: 1px solid rgba(255,255,255,0.08); }
         .faq-question {
             width: 100%;
             background: none;
             border: none;
-            color: var(--text-primary);
+            color: #fff;
             padding: 22px 0;
-            font-size: 1.05rem;
+            font-size: 1rem;
             font-weight: 600;
             font-family: 'Montserrat', sans-serif;
             text-align: left;
@@ -459,253 +468,198 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            transition: color 0.3s ease;
+            gap: 16px;
+            transition: color 0.3s;
         }
-        .faq-question:hover {
-            color: var(--gold);
-        }
-        .faq-arrow {
-            font-size: 1.5rem;
-            color: var(--gold);
-            transition: transform 0.3s ease;
-        }
-        .faq-item.active .faq-arrow {
-            transform: rotate(45deg);
-        }
-        .faq-answer {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.4s ease, padding 0.4s ease;
-        }
-        .faq-item.active .faq-answer {
-            max-height: 200px;
-            padding-bottom: 20px;
-        }
-        .faq-answer p {
-            font-size: 0.95rem;
-            color: var(--text-secondary);
-            line-height: 1.7;
-        }
+        .faq-question:hover { color: var(--gold); }
+        .faq-arrow { font-size: 1.4rem; color: var(--gold); transition: transform 0.3s; }
+        .faq-item.active .faq-arrow { transform: rotate(45deg); }
+        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; }
+        .faq-item.active .faq-answer { max-height: 220px; padding-bottom: 20px; }
+        .faq-answer p { font-size: 0.92rem; color: var(--text-muted); line-height: 1.7; }
 
         /* ===== CTA FINAL ===== */
-        .cta-section {
-            padding: 80px 0;
+        .cta-final {
+            padding: 90px 0;
             text-align: center;
-            background: linear-gradient(180deg, var(--dark-section) 0%, #1a1510 50%, var(--dark-section) 100%);
+            background: linear-gradient(180deg, var(--dark-2), #12100c, var(--dark-2));
         }
-        .cta-section h2 {
+        .cta-final h2 {
             font-family: 'Playfair Display', serif;
-            font-size: 2.2rem;
+            font-size: clamp(1.5rem, 3vw, 2.1rem);
             font-weight: 700;
-            margin-bottom: 15px;
+            text-transform: uppercase;
+            margin-bottom: 16px;
         }
-        .cta-section p {
-            color: var(--text-secondary);
-            font-size: 1.05rem;
-            max-width: 600px;
-            margin: 0 auto 35px;
+        .cta-final h2 .gold { color: var(--gold); }
+        .cta-final p {
+            color: var(--text-muted);
+            max-width: 580px;
+            margin: 0 auto 36px;
+            font-size: 1rem;
         }
 
         /* ===== FOOTER ===== */
         .footer {
-            padding: 30px 0;
+            padding: 28px 0;
             text-align: center;
-            border-top: 1px solid rgba(255,255,255,0.05);
+            border-top: 1px solid rgba(255,255,255,0.06);
+            background: var(--dark);
         }
-        .footer p {
-            font-size: 0.82rem;
-            color: var(--text-secondary);
-        }
-        .footer .brand {
-            color: var(--gold);
-            font-weight: 600;
-        }
+        .footer p { font-size: 0.8rem; color: var(--text-muted); }
+        .footer .brand { color: var(--gold); font-weight: 600; }
 
         /* ===== WHATSAPP FLOAT ===== */
         .whatsapp-float {
             position: fixed;
-            bottom: 25px;
-            right: 25px;
-            width: 60px;
-            height: 60px;
-            background: #25D366;
+            bottom: 24px;
+            right: 24px;
+            width: 58px;
+            height: 58px;
+            background: var(--whatsapp);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+            box-shadow: 0 4px 20px rgba(37,211,102,0.45);
             z-index: 999;
-            transition: transform 0.3s ease;
-            animation: pulse-whatsapp 2s infinite;
+            transition: transform 0.3s;
+            animation: pulse-wa 2s infinite;
         }
-        .whatsapp-float:hover {
-            transform: scale(1.1);
-        }
-        .whatsapp-float svg {
-            width: 32px;
-            height: 32px;
-            fill: #fff;
-        }
-        @keyframes pulse-whatsapp {
-            0%, 100% { box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4); }
-            50% { box-shadow: 0 4px 30px rgba(37, 211, 102, 0.6); }
+        .whatsapp-float:hover { transform: scale(1.1); }
+        .whatsapp-float svg { width: 30px; height: 30px; fill: #fff; }
+        @keyframes pulse-wa {
+            0%, 100% { box-shadow: 0 4px 20px rgba(37,211,102,0.4); }
+            50% { box-shadow: 0 4px 32px rgba(37,211,102,0.65); }
         }
 
         /* ===== RESPONSIVE ===== */
         @media (max-width: 1024px) {
-            .hero .container {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-            .hero-logo { margin: 0 auto 30px; }
-            .hero-image { display: none; }
-            .hero h1 { font-size: 2.2rem; }
-            .eligibility-grid { grid-template-columns: 1fr; max-width: 450px; margin-left: auto; margin-right: auto; }
-            .steps-grid { grid-template-columns: 1fr; }
-            .trust-grid { grid-template-columns: repeat(2, 1fr); }
-            .testimonials-grid { grid-template-columns: 1fr; max-width: 500px; margin-left: auto; margin-right: auto; }
+            .hero-inner { grid-template-columns: 1fr; text-align: center; padding-top: 32px; }
+            .hero-logo { margin: 0 auto 24px; }
+            .hero-subtitle { margin: 0 auto; }
+            .divider { max-width: 400px; margin-left: auto; margin-right: auto; }
+            .hero-visual { height: 420px; margin-top: 20px; }
+            .eligibility-cards { grid-template-columns: 1fr; max-width: 440px; margin-left: auto; margin-right: auto; }
+            .benefits-grid { grid-template-columns: repeat(2, 1fr); }
+            .testimonials-row { grid-template-columns: 1fr; }
+            .trust-panel { padding: 32px 24px; }
         }
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 1.8rem; }
-            .section-title { font-size: 1.7rem; }
-            .section { padding: 60px 0; }
-            .cta-button { padding: 14px 28px; font-size: 0.9rem; }
+        @media (max-width: 640px) {
+            .hero-visual { height: 340px; }
+            .hero-chevrons span {
+                border-left-width: 80px;
+                border-right-width: 80px;
+                border-top-width: 44px;
+                margin-top: -18px;
+            }
             .benefits-grid { grid-template-columns: 1fr; }
-            .trust-grid { grid-template-columns: 1fr; }
-            .cta-section h2 { font-size: 1.7rem; }
+            .step-row { padding: 22px 20px; gap: 18px; }
+            .step-num { font-size: 2rem; min-width: 50px; }
+            .cta-button { padding: 16px 28px; font-size: 0.85rem; }
+            .section { padding: 60px 0; }
         }
     </style>
 </head>
 <body>
 
-<!-- ===== HERO ===== -->
+<!-- HERO -->
 <section class="hero">
-    <div class="container">
+    <div class="hero-inner">
         <div class="hero-content">
-            <img src="https://mpassessoriaprevidenciaria.com.br/wp-content/uploads/2025/10/logo-branca-dourada-vertical.png" alt="MP Assessoria Previdenciaria" class="hero-logo">
-            <div class="hero-badge">Aposentadoria Rural</div>
-            <h1>Descubra Agora se Voc&ecirc; Tem Direito &agrave; <span class="highlight">Aposentadoria Rural</span> &mdash; Sem Complica&ccedil;&otilde;es e Sem Espera do INSS.</h1>
-            <p class="subtitle">Se voc&ecirc; &eacute; agricultor(a), lavrador(a), pescador(a) artesanal ou trabalhador(a) rural, a lei brasileira assegura sua aposentadoria <strong>mesmo sem contribui&ccedil;&otilde;es mensais ao INSS</strong>. Receba uma an&aacute;lise r&aacute;pida e gratuita.</p>
+            <img src="https://mpassessoriaprevidenciaria.com.br/wp-content/uploads/2025/10/logo-branca-dourada-vertical.png" alt="MP Assessoria Previdenciária" class="hero-logo">
+            <h1><span class="gold">Descubra Agora</span> se Você Tem Direito à <span class="gold">Aposentadoria Rural</span> — Sem Complicações e Sem Espera do INSS.</h1>
+            <div class="divider">
+                <svg viewBox="0 0 24 24"><path d="M12 2L2 7v2c0 5.5 3.8 10.7 9 12 5.2-1.3 9-6.5 9-12V7l-10-5zm0 2.2l8 4v1.8c0 4.5-3.1 8.8-8 10-4.9-1.2-8-5.5-8-10V8.2l8-4z"/><path d="M12 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-4 7c0-2.2 1.8-4 4-4s4 1.8 4 4v1H8v-1z"/></svg>
+            </div>
+            <p class="hero-subtitle">Se você é agricultor(a), lavrador(a), pescador(a) artesanal ou trabalhador(a) rural, a lei brasileira assegura sua aposentadoria <strong>mesmo sem contribuições mensais ao INSS</strong>. Receba uma análise rápida e gratuita.</p>
             <a href="https://wa.me/5511947642923?text=Ol%C3%A1%2C%20vi%20o%20an%C3%BAncio.%20Gostaria%20de%20analisar%20meu%20direito%20%C3%A0%20Aposentadoria%20Rural." class="cta-button" target="_blank" rel="noopener">
                 <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492a.75.75 0 00.917.918l4.458-1.495A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-2.34 0-4.508-.646-6.375-1.766l-.444-.27-2.645.887.887-2.645-.27-.444A9.955 9.955 0 012 12C2 6.486 6.486 2 12 2s10 4.486 10 10-4.486 10-10 10z"/></svg>
                 Analisar meu direito
             </a>
         </div>
-        <div class="hero-image">
-            <div class="hero-image-placeholder">
-                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                <span>Imagem ilustrativa</span>
+        <div class="hero-visual">
+            <div class="hero-chevrons">
+                <span></span><span></span><span></span><span></span>
             </div>
+            <div class="hero-visual-bg">
+                <img src="assets/hero-bg.jpg" alt="Plantação rural em estufa" loading="eager">
+            </div>
+            <img src="assets/hero-silhouette.png" alt="Trabalhador rural" class="hero-silhouette" loading="eager">
+        </div>
+    </div>
+    <div class="marquee-bar">
+        <div class="marquee-track">
+            <span class="marquee-item">Alto índice de aprovação</span>
+            <span class="marquee-item">Atendimento humanizado</span>
+            <span class="marquee-item">Análise gratuita</span>
+            <span class="marquee-item">Especialistas em Previdência Rural</span>
+            <span class="marquee-item">Alto índice de aprovação</span>
+            <span class="marquee-item">Atendimento humanizado</span>
+            <span class="marquee-item">Análise gratuita</span>
+            <span class="marquee-item">Especialistas em Previdência Rural</span>
+            <span class="marquee-item">Alto índice de aprovação</span>
+            <span class="marquee-item">Atendimento humanizado</span>
+            <span class="marquee-item">Análise gratuita</span>
+            <span class="marquee-item">Especialistas em Previdência Rural</span>
         </div>
     </div>
 </section>
 
-<!-- ===== MARQUEE ===== -->
-<div class="marquee-section">
-    <div class="marquee-track">
-        <span class="marquee-item">Alto &iacute;ndice de aprova&ccedil;&atilde;o</span>
-        <span class="marquee-item">Atendimento humanizado</span>
-        <span class="marquee-item">An&aacute;lise gratuita</span>
-        <span class="marquee-item">Especialistas em Previd&ecirc;ncia</span>
-        <span class="marquee-item">Alto &iacute;ndice de aprova&ccedil;&atilde;o</span>
-        <span class="marquee-item">Atendimento humanizado</span>
-        <span class="marquee-item">An&aacute;lise gratuita</span>
-        <span class="marquee-item">Especialistas em Previd&ecirc;ncia</span>
-        <span class="marquee-item">Alto &iacute;ndice de aprova&ccedil;&atilde;o</span>
-        <span class="marquee-item">Atendimento humanizado</span>
-        <span class="marquee-item">An&aacute;lise gratuita</span>
-        <span class="marquee-item">Especialistas em Previd&ecirc;ncia</span>
-        <span class="marquee-item">Alto &iacute;ndice de aprova&ccedil;&atilde;o</span>
-        <span class="marquee-item">Atendimento humanizado</span>
-        <span class="marquee-item">An&aacute;lise gratuita</span>
-        <span class="marquee-item">Especialistas em Previd&ecirc;ncia</span>
-    </div>
-</div>
-
-<!-- ===== QUEM TEM DIREITO ===== -->
+<!-- QUEM TEM DIREITO -->
 <section class="section section-dark">
     <div class="container">
-        <h2 class="section-title"><span class="highlight">Quem Tem Direito</span> &agrave; Aposentadoria Rural?</h2>
-        <p class="section-subtitle">A Aposentadoria Rural &eacute; um direito de quem trabalhou no campo. Identifique sua situa&ccedil;&atilde;o e descubra o que &eacute; necess&aacute;rio para garantir o benef&iacute;cio agora.</p>
+        <h2 class="section-title">O INSS Nega Pedidos <span class="gold">Mal Fundamentados.</span> Identifique Sua Situação e Descubra o Que É Necessário Para Garantir o Benefício Agora.</h2>
+        <div class="divider" style="max-width:500px;margin:24px auto;">
+            <svg viewBox="0 0 24 24"><path d="M12 2L2 7v2c0 5.5 3.8 10.7 9 12 5.2-1.3 9-6.5 9-12V7l-10-5zm0 2.2l8 4v1.8c0 4.5-3.1 8.8-8 10-4.9-1.2-8-5.5-8-10V8.2l8-4z"/><path d="M12 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-4 7c0-2.2 1.8-4 4-4s4 1.8 4 4v1H8v-1z"/></svg>
+        </div>
+        <p class="section-subtitle">A Aposentadoria Rural é um direito de quem trabalhou no campo. <strong>Se você cumpre os requisitos abaixo:</strong></p>
 
-        <div class="eligibility-grid">
-            <div class="eligibility-card">
-                <div class="eligibility-icon">
+        <div class="eligibility-cards">
+            <div class="elig-card">
+                <div class="elig-icon">
                     <svg viewBox="0 0 24 24"><path d="M12 6c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2m0 10c2.7 0 5.8 1.29 6 2H6c.23-.72 3.31-2 6-2m0-12C9.79 4 8 5.79 8 8s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 10c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
                 </div>
                 <h3>Agricultor(a) e Lavrador(a)</h3>
-                <p>Trabalhou no campo em regime de economia familiar, para a pr&oacute;pria sobreviv&ecirc;ncia? Voc&ecirc; tem direito. Mulheres a partir dos <strong>55 anos</strong> e homens a partir dos <strong>60 anos</strong> com pelo menos 15 anos de atividade rural.</p>
+                <p>Trabalhou no campo em regime de economia familiar? Mulheres a partir dos <strong>55 anos</strong> e homens a partir dos <strong>60 anos</strong> com 15 anos de atividade rural comprovada.</p>
             </div>
-            <div class="eligibility-card">
-                <div class="eligibility-icon">
+            <div class="elig-card">
+                <div class="elig-icon">
                     <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
                 </div>
-                <h3>Pescador(a) Artesanal e Extrativista</h3>
-                <p>Pescadores artesanais e extrativistas que vivem da produ&ccedil;&atilde;o rural tamb&eacute;m t&ecirc;m direito &agrave; aposentadoria rural, <strong>mesmo sem contribui&ccedil;&otilde;es mensais ao INSS</strong>.</p>
+                <h3>Pescador(a) Artesanal</h3>
+                <p>Pescadores artesanais e extrativistas também têm direito à aposentadoria rural, <strong>mesmo sem contribuições mensais ao INSS</strong>.</p>
             </div>
-            <div class="eligibility-card">
-                <div class="eligibility-icon">
+            <div class="elig-card">
+                <div class="elig-icon">
                     <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
                 </div>
-                <h3>Parceiros, Meeiros e Trabalhadores Rurais</h3>
-                <p>Parceiros, meeiros, arrendat&aacute;rios e trabalhadores rurais gerais (tamb&eacute;m chamados de "pau de arara") que comprovem o tempo de atividade no campo.</p>
+                <h3>Parceiros e Trabalhadores Rurais</h3>
+                <p>Parceiros, meeiros, arrendatários e trabalhadores rurais que comprovem tempo de atividade no campo.</p>
             </div>
         </div>
     </div>
 </section>
 
-<!-- ===== COMO PODEMOS AJUDAR ===== -->
-<section class="section">
+<!-- COMO AJUDAMOS -->
+<section class="steps-section">
     <div class="container">
-        <h2 class="section-title">Como podemos ajudar voc&ecirc; a <span class="highlight">Aprovar o Benef&iacute;cio</span> Mais R&aacute;pido</h2>
-        <p class="section-subtitle">Nosso m&eacute;todo &eacute; direto, r&aacute;pido e sem complica&ccedil;&otilde;es. Tudo de forma clara, transparente e humana.</p>
-
-        <div class="steps-grid">
-            <div class="step-card">
-                <div class="step-number">01</div>
-                <div>
-                    <h3>An&aacute;lise imediata da sua situa&ccedil;&atilde;o</h3>
-                    <p>Avaliamos gratuitamente sua documenta&ccedil;&atilde;o para verificar se voc&ecirc; j&aacute; pode se aposentar.</p>
-                </div>
-            </div>
-            <div class="step-card">
-                <div class="step-number">02</div>
-                <div>
-                    <h3>Checklist personalizado de documentos</h3>
-                    <p>Orientamos e buscamos os documentos necess&aacute;rios junto a &oacute;rg&atilde;os e parceiros para montar seu processo.</p>
-                </div>
-            </div>
-            <div class="step-card">
-                <div class="step-number">03</div>
-                <div>
-                    <h3>Abertura e organiza&ccedil;&atilde;o do processo</h3>
-                    <p>Entramos com seu pedido no INSS, cuidando de toda a parte burocr&aacute;tica sem voc&ecirc; precisar se preocupar.</p>
-                </div>
-            </div>
-            <div class="step-card">
-                <div class="step-number">04</div>
-                <div>
-                    <h3>Acompanhamento de per&iacute;cias e entrevistas</h3>
-                    <p>Garantimos apoio completo em cada etapa, incluindo agendamento e prepara&ccedil;&atilde;o para per&iacute;cias.</p>
-                </div>
-            </div>
-            <div class="step-card">
-                <div class="step-number">05</div>
-                <div>
-                    <h3>Recursos em caso de negativa</h3>
-                    <p>Se o pedido for negado, preparamos e entramos com recurso para reverter a decis&atilde;o do INSS.</p>
-                </div>
-            </div>
-            <div class="step-card">
-                <div class="step-number">06</div>
-                <div>
-                    <h3>Acompanhamento at&eacute; o deferimento final</h3>
-                    <p>Estamos ao seu lado at&eacute; voc&ecirc; receber sua primeira parcela. Corre&ccedil;&atilde;o de valores inclusa.</p>
-                </div>
-            </div>
+        <h2 class="section-title">Como Podemos Ajudar Você a <span class="gold">Aprovar o Benefício</span> Mais Rápido</h2>
+        <div class="divider" style="max-width:500px;margin:24px auto;">
+            <svg viewBox="0 0 24 24"><path d="M12 2L2 7v2c0 5.5 3.8 10.7 9 12 5.2-1.3 9-6.5 9-12V7l-10-5zm0 2.2l8 4v1.8c0 4.5-3.1 8.8-8 10-4.9-1.2-8-5.5-8-10V8.2l8-4z"/><path d="M12 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-4 7c0-2.2 1.8-4 4-4s4 1.8 4 4v1H8v-1z"/></svg>
         </div>
+        <p class="section-subtitle">Nosso método é direto, rápido e sem complicações:</p>
 
-        <div style="text-align: center; margin-top: 45px;">
+        <div class="steps-list">
+            <div class="step-row"><span class="step-num">01</span><h3>Análise imediata da sua situação</h3></div>
+            <div class="step-row"><span class="step-num">02</span><h3>Checklist personalizado de documentos</h3></div>
+            <div class="step-row"><span class="step-num">03</span><h3>Abertura e organização do processo</h3></div>
+            <div class="step-row"><span class="step-num">04</span><h3>Acompanhamento de perícias e entrevistas</h3></div>
+            <div class="step-row"><span class="step-num">05</span><h3>Recursos em caso de negativa</h3></div>
+            <div class="step-row"><span class="step-num">06</span><h3>Acompanhamento até o deferimento final</h3></div>
+        </div>
+        <p class="section-subtitle" style="margin-top:28px;">Tudo de forma clara, transparente e humana.</p>
+        <div class="steps-cta">
             <a href="https://wa.me/5511947642923?text=Ol%C3%A1%2C%20vi%20o%20an%C3%BAncio.%20Gostaria%20de%20analisar%20meu%20direito%20%C3%A0%20Aposentadoria%20Rural." class="cta-button" target="_blank" rel="noopener">
                 <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492a.75.75 0 00.917.918l4.458-1.495A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-2.34 0-4.508-.646-6.375-1.766l-.444-.27-2.645.887.887-2.645-.27-.444A9.955 9.955 0 012 12C2 6.486 6.486 2 12 2s10 4.486 10 10-4.486 10-10 10z"/></svg>
                 Analisar meu direito
@@ -714,186 +668,162 @@
     </div>
 </section>
 
-<!-- ===== O QUE MUDA PARA VOCE ===== -->
+<!-- BENEFÍCIOS -->
 <section class="section section-dark">
     <div class="container">
-        <h2 class="section-title">O Que Muda Para Voc&ecirc; Depois de Conseguir a <span class="highlight">Aposentadoria Rural</span></h2>
+        <h2 class="section-title">O Que Muda Para Você Depois de Conseguir a <span class="gold">Aposentadoria Rural</span></h2>
+        <div class="divider" style="max-width:500px;margin:24px auto;">
+            <svg viewBox="0 0 24 24"><path d="M12 2L2 7v2c0 5.5 3.8 10.7 9 12 5.2-1.3 9-6.5 9-12V7l-10-5zm0 2.2l8 4v1.8c0 4.5-3.1 8.8-8 10-4.9-1.2-8-5.5-8-10V8.2l8-4z"/><path d="M12 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-4 7c0-2.2 1.8-4 4-4s4 1.8 4 4v1H8v-1z"/></svg>
+        </div>
         <p class="section-subtitle">Imagine finalmente ter:</p>
 
         <div class="benefits-grid">
-            <div class="benefit-item">
-                <div class="benefit-icon">
-                    <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
-                </div>
-                <span>Seguran&ccedil;a financeira para manter sua rotina</span>
+            <div class="benefit-card">
+                <div class="benefit-card-icon"><svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg></div>
+                <h4>Segurança Financeira</h4>
+                <p>Renda mensal garantida para manter sua rotina com tranquilidade.</p>
             </div>
-            <div class="benefit-item">
-                <div class="benefit-icon">
-                    <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-                </div>
-                <span>Tranquilidade emocional para sua fam&iacute;lia</span>
+            <div class="benefit-card">
+                <div class="benefit-card-icon"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>
+                <h4>Tranquilidade Familiar</h4>
+                <p>Paz emocional para você e para quem depende de você.</p>
             </div>
-            <div class="benefit-item">
-                <div class="benefit-icon">
-                    <svg viewBox="0 0 24 24"><path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
-                </div>
-                <span>Renda mensal garantida sem depender de favores</span>
+            <div class="benefit-card">
+                <div class="benefit-card-icon"><svg viewBox="0 0 24 24"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg></div>
+                <h4>Valores Atrasados</h4>
+                <p>Receber retroativos que podem chegar a milhares de reais.</p>
             </div>
-            <div class="benefit-item">
-                <div class="benefit-icon">
-                    <svg viewBox="0 0 24 24"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg>
-                </div>
-                <span>Receber valores atrasados, que podem chegar a milhares de reais</span>
+            <div class="benefit-card">
+                <div class="benefit-card-icon"><svg viewBox="0 0 24 24"><path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg></div>
+                <h4>Liberdade Financeira</h4>
+                <p>Pagar contas, estudar e planejar o futuro sem depender de favores.</p>
             </div>
-            <div class="benefit-item">
-                <div class="benefit-icon">
-                    <svg viewBox="0 0 24 24"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm-2 14l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
-                </div>
-                <span>Reconhecimento do seu esfor&ccedil;o e da sua hist&oacute;ria no campo</span>
+            <div class="benefit-card">
+                <div class="benefit-card-icon"><svg viewBox="0 0 24 24"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm-2 14l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg></div>
+                <h4>Reconhecimento</h4>
+                <p>Seu esforço e história no campo finalmente valorizados pela lei.</p>
             </div>
-            <div class="benefit-item">
-                <div class="benefit-icon">
-                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-                </div>
-                <span>Dignidade e liberdade para planejar o futuro com paz</span>
+            <div class="benefit-card">
+                <div class="benefit-card-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg></div>
+                <h4>Dignidade</h4>
+                <p>Liberdade para viver com paz e planejar o futuro com segurança.</p>
             </div>
+        </div>
+        <p class="urgency-text">Milhares de trabalhadores rurais estão perdendo benefícios por falta de orientação. <strong style="color:#fff;">Não deixe isso acontecer com você.</strong></p>
+        <div style="text-align:center;margin-top:32px;">
+            <a href="https://wa.me/5511947642923?text=Ol%C3%A1%2C%20vi%20o%20an%C3%BAncio.%20Gostaria%20de%20analisar%20meu%20direito%20%C3%A0%20Aposentadoria%20Rural." class="cta-button" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492a.75.75 0 00.917.918l4.458-1.495A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-2.34 0-4.508-.646-6.375-1.766l-.444-.27-2.645.887.887-2.645-.27-.444A9.955 9.955 0 012 12C2 6.486 6.486 2 12 2s10 4.486 10 10-4.486 10-10 10z"/></svg>
+                Analisar meu direito agora
+            </a>
         </div>
     </div>
 </section>
 
-<!-- ===== POR QUE CONFIAR ===== -->
+<!-- CONFIANÇA -->
 <section class="section">
     <div class="container">
-        <h2 class="section-title">Por Que Tantas Fam&iacute;lias Confiam na <span class="highlight">MP Assessoria Previdenci&aacute;ria</span></h2>
+        <h2 class="section-title">Por Que Tantas Famílias Confiam na <span class="gold">MP Assessoria Previdenciária</span></h2>
+        <div class="divider" style="max-width:500px;margin:24px auto;">
+            <svg viewBox="0 0 24 24"><path d="M12 2L2 7v2c0 5.5 3.8 10.7 9 12 5.2-1.3 9-6.5 9-12V7l-10-5zm0 2.2l8 4v1.8c0 4.5-3.1 8.8-8 10-4.9-1.2-8-5.5-8-10V8.2l8-4z"/><path d="M12 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-4 7c0-2.2 1.8-4 4-4s4 1.8 4 4v1H8v-1z"/></svg>
+        </div>
 
-        <div class="trust-grid">
-            <div class="trust-item">
-                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-                <h4>Mais de 90% de aprova&ccedil;&atilde;o</h4>
-                <p>Processos analisados com alto &iacute;ndice de sucesso</p>
-            </div>
-            <div class="trust-item">
-                <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
-                <h4>Especialistas em Previd&ecirc;ncia</h4>
-                <p>Equipe focada em benefícios rurais e dependência</p>
-            </div>
-            <div class="trust-item">
-                <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-                <h4>Atendimento Humanizado</h4>
-                <p>R&aacute;pido, direto e com empatia pelo trabalhador rural</p>
-            </div>
-            <div class="trust-item">
-                <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
-                <h4>Acompanhamento Cont&iacute;nuo</h4>
-                <p>Processo feito com clareza do in&iacute;cio ao fim</p>
+        <div class="trust-panel">
+            <ul class="trust-checklist">
+                <li>Mais de 90% dos processos analisados foram aprovados</li>
+                <li>Especialistas em benefícios rurais e previdenciários</li>
+                <li>Atendimento rápido, direto e humanizado</li>
+                <li>Processo feito com clareza e acompanhamento contínuo</li>
+            </ul>
+            <div class="testimonials-row">
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="testimonial-avatar">M</div>
+                        <div class="testimonial-name">Maria dos Santos</div>
+                    </div>
+                    <p class="testimonial-text">"Eu não sabia que tinha direito. Fiz a análise e em poucos dias já estava com tudo encaminhado. Muito obrigada!"</p>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="testimonial-avatar">J</div>
+                        <div class="testimonial-name">José Ferreira</div>
+                    </div>
+                    <p class="testimonial-text">"Meu pedido foi negado duas vezes pelo INSS. Aqui conseguiram aprovar rápido e sem dor de cabeça."</p>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="testimonial-avatar">A</div>
+                        <div class="testimonial-name">Antônio Ribeiro</div>
+                    </div>
+                    <p class="testimonial-text">"Explicaram tudo de forma simples e consegui entender meus direitos. Muito grato pela ajuda!"</p>
+                </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- ===== DEPOIMENTOS ===== -->
+<!-- FAQ -->
 <section class="section section-dark">
     <div class="container">
-        <h2 class="section-title">O Que Dizem <span class="highlight">Nossos Clientes</span></h2>
-
-        <div class="testimonials-grid">
-            <div class="testimonial-card">
-                <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-                <p class="testimonial-text">"Eu n&atilde;o sabia que tinha direito. Fiz a an&aacute;lise e em poucos dias j&aacute; estava com tudo encaminhado. Muito obrigada!"</p>
-                <div class="testimonial-author">
-                    <div class="testimonial-avatar">M</div>
-                    <div class="testimonial-name">Maria dos Santos</div>
-                </div>
-            </div>
-            <div class="testimonial-card">
-                <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-                <p class="testimonial-text">"Meu pedido foi negado duas vezes pelo INSS. Aqui eles conseguiram aprovar r&aacute;pido e sem dor de cabe&ccedil;a. Recomendo demais."</p>
-                <div class="testimonial-author">
-                    <div class="testimonial-avatar">J</div>
-                    <div class="testimonial-name">Jos&eacute; Ferreira</div>
-                </div>
-            </div>
-            <div class="testimonial-card">
-                <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-                <p class="testimonial-text">"Achei que seria complicado, mas eles explicaram tudo de forma simples e consegui entender meus direitos. Muito grato!"</p>
-                <div class="testimonial-author">
-                    <div class="testimonial-avatar">A</div>
-                    <div class="testimonial-name">Ant&ocirc;nio Ribeiro</div>
-                </div>
-            </div>
+        <h2 class="section-title"><span class="gold">Perguntas</span> Frequentes</h2>
+        <div class="divider" style="max-width:500px;margin:24px auto;">
+            <svg viewBox="0 0 24 24"><path d="M12 2L2 7v2c0 5.5 3.8 10.7 9 12 5.2-1.3 9-6.5 9-12V7l-10-5zm0 2.2l8 4v1.8c0 4.5-3.1 8.8-8 10-4.9-1.2-8-5.5-8-10V8.2l8-4z"/><path d="M12 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-4 7c0-2.2 1.8-4 4-4s4 1.8 4 4v1H8v-1z"/></svg>
         </div>
-    </div>
-</section>
-
-<!-- ===== FAQ ===== -->
-<section class="section">
-    <div class="container">
-        <h2 class="section-title"><span class="highlight">Perguntas</span> Frequentes (FAQ)</h2>
 
         <div class="faq-list">
             <div class="faq-item">
                 <button class="faq-question" onclick="this.parentElement.classList.toggle('active')">
-                    Preciso ter contribu&iacute;do com o INSS para me aposentar como rural?
+                    Preciso ter contribuído com o INSS para me aposentar como rural?
                     <span class="faq-arrow">+</span>
                 </button>
-                <div class="faq-answer">
-                    <p>N&atilde;o. O trabalhador rural em regime de economia familiar n&atilde;o precisa ter contribu&iacute;do mensalmente com o INSS. &Eacute; necess&aacute;rio apenas comprovar o tempo de atividade rural com documentos e testemunhos.</p>
-                </div>
+                <div class="faq-answer"><p>Não. O trabalhador rural em regime de economia familiar não precisa ter contribuído mensalmente com o INSS. É necessário apenas comprovar o tempo de atividade rural com documentos e testemunhos.</p></div>
             </div>
             <div class="faq-item">
                 <button class="faq-question" onclick="this.parentElement.classList.toggle('active')">
-                    Qual a idade m&iacute;nima para a aposentadoria rural?
+                    Qual a idade mínima para a aposentadoria rural?
                     <span class="faq-arrow">+</span>
                 </button>
-                <div class="faq-answer">
-                    <p>Mulheres a partir dos 55 anos e homens a partir dos 60 anos, com pelo menos 15 anos de atividade rural comprovada.</p>
-                </div>
+                <div class="faq-answer"><p>Mulheres a partir dos 55 anos e homens a partir dos 60 anos, com pelo menos 15 anos de atividade rural comprovada.</p></div>
             </div>
             <div class="faq-item">
                 <button class="faq-question" onclick="this.parentElement.classList.toggle('active')">
-                    J&aacute; fui negado pelo INSS. Tenho chance?
+                    Já fui negado pelo INSS. Tenho chance?
                     <span class="faq-arrow">+</span>
                 </button>
-                <div class="faq-answer">
-                    <p>Sim. A maioria das negativas do INSS ocorre por falta de documenta&ccedil;&atilde;o adequada ou an&aacute;lise incorreta. N&oacute;s preparamos recursos para reverter essas decis&otilde;es.</p>
-                </div>
+                <div class="faq-answer"><p>Sim. A maioria das negativas do INSS ocorre por falta de documentação adequada ou análise incorreta. Nós preparamos recursos para reverter essas decisões.</p></div>
             </div>
             <div class="faq-item">
                 <button class="faq-question" onclick="this.parentElement.classList.toggle('active')">
                     Preciso pagar algo para saber se tenho direito?
                     <span class="faq-arrow">+</span>
                 </button>
-                <div class="faq-answer">
-                    <p>N&atilde;o. A avalia&ccedil;&atilde;o inicial &eacute; 100% gratuita. Voc&ecirc; s&oacute; segue com o processo se quiser.</p>
-                </div>
+                <div class="faq-answer"><p>Não. A avaliação inicial é 100% gratuita. Você só segue com o processo se quiser.</p></div>
             </div>
             <div class="faq-item">
                 <button class="faq-question" onclick="this.parentElement.classList.toggle('active')">
-                    Parei de trabalhar no campo por um tempo. Ainda tenho direito?
+                    Parei de trabalhar no campo. Ainda tenho direito?
                     <span class="faq-arrow">+</span>
                 </button>
-                <div class="faq-answer">
-                    <p>Mesmo que voc&ecirc; tenha pausado suas atividades rurais por um per&iacute;odo, pode ainda assim ter direito ao benef&iacute;cio, dependendo das condi&ccedil;&otilde;es. Fale conosco para avaliarmos seu caso.</p>
-                </div>
+                <div class="faq-answer"><p>Mesmo que você tenha pausado suas atividades rurais, pode ainda assim ter direito ao benefício. Fale conosco para avaliarmos seu caso.</p></div>
             </div>
             <div class="faq-item">
                 <button class="faq-question" onclick="this.parentElement.classList.toggle('active')">
-                    Quais documentos s&atilde;o necess&aacute;rios?
+                    Quais documentos são necessários?
                     <span class="faq-arrow">+</span>
                 </button>
-                <div class="faq-answer">
-                    <p>Documentos como declara&ccedil;&atilde;o do sindicato rural, contratos de arrendamento, notas fiscais de insumos, certid&atilde;o de casamento, e outros podem ser usados. N&oacute;s orientamos exatamente quais documentos montar.</p>
-                </div>
+                <div class="faq-answer"><p>Declaração do sindicato rural, contratos de arrendamento, notas fiscais de insumos, certidão de casamento e outros. Nós orientamos exatamente quais documentos montar.</p></div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- ===== CTA FINAL ===== -->
-<section class="cta-section">
+<!-- CTA FINAL -->
+<section class="cta-final">
     <div class="container">
-        <h2>Descubra Agora Mesmo se Voc&ecirc; Tem Direito &agrave; <span class="highlight">Aposentadoria Rural</span></h2>
-        <p>Uma an&aacute;lise r&aacute;pida pode evitar atrasos, negativas injustas e perda de dinheiro. N&atilde;o deixe a burocracia te impedir de viver com dignidade.</p>
+        <h2>Descubra Agora Mesmo se Você Tem Direito à <span class="gold">Aposentadoria Rural</span></h2>
+        <div class="divider" style="max-width:500px;margin:24px auto;">
+            <svg viewBox="0 0 24 24"><path d="M12 2L2 7v2c0 5.5 3.8 10.7 9 12 5.2-1.3 9-6.5 9-12V7l-10-5zm0 2.2l8 4v1.8c0 4.5-3.1 8.8-8 10-4.9-1.2-8-5.5-8-10V8.2l8-4z"/><path d="M12 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-4 7c0-2.2 1.8-4 4-4s4 1.8 4 4v1H8v-1z"/></svg>
+        </div>
+        <p>Uma análise rápida pode evitar atrasos, negativas injustas e perda de dinheiro. Não deixe a burocracia te impedir de viver com dignidade.</p>
         <a href="https://wa.me/5511947642923?text=Ol%C3%A1%2C%20vi%20o%20an%C3%BAncio.%20Gostaria%20de%20analisar%20meu%20direito%20%C3%A0%20Aposentadoria%20Rural." class="cta-button" target="_blank" rel="noopener">
             <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492a.75.75 0 00.917.918l4.458-1.495A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-2.34 0-4.508-.646-6.375-1.766l-.444-.27-2.645.887.887-2.645-.27-.444A9.955 9.955 0 012 12C2 6.486 6.486 2 12 2s10 4.486 10 10-4.486 10-10 10z"/></svg>
             Analisar meu direito agora
@@ -901,15 +831,13 @@
     </div>
 </section>
 
-<!-- ===== FOOTER ===== -->
 <footer class="footer">
     <div class="container">
-        <p><span class="brand">MP Assessoria Previdenci&aacute;ria</span> &ndash; Cuidando do seu direito. Protegendo seu futuro.</p>
-        <p style="margin-top: 5px;">&copy; 2026 &ndash; Todos os direitos reservados</p>
+        <p><span class="brand">MP Assessoria Previdenciária</span> – Cuidando do seu direito. Protegendo seu futuro.</p>
+        <p style="margin-top:5px;">&copy; 2026 – Todos os direitos reservados</p>
     </div>
 </footer>
 
-<!-- ===== WHATSAPP FLOAT ===== -->
 <a href="https://wa.me/5511947642923?text=Ol%C3%A1%2C%20vi%20o%20an%C3%BAncio.%20Gostaria%20de%20analisar%20meu%20direito%20%C3%A0%20Aposentadoria%20Rural." class="whatsapp-float" target="_blank" rel="noopener" aria-label="WhatsApp">
     <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492a.75.75 0 00.917.918l4.458-1.495A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-2.34 0-4.508-.646-6.375-1.766l-.444-.27-2.645.887.887-2.645-.27-.444A9.955 9.955 0 012 12C2 6.486 6.486 2 12 2s10 4.486 10 10-4.486 10-10 10z"/></svg>
 </a>
