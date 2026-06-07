@@ -196,9 +196,13 @@
         /* ===== ELIGIBILITY ===== */
         .eligibility-cards {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(3, minmax(280px, 1fr));
             gap: 24px;
             margin-top: 50px;
+            max-width: 1100px;
+            margin-left: auto;
+            margin-right: auto;
+            justify-content: center;
         }
         .elig-card {
             background: var(--dark-card);
@@ -225,25 +229,7 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            object-position: center top;
-        }
-        .section-duo-images {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 24px;
-            margin-top: 40px;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        .section-duo-images img {
-            width: 100%;
-            max-height: 200px;
-            object-fit: contain;
-            background: rgba(90, 255, 89, 0.05);
-            border: 1px solid rgba(90, 255, 89, 0.2);
-            border-radius: 12px;
-            padding: 20px;
+            object-position: center center;
         }
         .elig-card h3 {
             font-size: 1rem;
@@ -256,9 +242,20 @@
         .elig-card p { font-size: 0.88rem; color: var(--text-muted); line-height: 1.65; }
 
         /* ===== STEPS ===== */
-        .steps-section { background: #fff; color: #111; padding: 80px 0; }
-        .steps-section .section-title { color: #111; }
-        .steps-section .section-subtitle { color: #555; }
+        .steps-section { background: #f4f4f4; color: #111; padding: 80px 0; }
+        .steps-panel {
+            background: linear-gradient(160deg, #0a0a0a 0%, #111 100%);
+            border: 1px solid rgba(90, 255, 89, 0.25);
+            border-radius: 20px;
+            padding: 52px 48px;
+            box-shadow: 0 24px 64px rgba(0, 0, 0, 0.35);
+        }
+        .steps-section .section-title { color: #fff; }
+        .steps-section .section-subtitle { color: #b8b8b8; }
+        .steps-section .divider::before,
+        .steps-section .divider::after {
+            background: linear-gradient(90deg, transparent, rgba(90,255,89,0.5), transparent);
+        }
         .steps-list { margin-top: 48px; display: flex; flex-direction: column; gap: 14px; }
         .step-row {
             display: flex;
@@ -308,22 +305,23 @@
             transform: translateY(-4px);
         }
         .benefit-card-icon {
-            width: 90px;
-            height: 90px;
+            width: 120px;
+            height: 120px;
             margin: 0 auto 16px;
-            background: rgba(90, 255, 89, 0.06);
-            border: 1px solid rgba(90, 255, 89, 0.2);
-            border-radius: 12px;
+            background: #15161a;
+            border: 1px solid rgba(90, 255, 89, 0.25);
+            border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 12px;
+            overflow: hidden;
+            padding: 0;
         }
         .benefit-card-icon img,
         .benefit-card-icon svg {
             width: 100%;
             height: 100%;
-            object-fit: contain;
+            object-fit: cover;
         }
         .benefit-card-icon svg { fill: var(--accent-green); }
         .benefit-card h4 {
@@ -515,8 +513,8 @@
             .hero-subtitle { margin: 0 auto; }
             .divider { max-width: 400px; margin-left: auto; margin-right: auto; }
             .hero-visual { height: auto; margin-top: 20px; }
-            .section-duo-images { grid-template-columns: 1fr; max-width: 320px; }
-            .eligibility-cards { grid-template-columns: 1fr; max-width: 440px; margin-left: auto; margin-right: auto; }
+            .eligibility-cards { grid-template-columns: 1fr; max-width: 440px; }
+            .steps-panel { padding: 36px 24px; }
             .benefits-grid { grid-template-columns: repeat(2, 1fr); }
             .testimonials-row { grid-template-columns: 1fr; }
             .trust-panel { padding: 32px 24px; }
@@ -580,11 +578,6 @@
         </div>
         <p class="section-subtitle">A Aposentadoria Rural é um direito de quem trabalhou no campo. <strong>Se você cumpre os requisitos abaixo:</strong></p>
 
-        <div class="section-duo-images">
-            <img src="assets/foto-1.svg" alt="Direito à aposentadoria rural" loading="lazy">
-            <img src="assets/foto-2.svg" alt="Trabalho no campo" loading="lazy">
-        </div>
-
         <div class="eligibility-cards">
             <div class="elig-card">
                 <div class="elig-card-img">
@@ -614,26 +607,28 @@
 <!-- COMO AJUDAMOS -->
 <section class="steps-section">
     <div class="container">
-        <h2 class="section-title">Como Podemos Ajudar Você a <span class="gold">Aprovar o Benefício</span> Mais Rápido</h2>
-        <div class="divider" style="max-width:500px;margin:24px auto;">
-            <svg viewBox="0 0 24 24"><path d="M12 2L2 7v2c0 5.5 3.8 10.7 9 12 5.2-1.3 9-6.5 9-12V7l-10-5zm0 2.2l8 4v1.8c0 4.5-3.1 8.8-8 10-4.9-1.2-8-5.5-8-10V8.2l8-4z"/><path d="M12 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-4 7c0-2.2 1.8-4 4-4s4 1.8 4 4v1H8v-1z"/></svg>
-        </div>
-        <p class="section-subtitle">Nosso método é direto, rápido e sem complicações:</p>
+        <div class="steps-panel">
+            <h2 class="section-title">Como Podemos Ajudar Você a <span class="gold">Aprovar o Benefício</span> Mais Rápido</h2>
+            <div class="divider" style="max-width:500px;margin:24px auto;">
+                <svg viewBox="0 0 24 24"><path d="M12 2L2 7v2c0 5.5 3.8 10.7 9 12 5.2-1.3 9-6.5 9-12V7l-10-5zm0 2.2l8 4v1.8c0 4.5-3.1 8.8-8 10-4.9-1.2-8-5.5-8-10V8.2l8-4z"/><path d="M12 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-4 7c0-2.2 1.8-4 4-4s4 1.8 4 4v1H8v-1z"/></svg>
+            </div>
+            <p class="section-subtitle">Nosso método é direto, rápido e sem complicações:</p>
 
-        <div class="steps-list">
-            <div class="step-row"><span class="step-num">01</span><h3>Análise imediata da sua situação</h3></div>
-            <div class="step-row"><span class="step-num">02</span><h3>Checklist personalizado de documentos</h3></div>
-            <div class="step-row"><span class="step-num">03</span><h3>Abertura e organização do processo</h3></div>
-            <div class="step-row"><span class="step-num">04</span><h3>Acompanhamento de perícias e entrevistas</h3></div>
-            <div class="step-row"><span class="step-num">05</span><h3>Recursos em caso de negativa</h3></div>
-            <div class="step-row"><span class="step-num">06</span><h3>Acompanhamento até o deferimento final</h3></div>
-        </div>
-        <p class="section-subtitle" style="margin-top:28px;">Tudo de forma clara, transparente e humana.</p>
-        <div class="steps-cta">
-            <a href="https://wa.me/5511947642923?text=Ol%C3%A1%2C%20vi%20o%20an%C3%BAncio.%20Gostaria%20de%20analisar%20meu%20direito%20%C3%A0%20Aposentadoria%20Rural." class="cta-button" target="_blank" rel="noopener">
-                <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492a.75.75 0 00.917.918l4.458-1.495A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-2.34 0-4.508-.646-6.375-1.766l-.444-.27-2.645.887.887-2.645-.27-.444A9.955 9.955 0 012 12C2 6.486 6.486 2 12 2s10 4.486 10 10-4.486 10-10 10z"/></svg>
-                Analisar meu direito
-            </a>
+            <div class="steps-list">
+                <div class="step-row"><span class="step-num">01</span><h3>Análise imediata da sua situação</h3></div>
+                <div class="step-row"><span class="step-num">02</span><h3>Checklist personalizado de documentos</h3></div>
+                <div class="step-row"><span class="step-num">03</span><h3>Abertura e organização do processo</h3></div>
+                <div class="step-row"><span class="step-num">04</span><h3>Acompanhamento de perícias e entrevistas</h3></div>
+                <div class="step-row"><span class="step-num">05</span><h3>Recursos em caso de negativa</h3></div>
+                <div class="step-row"><span class="step-num">06</span><h3>Acompanhamento até o deferimento final</h3></div>
+            </div>
+            <p class="section-subtitle" style="margin-top:28px;">Tudo de forma clara, transparente e humana.</p>
+            <div class="steps-cta">
+                <a href="https://wa.me/5511947642923?text=Ol%C3%A1%2C%20vi%20o%20an%C3%BAncio.%20Gostaria%20de%20analisar%20meu%20direito%20%C3%A0%20Aposentadoria%20Rural." class="cta-button" target="_blank" rel="noopener">
+                    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492a.75.75 0 00.917.918l4.458-1.495A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-2.34 0-4.508-.646-6.375-1.766l-.444-.27-2.645.887.887-2.645-.27-.444A9.955 9.955 0 012 12C2 6.486 6.486 2 12 2s10 4.486 10 10-4.486 10-10 10z"/></svg>
+                    Analisar meu direito
+                </a>
+            </div>
         </div>
     </div>
 </section>
@@ -659,23 +654,23 @@
                 <p>Paz emocional para você e para quem depende de você.</p>
             </div>
             <div class="benefit-card">
-                <div class="benefit-card-icon"><img src="assets/benefit-valores.svg" alt="Valores atrasados" loading="lazy"></div>
+                <div class="benefit-card-icon"><img src="assets/benefit-valores.png" alt="Valores atrasados" loading="lazy"></div>
                 <h4>Valores Atrasados</h4>
                 <p>Receber retroativos que podem chegar a milhares de reais.</p>
             </div>
             <div class="benefit-card">
-                <div class="benefit-card-icon"><img src="assets/melhora%20dinheiro.webp" alt="Liberdade financeira" loading="lazy"></div>
+                <div class="benefit-card-icon"><img src="assets/benefit-liberdade.webp" alt="Liberdade financeira" loading="lazy"></div>
                 <h4>Liberdade Financeira</h4>
                 <p>Pagar contas, estudar e planejar o futuro sem depender de favores.</p>
             </div>
             <div class="benefit-card">
-                <div class="benefit-card-icon"><img src="assets/benefit-reconhecimento.svg" alt="Reconhecimento" loading="lazy"></div>
-                <h4>Reconhecimento</h4>
+                <div class="benefit-card-icon"><img src="assets/benefit-reconhecimento.svg" alt="Reconhecimento de vínculo" loading="lazy"></div>
+                <h4>Reconhecimento de Vínculo</h4>
                 <p>Seu esforço e história no campo finalmente valorizados pela lei.</p>
             </div>
             <div class="benefit-card">
-                <div class="benefit-card-icon"><img src="assets/benefit-dignidade.svg" alt="Dignidade" loading="lazy"></div>
-                <h4>Dignidade</h4>
+                <div class="benefit-card-icon"><img src="assets/benefit-dignidade.svg" alt="Dignidade rural" loading="lazy"></div>
+                <h4>Dignidade Rural</h4>
                 <p>Liberdade para viver com paz e planejar o futuro com segurança.</p>
             </div>
         </div>
