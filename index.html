@@ -266,7 +266,8 @@
             background: var(--dark-card);
             border: 1px solid rgba(90,255,89,0.2);
             border-radius: 16px;
-            padding: 32px 24px;
+            padding: 0;
+            overflow: hidden;
             text-align: center;
             transition: all 0.3s;
         }
@@ -278,8 +279,6 @@
         .elig-card-img {
             width: 100%;
             height: 160px;
-            margin: -32px -24px 20px;
-            border-radius: 16px 16px 0 0;
             overflow: hidden;
             border-bottom: 2px solid rgba(90, 255, 89, 0.3);
         }
@@ -288,16 +287,23 @@
             height: 100%;
             object-fit: cover;
             object-position: center center;
+            display: block;
         }
         .elig-card h3 {
             font-size: 1rem;
             font-weight: 700;
             color: var(--gold-light);
             margin-bottom: 10px;
+            padding: 24px 24px 0;
             text-transform: uppercase;
             letter-spacing: 0.3px;
         }
-        .elig-card p { font-size: 0.88rem; color: var(--text-muted); line-height: 1.65; }
+        .elig-card p {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            line-height: 1.65;
+            padding: 0 24px 28px;
+        }
 
         /* ===== STEPS ===== */
         .steps-section { background: #f4f4f4; color: #111; padding: 80px 0; }
@@ -585,7 +591,13 @@
             .marquee-track { animation-duration: 22s; }
             body { padding-bottom: 46px; }
             .whatsapp-float { bottom: 62px; }
-            .eligibility-cards { grid-template-columns: 1fr; max-width: 440px; }
+            .eligibility-cards {
+                grid-template-columns: 1fr;
+                max-width: 440px;
+                width: 100%;
+                margin-left: auto;
+                margin-right: auto;
+            }
             .steps-panel { padding: 36px 24px; }
             .benefits-grid { grid-template-columns: repeat(2, 1fr); }
             .testimonials-row { grid-template-columns: 1fr; }
