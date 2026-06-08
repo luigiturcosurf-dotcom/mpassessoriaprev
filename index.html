@@ -127,16 +127,72 @@
 
         .hero-visual {
             position: relative;
+            height: min(78vh, 640px);
             display: flex;
+            align-items: flex-end;
+            justify-content: center;
+        }
+        .hero-chevrons {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: min(78vh, 620px);
+            gap: 0;
+            z-index: 1;
+            pointer-events: none;
         }
-        .hero-completo {
+        .hero-chevrons span {
+            display: block;
+            width: 0;
+            height: 0;
+            border-left: 130px solid transparent;
+            border-right: 130px solid transparent;
+            border-top: 72px solid var(--cream);
+            opacity: 0.92;
+            margin-top: -28px;
+        }
+        .hero-chevrons span:nth-child(1) { opacity: 0.35; transform: scale(1.35); }
+        .hero-chevrons span:nth-child(2) { opacity: 0.55; transform: scale(1.15); }
+        .hero-chevrons span:nth-child(3) { opacity: 0.75; }
+        .hero-chevrons span:nth-child(4) { opacity: 0.92; }
+
+        .hero-visual-bg {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 92%;
+            height: 88%;
+            border-radius: 12px;
+            overflow: hidden;
+            z-index: 2;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        }
+        .hero-visual-bg img {
             width: 100%;
-            max-width: 480px;
-            height: auto;
-            filter: drop-shadow(0 16px 48px rgba(90, 255, 89, 0.12));
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+        .hero-visual-bg::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, transparent 40%, rgba(5,5,5,0.7) 100%);
+        }
+
+        .hero-silhouette {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 62%;
+            max-width: 340px;
+            z-index: 3;
+            mix-blend-mode: screen;
+            filter: drop-shadow(0 8px 24px rgba(0,0,0,0.6));
         }
 
         /* ===== MARQUEE ===== */
@@ -512,7 +568,7 @@
             .hero-logo { margin: 0 auto 24px; }
             .hero-subtitle { margin: 0 auto; }
             .divider { max-width: 400px; margin-left: auto; margin-right: auto; }
-            .hero-visual { height: auto; margin-top: 20px; }
+            .hero-visual { height: 420px; margin-top: 20px; }
             .eligibility-cards { grid-template-columns: 1fr; max-width: 440px; }
             .steps-panel { padding: 36px 24px; }
             .benefits-grid { grid-template-columns: repeat(2, 1fr); }
@@ -520,7 +576,14 @@
             .trust-panel { padding: 32px 24px; }
         }
         @media (max-width: 640px) {
-            .hero-completo { max-width: 320px; }
+            .hero-visual { height: 340px; }
+            .hero-chevrons span {
+                border-left-width: 80px;
+                border-right-width: 80px;
+                border-top-width: 44px;
+                margin-top: -18px;
+            }
+            .hero-silhouette { max-width: 260px; }
             .elig-card-img { height: 140px; }
             .benefits-grid { grid-template-columns: 1fr; }
             .step-row { padding: 22px 20px; gap: 18px; }
@@ -548,7 +611,13 @@
             </a>
         </div>
         <div class="hero-visual">
-            <img src="assets/hero-completo.svg" alt="Família rural - Aposentadoria Rural" class="hero-completo" loading="eager">
+            <div class="hero-chevrons">
+                <span></span><span></span><span></span><span></span>
+            </div>
+            <div class="hero-visual-bg">
+                <img src="assets/hero-bg.jpg" alt="Plantação rural em estufa - Principal camada 1" loading="eager">
+            </div>
+            <img src="assets/principal-camada-1-farmer.jpg" alt="Trabalhador rural" class="hero-silhouette" loading="eager">
         </div>
     </div>
     <div class="marquee-bar">
