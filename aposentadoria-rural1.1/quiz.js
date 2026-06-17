@@ -1,7 +1,8 @@
 (function () {
     var WA_NUMBER = '5511947642923';
     var META_PIXEL_ID = '1752369442414230';
-    var WA_AUTO_REDIRECT_MS = 1500;
+    var COUNTDOWN_SECONDS = 3;
+    var countdownTimer = null;
     var waAutoRedirectTimer = null;
     var waRedirectDone = false;
 
@@ -115,6 +116,52 @@
                 lead_source: source || 'form'
             });
         }
+    }
+
+    function clearCountdown() {
+        if (countdownTimer) {
+            clearInterval(countdownTimer);
+            countdownTimer = null;
+        }
+        if (waAutoRedirectTimer) {
+            clearInterval(waAutoRedirectTimer);
+            waAutoRedirectTimer = null;
+        }
+        var overlay = document.getElementById('countdown-overlay');
+        if (overlay) overlay.hidden = true;
+    }
+
+    function pulseCountdownNumber(el) {
+        if (!el) return;
+        el.style.animation = 'none';
+        void el.offsetWidth;
+        el.style.animation = '';
+    }
+
+    function startOverlayCountdown(label, seconds, onDone) {
+        clearCountdown();
+        var overlay = document.getElementById('countdown-overlay');
+        var numberEl = document.getElementById('countdown-number');
+        var labelEl = document.getElementById('countdown-label');
+        if (!overlay || !numberEl) {
+            setTimeout(onDone, seconds * 1000);
+            return;
+        }
+        if (labelEl) labelEl.textContent = label;
+        overlay.hidden = false;
+        var n = seconds;
+        numberEl.textContent = String(n);
+        pulseCountdownNumber(numberEl);
+        countdownTimer = setInterval(function () {
+            n--;
+            if (n <= 0) {
+                clearCountdown();
+                onDone();
+            } else {
+                numberEl.textContent = String(n);
+                pulseCountdownNumber(numberEl);
+            }
+        }, 1000);
     }
 
     function loadStoredContact() {
@@ -312,10 +359,7 @@
     function goToWhatsApp(type, resultado) {
         if (waRedirectDone) return;
         waRedirectDone = true;
-        if (waAutoRedirectTimer) {
-            clearTimeout(waAutoRedirectTimer);
-            waAutoRedirectTimer = null;
-        }
+        clearCountdown();
 
         pushDataLayer('lead_whatsapp_click', {
             resultado: resultado || type,
@@ -352,11 +396,14 @@
             waRedirectDone = false;
             var hintId = waType === 'soft' ? 'wa-redirect-hint-soft' : 'wa-redirect-hint-qualified';
             var hint = document.getElementById(hintId);
-            if (hint) hint.hidden = false;
+            if (hint) {
+                hint.hidden = false;
+                hint.textContent = 'Redirecionando em ' + COUNTDOWN_SECONDS + '…';
+            }
 
-            waAutoRedirectTimer = setTimeout(function () {
+            startOverlayCountdown('Abrindo o WhatsApp em', COUNTDOWN_SECONDS, function () {
                 goToWhatsApp(waType, resultado);
-            }, WA_AUTO_REDIRECT_MS);
+            });
         });
     }
 
@@ -426,10 +473,7 @@
     }
 
     function resetQuiz() {
-        if (waAutoRedirectTimer) {
-            clearTimeout(waAutoRedirectTimer);
-            waAutoRedirectTimer = null;
-        }
+        clearCountdown();
         waRedirectDone = false;
         ['wa-redirect-hint-qualified', 'wa-redirect-hint-soft'].forEach(function (id) {
             var el = document.getElementById(id);
@@ -464,9 +508,9 @@
         btnContactSubmit.textContent = 'Salvando...';
 
         persistContact().then(function (leadId) {
-            btnContactSubmit.disabled = false;
-            btnContactSubmit.textContent = 'Iniciar análise';
             if (!leadId) {
+                btnContactSubmit.disabled = false;
+                btnContactSubmit.textContent = 'Iniciar análise';
                 var errLgpd = document.getElementById('err-lgpd');
                 if (errLgpd) {
                     errLgpd.textContent = 'Não foi possível salvar seus dados. Verifique a conexão e tente novamente.';
@@ -481,7 +525,12 @@
                 email_preenchido: !!contact.email
             });
 
-            goToIndex(2);
+            btnContactSubmit.textContent = 'Salvo! ✓';
+            startOverlayCountdown('Iniciando análise em', COUNTDOWN_SECONDS, function () {
+                btnContactSubmit.disabled = false;
+                btnContactSubmit.textContent = 'Iniciar análise';
+                goToIndex(2);
+            });
         });
     });
 

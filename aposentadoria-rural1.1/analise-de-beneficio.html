@@ -27,8 +27,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Playfair+Display:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css?v=1">
+    <link rel="stylesheet" href="quiz-styles.css?v=1">
 </head>
 <body class="quiz-page">
 
@@ -103,7 +104,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     </label>
                     <span class="form-error" id="err-lgpd" hidden>É necessário autorizar para continuar.</span>
                 </div>
-                <button type="submit" class="btn btn-primary btn-block" id="btn-contact-submit">Iniciar análise</button>
+                <button type="submit" class="btn btn-primary btn-block btn-pulse" id="btn-contact-submit">Iniciar análise</button>
             </form>
         </section>
 
@@ -304,8 +305,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <p class="footer-mini"><span class="brand">MP Assessoria Previdenciária</span> · &copy; 2026</p>
 
+<div class="countdown-overlay" id="countdown-overlay" hidden>
+    <div class="countdown-card">
+        <p class="countdown-label" id="countdown-label">Iniciando análise em</p>
+        <p class="countdown-number" id="countdown-number">3</p>
+    </div>
+</div>
+
 <script src="utm-passthrough.js?v=1"></script>
 <script src="supabase-leads.js?v=2"></script>
-<script src="quiz.js?v=3"></script>
+<script src="quiz.js?v=4"></script>
 </body>
 </html>
