@@ -2,3 +2,5 @@
 .vercel
 *.log
 node_modules/
+.venv/
+*.zip
