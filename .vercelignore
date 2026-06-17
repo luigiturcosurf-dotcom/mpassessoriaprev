@@ -1,0 +1,17 @@
+.venv/
+node_modules/
+deploy/
+deploy-flat/
+*.zip
+auxilio-acidente/
+auxilio-acidente2/
+auxilio-acidente3/
+auxilio-acidente4/
+auxilio-acidente4.1/
+aposentadoria-rural2/
+aposentadoria-rural3/
+aposentadoria-rural4/
+integrations/
+supabase/
+scripts/
+shared/
