@@ -153,12 +153,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <h2 class="quiz-question">Qual é a sua idade?</h2>
             <p class="quiz-question-sub">Para cônjuge/companheiro(a), a idade define a duração do benefício.</p>
             <div class="options-list" data-question="q5">
-                <button type="button" class="option-btn" data-value="menos-22"><span>Menos de 22 anos</span><span class="option-radio"></span></button>
-                <button type="button" class="option-btn" data-value="22-27"><span>Entre 22 e 27 anos</span><span class="option-radio"></span></button>
-                <button type="button" class="option-btn" data-value="28-30"><span>Entre 28 e 30 anos</span><span class="option-radio"></span></button>
-                <button type="button" class="option-btn" data-value="31-41"><span>Entre 31 e 41 anos</span><span class="option-radio"></span></button>
-                <button type="button" class="option-btn" data-value="42-44"><span>Entre 42 e 44 anos</span><span class="option-radio"></span></button>
-                <button type="button" class="option-btn" data-value="45-mais"><span>45 anos ou mais</span><span class="option-radio"></span></button>
+                <button type="button" class="option-btn" data-audience="filho" data-value="1-17"><span>Entre 1 e 17 anos</span><span class="option-radio"></span></button>
+                <button type="button" class="option-btn" data-audience="filho" data-value="18-mais"><span>18 anos ou mais</span><span class="option-radio"></span></button>
+                <button type="button" class="option-btn" data-audience="conjuge" data-value="menos-22"><span>Menos de 22 anos</span><span class="option-radio"></span></button>
+                <button type="button" class="option-btn" data-audience="conjuge" data-value="22-27"><span>Entre 22 e 27 anos</span><span class="option-radio"></span></button>
+                <button type="button" class="option-btn" data-audience="conjuge" data-value="28-30"><span>Entre 28 e 30 anos</span><span class="option-radio"></span></button>
+                <button type="button" class="option-btn" data-audience="conjuge" data-value="31-41"><span>Entre 31 e 41 anos</span><span class="option-radio"></span></button>
+                <button type="button" class="option-btn" data-audience="conjuge" data-value="42-44"><span>Entre 42 e 44 anos</span><span class="option-radio"></span></button>
+                <button type="button" class="option-btn" data-audience="conjuge" data-value="45-mais"><span>45 anos ou mais</span><span class="option-radio"></span></button>
             </div>
         </section>
 
@@ -238,6 +240,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <script src="attribution.js?v=1"></script>
 <script src="supabase-leads.js?v=11"></script>
-<script src="quiz.js?v=4"></script>
+<script src="quiz.js?v=5"></script>
 </body>
 </html>

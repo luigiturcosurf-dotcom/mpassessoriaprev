@@ -43,6 +43,8 @@
             'skip-aprovado': 'Não se aplica (benefício ativo do falecido)'
         },
         q5: {
+            '1-17': 'Entre 1 e 17 anos',
+            '18-mais': '18 anos ou mais',
             'menos-22': 'Menos de 22 anos',
             '22-27': 'Entre 22 e 27 anos',
             '28-30': 'Entre 28 e 30 anos',
@@ -72,8 +74,8 @@
 
     var RESSALVA_MSG = {
         'filho-idade': {
-            title: 'Filhos com mais de 21 anos não têm direito à pensão',
-            text: 'Pela legislação do INSS, filhos maiores de 21 anos só mantêm direito à pensão em casos específicos (invalidez ou deficiência comprovada). Se você acredita que se enquadra em alguma exceção, nossa equipe pode orientar.'
+            title: 'Filhos com mais de 17 anos não têm direito à pensão',
+            text: 'Pela legislação do INSS, filhos maiores de 17 anos só mantêm direito à pensão em casos específicos (invalidez ou deficiência comprovada). Se você acredita que se enquadra em alguma exceção, nossa equipe pode orientar.'
         },
         irmao: {
             title: 'Seu caso exige análise detalhada',
@@ -242,6 +244,35 @@
         return false;
     }
 
+    function isFilhoIdadeQualificada(idade) {
+        return idade === '1-17';
+    }
+
+    function updateQ5Presentation() {
+        var q5Step = document.querySelector('[data-step="q5"]');
+        if (!q5Step) return;
+        var isFilho = answers.q1 === 'filho';
+        var title = q5Step.querySelector('.quiz-question');
+        var sub = q5Step.querySelector('.quiz-question-sub');
+        if (title) title.textContent = 'Qual é a sua idade?';
+        if (sub) {
+            sub.textContent = isFilho
+                ? 'Filhos de 1 a 17 anos têm direito à pensão. Acima de 17, só em casos específicos (invalidez ou deficiência).'
+                : 'Para cônjuge/companheiro(a), a idade define a duração do benefício.';
+        }
+        q5Step.querySelectorAll('.option-btn').forEach(function (btn) {
+            var audience = btn.getAttribute('data-audience') || 'conjuge';
+            var show = isFilho ? audience === 'filho' : audience === 'conjuge';
+            btn.style.display = show ? '' : 'none';
+            if (!show) btn.classList.remove('selected');
+        });
+        if (answers.q5) {
+            var filhoVal = isFilhoIdadeQualificada(answers.q5) || answers.q5 === '18-mais';
+            if (isFilho && !filhoVal) answers.q5 = null;
+            if (!isFilho && filhoVal) answers.q5 = null;
+        }
+    }
+
     function updateQuestionVisibility() {
         var flow = answers.q1 ? getQuestionFlow() : ['q1'];
         QUESTION_STEPS.forEach(function (q) {
@@ -273,6 +304,7 @@
         var isQuestion = QUESTION_STEPS.indexOf(stepId) !== -1;
         progressWrap.hidden = !isQuestion;
         if (isQuestion) updateProgress(stepId);
+        if (stepId === 'q5') updateQ5Presentation();
 
         var isResult = stepId === 'qualified' || stepId === 'qualified-soft' || stepId === 'disqualified';
         btnBack.disabled = stepId === 'intro' || isResult;
@@ -541,7 +573,7 @@
         }
 
         if (v === 'filho') {
-            if (answers.q5 && answers.q5 !== 'menos-22') {
+            if (answers.q5 && !isFilhoIdadeQualificada(answers.q5)) {
                 return { step: 'disqualified', resultado: 'disqualified', wa: 'disqualify', reason: 'filho-idade' };
             }
             if (encerra > 0 && approve === 0) {
@@ -618,7 +650,7 @@
 
     function handleQ5(v) {
         answers.q5 = v;
-        if (answers.q1 === 'filho' && v !== 'menos-22') {
+        if (answers.q1 === 'filho' && !isFilhoIdadeQualificada(v)) {
             showRessalva('filho-idade');
             return;
         }
