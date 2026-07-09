@@ -1,65 +1,39 @@
-# Atualização Pensão por Morte · Quiz v2 no domínio oficial
+# Pensão por Morte · Hospedagem Vercel
 
-**URLs oficiais (manter nos anúncios — NÃO usar vercel.app):**
+## URLs no Vercel (produção)
 
-| LP | URL |
-|----|-----|
-| Preta | https://mpassessoriaprevidenciaria.com.br/pensaopormorte1.1/ |
-| Azul | https://mpassessoriaprevidenciaria.com.br/pensaopormorte2/ |
-| INSS | https://mpassessoriaprevidenciaria.com.br/pensaopormorte4/ |
+| LP | URL Vercel |
+|----|------------|
+| Preta | https://aposentadoria-rural.vercel.app/pensaopormorte1.1/ |
+| Azul | https://aposentadoria-rural.vercel.app/pensaopormorte2/ |
+| INSS | https://aposentadoria-rural.vercel.app/pensaopormorte4/ |
 
-Quiz direto (opcional nos anúncios):
+Quiz direto:
 ```
-https://mpassessoriaprevidenciaria.com.br/pensaopormorte4/analise-de-beneficio.html?iniciar=1
-```
-
----
-
-## Upload no servidor (cPanel / FTP)
-
-Pacotes prontos em `deploy/`:
-
-```
-deploy/pensaopormorte1.1.zip
-deploy/pensaopormorte2.zip
-deploy/pensaopormorte4.zip
+https://aposentadoria-rural.vercel.app/pensaopormorte4/analise-de-beneficio/?iniciar=1
 ```
 
-### Passo a passo
+## Domínio oficial (opcional)
 
-1. Acesse o **File Manager** ou FTP do hosting
-2. Vá até a pasta de cada LP (ex.: `public_html/pensaopormorte2/`)
-3. Faça **backup** da pasta atual (baixar cópia)
-4. Envie e extraia o ZIP correspondente **sobrescrevendo** os arquivos
-5. Arquivos críticos que devem atualizar:
-   - `quiz.js` (v2 — filho 22+ desqualifica)
-   - `analise-de-beneficio.html`
-   - `supabase-leads.js`
-   - `attribution.js`
+Para usar `mpassessoriaprevidenciaria.com.br/pensaopormorte*` apontando para o Vercel:
 
-### Validar após upload
+1. Vercel → projeto `aposentadoria-rural` → **Settings → Domains**
+2. Adicionar `mpassessoriaprevidenciaria.com.br`
+3. No DNS do domínio, configurar conforme instruções do Vercel (A/CNAME)
+4. Ou usar subdomínio: `lp.mpassessoriaprevidenciaria.com.br` → mais simples
 
-Abra no navegador (Cmd+Shift+R para limpar cache):
+## Deploy
 
-```
-https://mpassessoriaprevidenciaria.com.br/pensaopormorte2/quiz.js
+```bash
+cd /Users/luigiturco/Downloads/aposentadoria-rural
+npx vercel deploy --prod
 ```
 
-Deve conter `filho-idade` e `CAPI_ENDPOINT` — **não** deve ter `goToStep('q6')` no handleQ5.
+O Vercel publica as pastas da **raiz** (`pensaopormorte1.1/`, `pensaopormorte2/`, `pensaopormorte4/`). A pasta `deploy/` é só para upload manual no WordPress.
 
----
+## Checklist
 
-## Campanhas Meta
-
-- **Manter** as URLs `mpassessoriaprevidenciaria.com.br/pensaopormorte*`
-- **Pausar** qualquer campanha apontando para `vercel.app`
-- **Não alterar** pixel (`1229096362421532`) nem evento de otimização (`Lead`)
-
----
-
-## Checklist pós-upload
-
-- [ ] Filho 22+ → tela de desqualificação + `LeadDesqualificado`
-- [ ] Cônjuge → `Lead` (browser + servidor, mesmo `event_id`)
+- [ ] Filho 22+ → `LeadDesqualificado`
+- [ ] Cônjuge → `Lead` (mesmo `event_id` browser + servidor)
 - [ ] Planilha: coluna **Evento Meta** preenchendo
-- [ ] 3 LPs com layout correto
+
