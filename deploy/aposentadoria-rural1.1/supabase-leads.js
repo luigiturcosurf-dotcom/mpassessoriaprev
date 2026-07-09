@@ -1,9 +1,10 @@
 /**
- * MP Assessoria · Leads Supabase (aposentadoria-rural1.1 · com contato)
+ * MP Assessoria · Leads Supabase (quizzes + WhatsApp + atribuição)
  */
 window.MPLeads = (function () {
     var SUPABASE_URL = 'https://jiuxiyxsausauqfsudus.supabase.co';
     var SUPABASE_KEY = 'sb_publishable_EQdUpWMg45TuCM9Dj5pE3w_qHvi21AT';
+    var TRACK_PREFIX = 'mp_track_';
 
     function getSessionId() {
         var id = sessionStorage.getItem('mp_lead_session');
@@ -14,12 +15,34 @@ window.MPLeads = (function () {
         return id;
     }
 
-    function getUtmParams() {
+    function getCookie(name) {
+        var escaped = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        var match = document.cookie.match(new RegExp('(?:^|; )' + escaped + '=([^;]*)'));
+        return match ? decodeURIComponent(match[1]) : null;
+    }
+
+    function trackVal(key) {
         var p = new URLSearchParams(window.location.search);
+        return p.get(key) || sessionStorage.getItem(TRACK_PREFIX + key) || null;
+    }
+
+    function getAttributionParams() {
+        var fbclid = trackVal('fbclid');
+        var fbc = sessionStorage.getItem(TRACK_PREFIX + 'fbc') || getCookie('_fbc');
+        if (!fbc && fbclid) {
+            fbc = 'fb.1.' + Date.now() + '.' + fbclid;
+            sessionStorage.setItem(TRACK_PREFIX + 'fbc', fbc);
+        }
         return {
-            utm_source: p.get('utm_source'),
-            utm_medium: p.get('utm_medium'),
-            utm_campaign: p.get('utm_campaign')
+            utm_source: trackVal('utm_source'),
+            utm_medium: trackVal('utm_medium'),
+            utm_campaign: trackVal('utm_campaign'),
+            utm_content: trackVal('utm_content'),
+            utm_term: trackVal('utm_term'),
+            fbclid: fbclid,
+            gclid: trackVal('gclid'),
+            fbp: sessionStorage.getItem(TRACK_PREFIX + 'fbp') || getCookie('_fbp'),
+            fbc: fbc
         };
     }
 
@@ -84,16 +107,23 @@ window.MPLeads = (function () {
     }
 
     function insertLead(payload, keepalive) {
-        var utm = getUtmParams();
+        var attr = getAttributionParams();
         var body = Object.assign({
             session_id: getSessionId(),
             lp_slug: detectLpSlug(),
             page_url: window.location.href,
             referrer: document.referrer || null,
             user_agent: navigator.userAgent,
-            utm_source: utm.utm_source,
-            utm_medium: utm.utm_medium,
-            utm_campaign: utm.utm_campaign
+            utm_source: attr.utm_source,
+            utm_medium: attr.utm_medium,
+            utm_campaign: attr.utm_campaign,
+            utm_content: attr.utm_content,
+            utm_term: attr.utm_term,
+            fbclid: attr.fbclid,
+            gclid: attr.gclid,
+            fbp: attr.fbp,
+            fbc: attr.fbc,
+            status_comercial: 'Novo'
         }, payload);
 
         return request('quiz_leads', 'POST', body, 'return=minimal', keepalive)
@@ -167,7 +197,10 @@ window.MPLeads = (function () {
             beneficio: opts.beneficio,
             resultado: 'quiz-iniciado',
             respostas: buildRespostas({}, {}, contactExtra(opts)),
-            clicou_whatsapp: false
+            clicou_whatsapp: false,
+            nome: opts.nome,
+            telefone: opts.telefone,
+            email: opts.email
         };
         if (hasSavedLead()) {
             return patchLead(payload, opts.keepalive);
@@ -182,6 +215,11 @@ window.MPLeads = (function () {
             motivo_desqualificacao: opts.motivo || null,
             respostas: buildRespostas(opts.answers, opts.labels, contactExtra(opts.contact))
         };
+        if (opts.contact) {
+            payload.nome = opts.contact.nome;
+            payload.telefone = opts.contact.telefone;
+            payload.email = opts.contact.email;
+        }
         if (opts.clicouWhatsapp) {
             payload.clicou_whatsapp = true;
             payload.clicou_whatsapp_em = new Date().toISOString();

@@ -1,0 +1,77 @@
+/* MP Assessoria · Hero com imagem lateral (auxilio-acidente 4.1) */
+
+.hero { overflow: hidden; }
+.hero-overlay { display: none !important; }
+
+.hero-inner {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+    align-items: center !important;
+    gap: 32px 48px !important;
+    max-width: 1140px !important;
+    width: 100% !important;
+    margin: 0 auto !important;
+}
+
+.hero-content {
+    max-width: 560px;
+}
+
+.hero-visual {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 320px;
+}
+
+.hero-camada-1 {
+    width: 100%;
+    max-width: 520px;
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 16px 40px rgba(0, 0, 0, 0.28));
+}
+
+@media (max-width: 1024px) {
+    .hero-inner {
+        grid-template-columns: 1fr !important;
+        text-align: center;
+        padding-top: 48px;
+    }
+    .hero-content {
+        max-width: none;
+        margin: 0 auto;
+    }
+    .hero-logo {
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .hero-lead,
+    .hero-sub {
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .hero-audience {
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .hero-ctas {
+        justify-content: center;
+    }
+    .hero-visual {
+        min-height: 260px;
+        order: -1;
+    }
+    .hero-camada-1 {
+        max-width: 380px;
+    }
+}
+
+@media (max-width: 640px) {
+    .hero-camada-1 {
+        max-width: 300px;
+    }
+    .hero-visual {
+        min-height: 200px;
+    }
+}

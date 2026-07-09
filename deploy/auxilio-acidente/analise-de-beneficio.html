@@ -1,0 +1,289 @@
+<!-- PÁGINA INSS · auxilio-acidente4.1/analise-de-beneficio.html · Pré-qualificação -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-P97C37L3');</script>
+<!-- End Google Tag Manager -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '2851865198508090');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=2851865198508090&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análise de Benefício – Auxílio-Acidente | MP Assessoria</title>
+    <meta name="description" content="Responda algumas perguntas rápidas e descubra se você pode ter direito ao auxílio-acidente do INSS. Análise gratuita. MP Assessoria Previdenciária.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css?v=9">
+    <link rel="stylesheet" href="quiz-styles.css?v=1">
+</head>
+<body class="quiz-page">
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P97C37L3"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<div class="topbar">
+    Análise gratuita — <strong>Você só paga se ganhar</strong>
+</div>
+
+<div class="quiz-app">
+    <header class="quiz-header">
+        <button type="button" class="quiz-nav-btn" id="btn-back" aria-label="Voltar" disabled>&#8592;</button>
+        <button type="button" class="quiz-nav-btn" id="btn-restart" aria-label="Reiniciar">&#10005;</button>
+    </header>
+
+    <div class="progress-wrap" id="progress-wrap" hidden>
+        <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+        <p class="progress-label" id="progress-label">Pergunta 1 de 4</p>
+    </div>
+
+    <main class="quiz-body">
+
+        <!-- INTRO -->
+        <section class="quiz-step active" data-step="intro">
+            <div class="brand-block">
+                <div class="brand-logo">
+                    <img src="https://mpassessoriaprevidenciaria.com.br/wp-content/uploads/2025/10/logo-branca-dourada-vertical.png" alt="MP Assessoria Previdenciária">
+                </div>
+                <p class="brand-name">MP Assessoria Previdenciária</p>
+            </div>
+            <h1 class="intro-title">Solicite uma Análise Inicial — Auxílio-Acidente INSS</h1>
+            <p class="intro-text">A MP Assessoria ajuda trabalhadores a verificarem se têm direito ao auxílio-acidente — benefício mensal pago pelo INSS quando um acidente deixa sequela permanente, mesmo que você continue trabalhando.</p>
+            <p class="intro-tag">Leva menos de 1 minuto · 100% gratuito</p>
+            <button type="button" class="btn btn-primary btn-block" id="btn-start">Continuar</button>
+        </section>
+
+        <!-- CONTATO -->
+        <section class="quiz-step" data-step="contact">
+            <div class="brand-block">
+                <div class="brand-logo">
+                    <img src="https://mpassessoriaprevidenciaria.com.br/wp-content/uploads/2025/10/logo-branca-dourada-vertical.png" alt="MP Assessoria">
+                </div>
+                <p class="brand-name">MP Assessoria Previdenciária</p>
+            </div>
+            <h2 class="quiz-question">Antes de começar, precisamos dos seus dados de contato</h2>
+            <p class="quiz-question-sub">Usaremos apenas para retornar sua análise. Seus dados estão protegidos.</p>
+            <form class="contact-form" id="contact-form" novalidate>
+                <div class="form-group">
+                    <label for="contact-nome">Nome completo</label>
+                    <input type="text" id="contact-nome" name="nome" autocomplete="name" placeholder="Ex.: Maria Silva Santos" required>
+                    <span class="form-error" id="err-nome" hidden></span>
+                </div>
+                <div class="form-group">
+                    <label for="contact-telefone">Telefone com DDD</label>
+                    <input type="tel" id="contact-telefone" name="telefone" autocomplete="tel" inputmode="numeric" placeholder="(11) 99999-9999" required>
+                    <span class="form-error" id="err-telefone" hidden></span>
+                </div>
+                <div class="form-group">
+                    <label for="contact-email">E-mail</label>
+                    <input type="email" id="contact-email" name="email" autocomplete="email" placeholder="seu@email.com" required>
+                    <span class="form-error" id="err-email" hidden></span>
+                </div>
+                <div class="lgpd-inline">
+                    <p class="lgpd-inline-text">Ao continuar, você autoriza a <strong>MP Assessoria</strong> a usar seus dados (nome, telefone e e-mail) para contato sobre sua análise e orientação previdenciária, conforme a LGPD (Lei nº 13.709/2018).</p>
+                    <label class="lgpd-check" id="lgpd-label">
+                        <input type="checkbox" id="contact-lgpd" name="lgpd" required>
+                        <span class="lgpd-check-box" aria-hidden="true"></span>
+                        <span>Li e estou ciente</span>
+                    </label>
+                    <span class="form-error" id="err-lgpd" hidden>É necessário autorizar para continuar.</span>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block" id="btn-contact-submit">Iniciar análise</button>
+            </form>
+        </section>
+
+        <!-- Q1 -->
+        <section class="quiz-step" data-step="q1">
+            <div class="brand-block">
+                <div class="brand-logo">
+                    <img src="https://mpassessoriaprevidenciaria.com.br/wp-content/uploads/2025/10/logo-branca-dourada-vertical.png" alt="MP Assessoria">
+                </div>
+                <p class="brand-name">MP Assessoria Previdenciária</p>
+            </div>
+            <h2 class="quiz-question">Em algum momento, trabalhando registrado (CLT) ou contribuindo de alguma forma com o INSS, você passou por uma dessas situações?</h2>
+            <p class="quiz-question-sub">Selecione a opção que mais se aproxima do seu caso.</p>
+            <div class="options-list" data-question="q1">
+                <button type="button" class="option-btn" data-value="none" data-action="disqualify">
+                    <span>Não, nunca tive nenhum tipo de problema no trabalho</span>
+                    <span class="option-radio"></span>
+                </button>
+                <button type="button" class="option-btn" data-value="accident">
+                    <span>Sofri um acidente de trabalho</span>
+                    <span class="option-radio"></span>
+                </button>
+                <button type="button" class="option-btn" data-value="accident-other">
+                    <span>Sofri um acidente (trânsito, casa, esporte ou lazer)</span>
+                    <span class="option-radio"></span>
+                </button>
+                <button type="button" class="option-btn" data-value="disease">
+                    <span>Tive uma doença ou lesão relacionada ao trabalho</span>
+                    <span class="option-radio"></span>
+                </button>
+                <button type="button" class="option-btn" data-value="labor">
+                    <span>Tive problemas com horas extras, salário, jornada ou rescisão</span>
+                    <span class="option-radio"></span>
+                </button>
+                <button type="button" class="option-btn" data-value="other">
+                    <span>Passei por outra situação que acredito merecer análise</span>
+                    <span class="option-radio"></span>
+                </button>
+                <button type="button" class="option-btn" data-value="unsure">
+                    <span>Não sei dizer, quero uma análise inicial</span>
+                    <span class="option-radio"></span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Q2 -->
+        <section class="quiz-step" data-step="q2">
+            <div class="brand-block">
+                <div class="brand-logo">
+                    <img src="https://mpassessoriaprevidenciaria.com.br/wp-content/uploads/2025/10/logo-branca-dourada-vertical.png" alt="MP Assessoria">
+                </div>
+                <p class="brand-name">MP Assessoria Previdenciária</p>
+            </div>
+            <h2 class="quiz-question">Na época da situação, como você trabalhava?</h2>
+            <div class="options-list" data-question="q2">
+                <button type="button" class="option-btn" data-value="clt">
+                    <span>Carteira assinada (CLT)</span>
+                    <span class="option-radio"></span>
+                </button>
+                <button type="button" class="option-btn" data-value="domestic">
+                    <span>Empregado(a) doméstico(a) registrado(a)</span>
+                    <span class="option-radio"></span>
+                </button>
+                <button type="button" class="option-btn" data-value="rural">
+                    <span>Trabalhador(a) rural / segurado especial</span>
+                    <span class="option-radio"></span>
+                </button>
+                <button type="button" class="option-btn" data-value="autonomo-mei">
+                    <span>Autônomo ou MEI</span>
+                    <span class="option-radio"></span>
+                </button>
+                <button type="button" class="option-btn" data-value="sem-registro" data-action="disqualify">
+                    <span>Sem registro</span>
+                    <span class="option-radio"></span>
+                </button>
+                <button type="button" class="option-btn" data-value="unsure">
+                    <span>Não sei dizer</span>
+                    <span class="option-radio"></span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Q3 -->
+        <section class="quiz-step" data-step="q3">
+            <div class="brand-block">
+                <div class="brand-logo">
+                    <img src="https://mpassessoriaprevidenciaria.com.br/wp-content/uploads/2025/10/logo-branca-dourada-vertical.png" alt="MP Assessoria">
+                </div>
+                <p class="brand-name">MP Assessoria Previdenciária</p>
+            </div>
+            <h2 class="quiz-question">Você chegou a ficar afastado(a) pelo INSS por causa dessa situação?</h2>
+            <div class="options-list" data-question="q3">
+                <button type="button" class="option-btn" data-value="yes-benefit">
+                    <span>Sim, fiquei afastado(a) e recebi benefício do INSS</span>
+                    <span class="option-radio"></span>
+                </button>
+                <button type="button" class="option-btn" data-value="no">
+                    <span>Não fiquei afastado(a) pelo INSS</span>
+                    <span class="option-radio"></span>
+                </button>
+                <button type="button" class="option-btn" data-value="unsure">
+                    <span>Não sei ao certo</span>
+                    <span class="option-radio"></span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Q4 -->
+        <section class="quiz-step" data-step="q4">
+            <div class="brand-block">
+                <div class="brand-logo">
+                    <img src="https://mpassessoriaprevidenciaria.com.br/wp-content/uploads/2025/10/logo-branca-dourada-vertical.png" alt="MP Assessoria">
+                </div>
+                <p class="brand-name">MP Assessoria Previdenciária</p>
+            </div>
+            <h2 class="quiz-question">Hoje você ainda sente alguma limitação, dor ou sequela por causa dessa situação?</h2>
+            <div class="options-list" data-question="q4">
+                <button type="button" class="option-btn" data-value="yes" data-action="qualify">
+                    <span>Sim, ainda tenho limitações, dores ou sequelas</span>
+                    <span class="option-radio"></span>
+                </button>
+                <button type="button" class="option-btn" data-value="unsure" data-action="qualify-soft">
+                    <span>Não sei dizer</span>
+                    <span class="option-radio"></span>
+                </button>
+                <button type="button" class="option-btn" data-value="no" data-action="disqualify">
+                    <span>Não, me recuperei totalmente</span>
+                    <span class="option-radio"></span>
+                </button>
+            </div>
+        </section>
+
+        <!-- RESULTADO: QUALIFICADO -->
+        <section class="quiz-step" data-step="qualified">
+            <div class="result-card">
+                <div class="result-icon success">✓</div>
+                <h2>Você pode ter direito ao auxílio-acidente!</h2>
+                <p>Pelos seus relatos, seu perfil se encaixa nos requisitos iniciais do benefício. Nossa equipe vai analisar seu caso gratuitamente e orientar os próximos passos.</p>
+                <ul class="result-list">
+                    <li>Análise gratuita e sem compromisso</li>
+                    <li>Atendimento com advogado especializado</li>
+                    <li>Você só paga se ganhar o benefício</li>
+                </ul>
+                <a href="#" class="btn btn-whatsapp btn-block btn-pulse-wa" id="btn-wa-qualified">Falar com um advogado agora</a>
+                <p class="wa-redirect-hint" id="wa-redirect-hint-qualified" hidden>Abrindo o WhatsApp em instantes…</p>
+            </div>
+        </section>
+
+        <!-- RESULTADO: ANÁLISE RECOMENDADA -->
+        <section class="quiz-step" data-step="qualified-soft">
+            <div class="result-card">
+                <div class="result-icon neutral">?</div>
+                <h2>Vale a pena fazer uma análise</h2>
+                <p>Algumas informações ainda não estão claras, mas seu caso merece ser avaliado por um especialista. Muitos segurados descobrem direitos que não conheciam.</p>
+                <a href="#" class="btn btn-whatsapp btn-block btn-pulse-wa" id="btn-wa-soft">Falar com um advogado agora</a>
+                <p class="wa-redirect-hint" id="wa-redirect-hint-soft" hidden>Abrindo o WhatsApp em instantes…</p>
+            </div>
+        </section>
+
+        <!-- RESULTADO: NÃO QUALIFICADO -->
+        <section class="quiz-step" data-step="disqualified">
+            <div class="result-card disqualified">
+                <div class="result-icon neutral">i</div>
+                <h2 id="disqualify-title">Neste momento, o auxílio-acidente pode não se aplicar</h2>
+                <p id="disqualify-text">Com base nas suas respostas, seu perfil não atende aos requisitos legais do auxílio-acidente (Art. 86, Lei 8.213/91). Mas se sua situação mudou ou você tem dúvidas, nossa equipe pode orientar.</p>
+                <a href="#" class="btn btn-ghost btn-block" id="btn-wa-disqualify">Ainda assim, quero falar com alguém</a>
+                <button type="button" class="btn btn-primary btn-block" id="btn-retry" style="margin-top:12px;">Refazer questionário</button>
+            </div>
+        </section>
+
+    </main>
+</div>
+
+<p class="footer-mini"><span class="brand">MP Assessoria Previdenciária</span> · &copy; 2026</p>
+
+<script src="attribution.js?v=1"></script>
+<script src="supabase-leads.js?v=9"></script>
+<script src="quiz.js?v=14"></script>
+</body>
+</html>

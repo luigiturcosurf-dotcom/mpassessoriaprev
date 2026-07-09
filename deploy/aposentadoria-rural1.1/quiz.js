@@ -93,12 +93,21 @@
 
     var BENEFICIO = 'aposentadoria-rural';
 
+    function getLpSlug() {
+        var parts = window.location.pathname.split('/').filter(Boolean);
+        var i;
+        for (i = parts.length - 1; i >= 0; i--) {
+            if (parts[i].indexOf('.html') === -1) return parts[i];
+        }
+        return 'aposentadoria-rural';
+    }
+
     function pushDataLayer(eventName, extra) {
         window.dataLayer = window.dataLayer || [];
         var payload = {
             event: eventName,
             beneficio: BENEFICIO,
-            lp_slug: 'aposentadoria-rural1.1'
+            lp_slug: getLpSlug()
         };
         if (extra) {
             Object.keys(extra).forEach(function (key) {
@@ -526,11 +535,11 @@
             });
 
             btnContactSubmit.textContent = 'Salvo! ✓';
-            startOverlayCountdown('Iniciando análise em', COUNTDOWN_SECONDS, function () {
+            setTimeout(function () {
                 btnContactSubmit.disabled = false;
                 btnContactSubmit.textContent = 'Iniciar análise';
                 goToIndex(2);
-            });
+            }, 400);
         });
     });
 

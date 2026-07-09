@@ -1,0 +1,319 @@
+<!-- PÁGINA INSS · aposentadoria-rural4/analise-de-beneficio.html · Pré-qualificação -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-P97C37L3');</script>
+<!-- End Google Tag Manager -->
+    <script>
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+    n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+    document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    fbq('set','autoConfig',false,'1752369442414230');
+    fbq('init','1752369442414230');
+    fbq('track','PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1752369442414230&ev=PageView&noscript=1"/></noscript>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análise de Benefício – Aposentadoria Rural | MP Assessoria</title>
+    <meta name="description" content="Responda 5 perguntas rápidas e descubra se você tem direito à Aposentadoria Rural do INSS. Análise gratuita. MP Assessoria Previdenciária.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css?v=3">
+    <link rel="stylesheet" href="quiz-styles.css?v=1">
+</head>
+<body class="quiz-page">
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P97C37L3"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<div class="topbar">
+    Análise gratuita — <strong>Você só paga se ganhar</strong>
+</div>
+
+<div class="quiz-app">
+    <header class="quiz-header">
+        <button type="button" class="quiz-nav-btn" id="btn-back" aria-label="Voltar" disabled>&#8592;</button>
+        <button type="button" class="quiz-nav-btn" id="btn-restart" aria-label="Reiniciar">&#10005;</button>
+    </header>
+
+    <div class="progress-wrap" id="progress-wrap" hidden>
+        <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+        <p class="progress-label" id="progress-label">Pergunta 1 de 5</p>
+    </div>
+
+    <main class="quiz-body">
+
+        <!-- INTRO -->
+        <section class="quiz-step active" data-step="intro">
+            <div class="brand-block">
+                <div class="brand-logo">
+                    <img src="https://mpassessoriaprevidenciaria.com.br/wp-content/uploads/2025/10/logo-branca-dourada-vertical.png" alt="MP Assessoria Previdenciária">
+                </div>
+                <p class="brand-name">MP Assessoria Previdenciária</p>
+            </div>
+            <h1 class="intro-title">Solicite uma Análise Inicial — Aposentadoria Rural INSS</h1>
+            <p class="intro-text">A MP Assessoria ajuda trabalhadores rurais a verificarem se têm direito à aposentadoria — benefício mensal do INSS para quem trabalhou no campo, mesmo sem contribuições mensais.</p>
+            <p class="intro-tag">Leva menos de 1 minuto · 100% gratuito</p>
+            <button type="button" class="btn btn-primary btn-block" id="btn-start">Continuar</button>
+        </section>
+
+        <!-- CONTATO -->
+        <section class="quiz-step" data-step="contact">
+            <div class="brand-block">
+                <div class="brand-logo">
+                    <img src="https://mpassessoriaprevidenciaria.com.br/wp-content/uploads/2025/10/logo-branca-dourada-vertical.png" alt="MP Assessoria">
+                </div>
+                <p class="brand-name">MP Assessoria Previdenciária</p>
+            </div>
+            <h2 class="quiz-question">Antes de começar, precisamos dos seus dados de contato</h2>
+            <p class="quiz-question-sub">Usaremos apenas para retornar sua análise. Seus dados estão protegidos.</p>
+            <form class="contact-form" id="contact-form" novalidate>
+                <div class="form-group">
+                    <label for="contact-nome">Nome completo</label>
+                    <input type="text" id="contact-nome" name="nome" autocomplete="name" placeholder="Ex.: Maria Silva Santos" required>
+                    <span class="form-error" id="err-nome" hidden></span>
+                </div>
+                <div class="form-group">
+                    <label for="contact-telefone">Telefone com DDD</label>
+                    <input type="tel" id="contact-telefone" name="telefone" autocomplete="tel" inputmode="numeric" placeholder="(11) 99999-9999" required>
+                    <span class="form-error" id="err-telefone" hidden></span>
+                </div>
+                <div class="form-group">
+                    <label for="contact-email">E-mail</label>
+                    <input type="email" id="contact-email" name="email" autocomplete="email" placeholder="seu@email.com" required>
+                    <span class="form-error" id="err-email" hidden></span>
+                </div>
+                <div class="lgpd-inline">
+                    <p class="lgpd-inline-text">Ao continuar, você autoriza a <strong>MP Assessoria</strong> a usar seus dados (nome, telefone e e-mail) para contato sobre sua análise e orientação previdenciária, conforme a LGPD (Lei nº 13.709/2018).</p>
+                    <label class="lgpd-check" id="lgpd-label">
+                        <input type="checkbox" id="contact-lgpd" name="lgpd" required>
+                        <span class="lgpd-check-box" aria-hidden="true"></span>
+                        <span>Li e estou ciente</span>
+                    </label>
+                    <span class="form-error" id="err-lgpd" hidden>É necessário autorizar para continuar.</span>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block btn-pulse" id="btn-contact-submit">Iniciar análise</button>
+            </form>
+        </section>
+
+        <!-- Q1 · Idade -->
+        <section class="quiz-step" data-step="q1">
+            <div class="brand-block">
+                <div class="brand-logo">
+                    <img src="https://mpassessoriaprevidenciaria.com.br/wp-content/uploads/2025/10/logo-branca-dourada-vertical.png" alt="MP Assessoria">
+                </div>
+                <p class="brand-name">MP Assessoria Previdenciária</p>
+            </div>
+            <h2 class="quiz-question">Qual é a sua idade?</h2>
+            <div class="options-list" data-question="q1">
+                <button type="button" class="option-btn" data-value="less-age" data-action="disqualify">
+                    <span>Tenho menos de 55 anos (mulher) ou menos de 65 anos (homem)</span>
+                    <span class="option-radio"></span>
+                </button>
+                <button type="button" class="option-btn" data-value="man-60-plus">
+                    <span>Sou homem e tenho 60 anos ou mais</span>
+                    <span class="option-radio"></span>
+                </button>
+                <button type="button" class="option-btn" data-value="woman-55-plus">
+                    <span>Sou mulher e tenho 55 anos ou mais</span>
+                    <span class="option-radio"></span>
+                </button>
+                <button type="button" class="option-btn" data-value="prefer-not">
+                    <span>Prefiro não informar</span>
+                    <span class="option-radio"></span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Q2 · Atividade Rural -->
+        <section class="quiz-step" data-step="q2">
+            <div class="brand-block">
+                <div class="brand-logo">
+                    <img src="https://mpassessoriaprevidenciaria.com.br/wp-content/uploads/2025/10/logo-branca-dourada-vertical.png" alt="MP Assessoria">
+                </div>
+                <p class="brand-name">MP Assessoria Previdenciária</p>
+            </div>
+            <h2 class="quiz-question">Você trabalhou ou trabalha em atividade rural?</h2>
+            <div class="options-list" data-question="q2">
+                <button type="button" class="option-btn" data-value="roca">
+                    <span>Sim, trabalho/trabalhei na roça, lavoura ou criação de animais</span>
+                    <span class="option-radio"></span>
+                </button>
+                <button type="button" class="option-btn" data-value="pescador">
+                    <span>Sim, sou/fui pescador(a) artesanal</span>
+                    <span class="option-radio"></span>
+                </button>
+                <button type="button" class="option-btn" data-value="conjuge">
+                    <span>Sim, ajudava meu marido/família na produção rural</span>
+                    <span class="option-radio"></span>
+                </button>
+                <button type="button" class="option-btn" data-value="no-rural" data-action="disqualify">
+                    <span>Não trabalhei em atividade rural</span>
+                    <span class="option-radio"></span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Q3 · Tempo de Atividade -->
+        <section class="quiz-step" data-step="q3">
+            <div class="brand-block">
+                <div class="brand-logo">
+                    <img src="https://mpassessoriaprevidenciaria.com.br/wp-content/uploads/2025/10/logo-branca-dourada-vertical.png" alt="MP Assessoria">
+                </div>
+                <p class="brand-name">MP Assessoria Previdenciária</p>
+            </div>
+            <h2 class="quiz-question">Por quanto tempo, no total, exerceu atividade rural?</h2>
+            <p class="quiz-question-sub">Requisito legal: 15 anos (mulher com 55 anos) ou 20 anos (homem com 60 anos) — Art. 143, Lei 8.213/91.</p>
+            <div class="options-list" data-question="q3">
+                <button type="button" class="option-btn" data-value="less-10" data-action="disqualify">
+                    <span>Menos de 10 anos</span>
+                    <span class="option-radio"></span>
+                </button>
+                <button type="button" class="option-btn" data-value="10-15" data-action="uncertain">
+                    <span>Entre 10 e 15 anos</span>
+                    <span class="option-radio"></span>
+                </button>
+                <button type="button" class="option-btn" data-value="more-15">
+                    <span>Mais de 15 anos</span>
+                    <span class="option-radio"></span>
+                </button>
+                <button type="button" class="option-btn" data-value="more-20">
+                    <span>Mais de 20 anos</span>
+                    <span class="option-radio"></span>
+                </button>
+                <button type="button" class="option-btn" data-value="unsure" data-action="uncertain">
+                    <span>Não sei ao certo</span>
+                    <span class="option-radio"></span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Q4 · Vínculo Urbano -->
+        <section class="quiz-step" data-step="q4">
+            <div class="brand-block">
+                <div class="brand-logo">
+                    <img src="https://mpassessoriaprevidenciaria.com.br/wp-content/uploads/2025/10/logo-branca-dourada-vertical.png" alt="MP Assessoria">
+                </div>
+                <p class="brand-name">MP Assessoria Previdenciária</p>
+            </div>
+            <h2 class="quiz-question">Você trabalhou com carteira assinada na cidade por longos períodos?</h2>
+            <div class="options-list" data-question="q4">
+                <button type="button" class="option-btn" data-value="always-field">
+                    <span>Não, sempre trabalhei no campo</span>
+                    <span class="option-radio"></span>
+                </button>
+                <button type="button" class="option-btn" data-value="less-5-city">
+                    <span>Sim, trabalhei registrado por menos de 5 anos</span>
+                    <span class="option-radio"></span>
+                </button>
+                <button type="button" class="option-btn" data-value="more-10-city" data-action="uncertain">
+                    <span>Sim, trabalhei registrado por mais de 10 anos na cidade</span>
+                    <span class="option-radio"></span>
+                </button>
+                <button type="button" class="option-btn" data-value="mixed" data-action="uncertain">
+                    <span>Tive um pouco dos dois (misto)</span>
+                    <span class="option-radio"></span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Q5 · Documentação -->
+        <section class="quiz-step" data-step="q5">
+            <div class="brand-block">
+                <div class="brand-logo">
+                    <img src="https://mpassessoriaprevidenciaria.com.br/wp-content/uploads/2025/10/logo-branca-dourada-vertical.png" alt="MP Assessoria">
+                </div>
+                <p class="brand-name">MP Assessoria Previdenciária</p>
+            </div>
+            <h2 class="quiz-question">Você possui algum documento que comprove o trabalho rural?</h2>
+            <div class="options-list" data-question="q5">
+                <button type="button" class="option-btn" data-value="dap-caf">
+                    <span>Sim, tenho DAP/CAF, bloco de produtor ou nota fiscal rural</span>
+                    <span class="option-radio"></span>
+                </button>
+                <button type="button" class="option-btn" data-value="sindicato">
+                    <span>Sim, tenho cadastro em sindicato rural ou colônia de pescadores</span>
+                    <span class="option-radio"></span>
+                </button>
+                <button type="button" class="option-btn" data-value="photos">
+                    <span>Tenho fotos, declarações de vizinhos ou testemunhos</span>
+                    <span class="option-radio"></span>
+                </button>
+                <button type="button" class="option-btn" data-value="no-docs" data-action="uncertain">
+                    <span>Não tenho nenhum documento</span>
+                    <span class="option-radio"></span>
+                </button>
+                <button type="button" class="option-btn" data-value="unsure-docs" data-action="uncertain">
+                    <span>Não sei o que tenho</span>
+                    <span class="option-radio"></span>
+                </button>
+            </div>
+        </section>
+
+        <!-- RESULTADO: APROVADO -->
+        <section class="quiz-step" data-step="qualified">
+            <div class="result-card">
+                <div class="result-icon success">✓</div>
+                <h2>Você pode ter direito à Aposentadoria Rural!</h2>
+                <p>Seu perfil atende aos requisitos iniciais. Nossa equipe vai analisar seu caso gratuitamente e orientar os próximos passos.</p>
+                <ul class="result-list">
+                    <li>Análise gratuita e sem compromisso</li>
+                    <li>Atendimento 100% online</li>
+                    <li>Você só paga se ganhar o benefício</li>
+                </ul>
+                <a href="#" class="btn btn-whatsapp btn-block btn-pulse-wa" id="btn-wa-qualified">Falar com especialista agora →</a>
+                <p class="wa-redirect-hint" id="wa-redirect-hint-qualified" hidden>Abrindo o WhatsApp em instantes…</p>
+            </div>
+        </section>
+
+        <!-- RESULTADO: INCERTO -->
+        <section class="quiz-step" data-step="qualified-soft">
+            <div class="result-card">
+                <div class="result-icon neutral">?</div>
+                <h2>Vale a pena fazer uma análise</h2>
+                <p>Algumas informações ainda não estão claras, mas seu caso merece ser avaliado por um especialista. Muitos trabalhadores rurais descobrem direitos que não conheciam.</p>
+                <a href="#" class="btn btn-whatsapp btn-block btn-pulse-wa" id="btn-wa-soft">Falar com um especialista →</a>
+                <p class="wa-redirect-hint" id="wa-redirect-hint-soft" hidden>Abrindo o WhatsApp em instantes…</p>
+            </div>
+        </section>
+
+        <!-- RESULTADO: ENCERRADO -->
+        <section class="quiz-step" data-step="disqualified">
+            <div class="result-card disqualified">
+                <div class="result-icon neutral">i</div>
+                <h2 id="disqualify-title">Neste momento, a Aposentadoria Rural pode não se aplicar</h2>
+                <p id="disqualify-text">Com base nas suas respostas, seu perfil não atende aos requisitos mínimos do benefício. Mas se sua situação mudou ou você tem dúvidas, nossa equipe pode orientar.</p>
+                <a href="#" class="btn btn-ghost btn-block" id="btn-wa-disqualify">Ainda assim, quero falar com alguém</a>
+                <button type="button" class="btn btn-primary btn-block" id="btn-retry" style="margin-top:12px;">Refazer questionário</button>
+            </div>
+        </section>
+
+    </main>
+</div>
+
+<p class="footer-mini"><span class="brand">MP Assessoria Previdenciária</span> · &copy; 2026</p>
+
+<div class="countdown-overlay" id="countdown-overlay" hidden>
+    <div class="countdown-card">
+        <p class="countdown-label" id="countdown-label">Iniciando análise em</p>
+        <p class="countdown-number" id="countdown-number">3</p>
+    </div>
+</div>
+
+<script src="attribution.js?v=1"></script>
+<script src="supabase-leads.js?v=9"></script>
+<script src="quiz.js?v=5"></script>
+</body>
+</html>

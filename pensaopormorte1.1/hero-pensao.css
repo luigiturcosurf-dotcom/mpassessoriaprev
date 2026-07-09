@@ -1,0 +1,19 @@
+/* Hero pensão por morte 1.1 — layout lateral + imagem abaixo do CTA no mobile */
+
+.pensaopormorte-black .hero-pensao {
+    background: #000;
+    min-height: auto;
+}
+
+.pensaopormorte-black .hero-inner {
+    max-width: 1140px !important;
+}
+
+@media (max-width: 1024px) {
+    .pensaopormorte-black .hero-visual {
+        order: 1;
+    }
+    .pensaopormorte-black .hero-content {
+        order: 0;
+    }
+}

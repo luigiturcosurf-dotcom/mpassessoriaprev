@@ -1,5 +1,16 @@
 /**
  * MP Assessoria · Sync Supabase → Google Sheets + Meta CAPI ao marcar Vendido
+ * v2 — integrado ao quiz v2 (Lead/LeadDesqualificado)
+ *
+ * MUDANÇAS v2:
+ *  - Nova coluna "Evento Meta" (Lead | LeadDesqualificado) — termômetro de
+ *    qualidade da campanha direto na planilha
+ *  - Correção de bug em repairSheetValidations (statusColumnA1 sem underscore)
+ *  - Purchase enviado com action_source 'system_generated' (CRM automatizado)
+ *
+ * ⚠ APÓS COLAR ESTA VERSÃO: execute setupSheet UMA VEZ para recriar os
+ *   cabeçalhos com a coluna nova. É seguro — status e CAPI enviado vivem no
+ *   Supabase e voltam no sync.
  *
  * COMO USAR:
  * 1. Planilha em https://sheets.google.com → Extensões → Apps Script
@@ -45,6 +56,7 @@ var HEADERS = [
   'Q8 · Dependência (filhos)',
   'Q9 · Dependência econômica',
   'Motivo desqualificação',
+  'Evento Meta',
   'UTM Source',
   'UTM Medium',
   'UTM Campaign',
@@ -283,6 +295,8 @@ function mergeLeadGroup_(best, group) {
     if (!merged.utm_source && lead.utm_source) merged.utm_source = lead.utm_source;
     if (!merged.utm_medium && lead.utm_medium) merged.utm_medium = lead.utm_medium;
     if (!merged.utm_campaign && lead.utm_campaign) merged.utm_campaign = lead.utm_campaign;
+    if (!merged.evento_meta && lead.evento_meta) merged.evento_meta = lead.evento_meta;
+    if (!merged.meta_event_id && lead.meta_event_id) merged.meta_event_id = lead.meta_event_id;
   });
   return merged;
 }
@@ -307,6 +321,7 @@ function leadToRow_(lead) {
     fromRespostas_(r, 'q8'),
     fromRespostas_(r, 'q9'),
     lead.motivo_desqualificacao || '',
+    lead.evento_meta || '',
     lead.utm_source || '',
     lead.utm_medium || '',
     lead.utm_campaign || '',
@@ -355,7 +370,7 @@ function repairSheetValidations() {
   if (!sheet) throw new Error('Aba Leads não encontrada.');
   clearAllDataValidations_(sheet);
   applyStatusValidation_(sheet);
-  Logger.log('Validações corrigidas — dropdown só na coluna ' + statusColumnA1());
+  Logger.log('Validações corrigidas — dropdown só na coluna ' + statusColumnA1_());
 }
 
 function createTimeTrigger() {
@@ -555,7 +570,7 @@ function sendMetaCapi_(lead) {
     event_name: 'Purchase',
     event_time: Math.floor(Date.now() / 1000),
     event_id: 'venda-' + lead.id,
-    action_source: 'other',
+    action_source: 'system_generated',
     user_data: userData,
     custom_data: customData
   };

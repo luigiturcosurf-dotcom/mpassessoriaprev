@@ -1,0 +1,243 @@
+<!-- Pensão por Morte · analise-de-beneficio.html · Pré-qualificação 9 perguntas -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-P97C37L3');</script>
+<!-- End Google Tag Manager -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1229096362421532');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1229096362421532&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análise de Benefício – Pensão por Morte | MP Assessoria</title>
+    <meta name="description" content="Responda 9 perguntas rápidas e descubra se você pode ter direito à pensão por morte do INSS. Análise gratuita.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Playfair+Display:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles.css?v=2">
+    <link rel="stylesheet" href="../quiz-styles.css?v=2">
+</head>
+<body class="quiz-page">
+
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P97C37L3"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+<div class="topbar">Análise gratuita — <strong>Você só paga se ganhar</strong></div>
+
+<div class="quiz-app">
+    <header class="quiz-header">
+        <button type="button" class="quiz-nav-btn" id="btn-back" aria-label="Voltar" disabled>&#8592;</button>
+        <button type="button" class="quiz-nav-btn" id="btn-restart" aria-label="Reiniciar">&#10005;</button>
+    </header>
+
+    <div class="progress-wrap" id="progress-wrap" hidden>
+        <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+        <p class="progress-label" id="progress-label">Pergunta 1 de 9</p>
+    </div>
+
+    <main class="quiz-body">
+
+        <section class="quiz-step active" data-step="intro">
+            <div class="brand-block">
+                <div class="brand-logo">
+                    <img src="https://mpassessoriaprevidenciaria.com.br/wp-content/uploads/2025/10/logo-branca-dourada-vertical.png" alt="MP Assessoria" width="52" height="52">
+                </div>
+                <p class="brand-name">MP Assessoria Previdenciária</p>
+            </div>
+            <h1 class="intro-title">Solicite uma Análise Inicial — Pensão por Morte INSS</h1>
+            <p class="intro-text">De 4 a 8 perguntas rápidas, conforme seu vínculo com o falecido. A análise é gratuita e leva menos de 3 minutos.</p>
+            <p class="intro-tag">100% gratuito · Sem compromisso</p>
+            <button type="button" class="btn btn-primary btn-block" id="btn-start">Continuar</button>
+        </section>
+
+        <section class="quiz-step" data-step="contact">
+            <div class="brand-block">
+                <div class="brand-logo">
+                    <img src="https://mpassessoriaprevidenciaria.com.br/wp-content/uploads/2025/10/logo-branca-dourada-vertical.png" alt="MP Assessoria" width="52" height="52">
+                </div>
+                <p class="brand-name">MP Assessoria Previdenciária</p>
+            </div>
+            <h2 class="quiz-question">Antes de começar, precisamos dos seus dados de contato</h2>
+            <form class="contact-form" id="contact-form" novalidate>
+                <div class="form-group">
+                    <label for="contact-nome">Nome completo</label>
+                    <input type="text" id="contact-nome" autocomplete="name" placeholder="Ex.: Maria Silva Santos" required>
+                    <span class="form-error" id="err-nome" hidden></span>
+                </div>
+                <div class="form-group">
+                    <label for="contact-telefone">Telefone com DDD</label>
+                    <input type="tel" id="contact-telefone" autocomplete="tel" inputmode="numeric" placeholder="(11) 99999-9999" required>
+                    <span class="form-error" id="err-telefone" hidden></span>
+                </div>
+                <div class="form-group">
+                    <label for="contact-email">E-mail</label>
+                    <input type="email" id="contact-email" autocomplete="email" placeholder="seu@email.com" required>
+                    <span class="form-error" id="err-email" hidden></span>
+                </div>
+                <div class="lgpd-inline">
+                    <p class="lgpd-inline-text">Ao continuar, você autoriza a <strong>MP Assessoria</strong> a usar seus dados para contato sobre sua análise, conforme a LGPD.</p>
+                    <label class="lgpd-check" id="lgpd-label">
+                        <input type="checkbox" id="contact-lgpd" required>
+                        <span class="lgpd-check-box" aria-hidden="true"></span>
+                        <span>Li e estou ciente</span>
+                    </label>
+                    <span class="form-error" id="err-lgpd" hidden>É necessário autorizar para continuar.</span>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block" id="btn-contact-submit">Iniciar análise</button>
+            </form>
+        </section>
+
+        <section class="quiz-step" data-step="q1">
+            <p class="quiz-block-label">Bloco 1 · Sobre quem faleceu</p>
+            <h2 class="quiz-question">Qual era o seu vínculo com a pessoa que faleceu?</h2>
+            <div class="options-list" data-question="q1">
+                <button type="button" class="option-btn" data-value="conjuge"><span>Cônjuge (casado no civil)</span><span class="option-radio"></span></button>
+                <button type="button" class="option-btn" data-value="companheiro"><span>Companheiro(a) — união estável</span><span class="option-radio"></span></button>
+                <button type="button" class="option-btn" data-value="filho"><span>Filho(a)</span><span class="option-radio"></span></button>
+                <button type="button" class="option-btn" data-value="responsavel-menor"><span>Mãe/pai ou responsável por filho(a) menor de 21 anos do falecido</span><span class="option-radio"></span></button>
+                <button type="button" class="option-btn" data-value="pai-mae"><span>Pai / Mãe</span><span class="option-radio"></span></button>
+                <button type="button" class="option-btn" data-value="irmao"><span>Irmão(ã)</span><span class="option-radio"></span></button>
+            </div>
+        </section>
+
+        <section class="quiz-step" data-step="q2">
+            <p class="quiz-block-label">Bloco 1 · Sobre quem faleceu</p>
+            <h2 class="quiz-question">Em que data ocorreu o falecimento?</h2>
+            <div class="options-list" data-question="q2">
+                <button type="button" class="option-btn" data-value="menos-90"><span>Há menos de 90 dias</span><span class="option-radio"></span></button>
+                <button type="button" class="option-btn" data-value="90d-5a"><span>Entre 90 dias e 5 anos</span><span class="option-radio"></span></button>
+                <button type="button" class="option-btn" data-value="mais-5a"><span>Há mais de 5 anos</span><span class="option-radio"></span></button>
+            </div>
+        </section>
+
+        <section class="quiz-step" data-step="q3">
+            <p class="quiz-block-label">Bloco 1 · Sobre quem faleceu</p>
+            <h2 class="quiz-question">A pessoa falecida recebia aposentadoria ou algum benefício do INSS?</h2>
+            <p class="quiz-question-sub">Este é um dos requisitos mais importantes para a pensão por morte.</p>
+            <div class="options-list" data-question="q3">
+                <button type="button" class="option-btn" data-value="aposentado"><span>Sim, era aposentado(a)</span><span class="option-radio"></span></button>
+                <button type="button" class="option-btn" data-value="auxilio"><span>Sim, recebia auxílio-doença ou auxílio-acidente</span><span class="option-radio"></span></button>
+                <button type="button" class="option-btn" data-value="contribuia"><span>Não recebia, mas trabalhava registrado, contribuía ou era assegurado(a) especial</span><span class="option-radio"></span></button>
+                <button type="button" class="option-btn" data-value="nao-contribuia"><span>Não recebia e não contribuía</span><span class="option-radio"></span></button>
+            </div>
+        </section>
+
+        <section class="quiz-step" data-step="q4">
+            <p class="quiz-block-label">Bloco 1 · Sobre quem faleceu</p>
+            <h2 class="quiz-question">Ela trabalhava registrada, contribuía como assegurado(a) especial ou mantinha vínculo com o INSS na época do falecimento — ou parou de contribuir há pouco tempo?</h2>
+            <div class="options-list" data-question="q4">
+                <button type="button" class="option-btn" data-value="trabalhando"><span>Sim, estava trabalhando / contribuindo</span><span class="option-radio"></span></button>
+                <button type="button" class="option-btn" data-value="parou-12m"><span>Parou há menos de 12 meses</span><span class="option-radio"></span></button>
+                <button type="button" class="option-btn" data-value="parou-mais-12m"><span>Parou há mais de 12 meses</span><span class="option-radio"></span></button>
+            </div>
+        </section>
+
+        <section class="quiz-step" data-step="q5">
+            <p class="quiz-block-label">Bloco 2 · Sobre você (dependente)</p>
+            <h2 class="quiz-question">Qual é a sua idade?</h2>
+            <p class="quiz-question-sub">Para cônjuge/companheiro(a), a idade define a duração do benefício.</p>
+            <div class="options-list" data-question="q5">
+                <button type="button" class="option-btn" data-value="menos-22"><span>Menos de 22 anos</span><span class="option-radio"></span></button>
+                <button type="button" class="option-btn" data-value="22-27"><span>Entre 22 e 27 anos</span><span class="option-radio"></span></button>
+                <button type="button" class="option-btn" data-value="28-30"><span>Entre 28 e 30 anos</span><span class="option-radio"></span></button>
+                <button type="button" class="option-btn" data-value="31-41"><span>Entre 31 e 41 anos</span><span class="option-radio"></span></button>
+                <button type="button" class="option-btn" data-value="42-44"><span>Entre 42 e 44 anos</span><span class="option-radio"></span></button>
+                <button type="button" class="option-btn" data-value="45-mais"><span>45 anos ou mais</span><span class="option-radio"></span></button>
+            </div>
+        </section>
+
+        <section class="quiz-step" data-step="q6">
+            <p class="quiz-block-label">Bloco 2 · Sobre você (dependente)</p>
+            <h2 class="quiz-question">Você era casado(a) ou vivia em união estável com a pessoa falecida?</h2>
+            <div class="options-list" data-question="q6">
+                <button type="button" class="option-btn" data-value="casado"><span>Casado(a), com certidão de casamento</span><span class="option-radio"></span></button>
+                <button type="button" class="option-btn" data-value="uniao-estavel"><span>União estável</span><span class="option-radio"></span></button>
+                <button type="button" class="option-btn" data-value="nao"><span>Não era casado nem vivia em união estável</span><span class="option-radio"></span></button>
+            </div>
+        </section>
+
+        <section class="quiz-step" data-step="q7">
+            <p class="quiz-block-label">Bloco 2 · Sobre você (dependente)</p>
+            <h2 class="quiz-question">Há quanto tempo durava o casamento ou a união estável?</h2>
+            <div class="options-list" data-question="q7">
+                <button type="button" class="option-btn" data-value="menos-2a"><span>Menos de 2 anos</span><span class="option-radio"></span></button>
+                <button type="button" class="option-btn" data-value="2a-mais"><span>2 anos ou mais</span><span class="option-radio"></span></button>
+            </div>
+        </section>
+
+        <section class="quiz-step" data-step="q8">
+            <p class="quiz-block-label">Bloco 2 · Sobre você (dependente)</p>
+            <h2 class="quiz-question">Possui filhos em comum com a pessoa falecida?</h2>
+            <div class="options-list" data-question="q8">
+                <button type="button" class="option-btn" data-value="sim"><span>Sim</span><span class="option-radio"></span></button>
+                <button type="button" class="option-btn" data-value="nao"><span>Não</span><span class="option-radio"></span></button>
+            </div>
+        </section>
+
+        <section class="quiz-step" data-step="q9">
+            <p class="quiz-block-label">Bloco 2 · Sobre você (dependente)</p>
+            <h2 class="quiz-question">Você dependia financeiramente da pessoa que faleceu?</h2>
+            <p class="quiz-question-sub">Para cônjuge e filhos menores, a dependência é presumida por lei.</p>
+            <div class="options-list" data-question="q9">
+                <button type="button" class="option-btn" data-value="total"><span>Sim, dependia totalmente</span><span class="option-radio"></span></button>
+                <button type="button" class="option-btn" data-value="parcial"><span>Dependia parcialmente</span><span class="option-radio"></span></button>
+                <button type="button" class="option-btn" data-value="nao"><span>Não dependia</span><span class="option-radio"></span></button>
+            </div>
+        </section>
+
+        <section class="quiz-step" data-step="qualified">
+            <div class="result-card">
+                <div class="result-icon success">✓</div>
+                <h2>Você pode ter direito à pensão por morte!</h2>
+                <p>Pelos seus relatos, seu perfil se encaixa nos requisitos iniciais. Nossa equipe vai analisar seu caso gratuitamente.</p>
+                <a href="#" class="btn btn-whatsapp btn-block btn-pulse-wa" id="btn-wa-qualified">Falar com um advogado agora</a>
+                <p class="wa-redirect-hint" id="wa-redirect-hint-qualified" hidden>Abrindo o WhatsApp em instantes…</p>
+            </div>
+        </section>
+
+        <section class="quiz-step" data-step="qualified-soft">
+            <div class="result-card">
+                <div class="result-icon neutral">?</div>
+                <h2>Seu caso merece uma análise documental</h2>
+                <p>Alguns pontos precisam ser verificados com mais detalhe — mas isso não significa que você não tenha direito. Fale com nosso especialista.</p>
+                <a href="#" class="btn btn-whatsapp btn-block btn-pulse-wa" id="btn-wa-soft">Falar com um advogado agora</a>
+                <p class="wa-redirect-hint" id="wa-redirect-hint-soft" hidden>Abrindo o WhatsApp em instantes…</p>
+            </div>
+        </section>
+
+        <section class="quiz-step" data-step="disqualified">
+            <div class="result-card disqualified">
+                <div class="result-icon neutral">i</div>
+                <h2 id="disqualify-title">Seu caso exige análise individual</h2>
+                <p id="disqualify-text">Algumas respostas indicam pontos de atenção, mas a pensão por morte tem exceções legais. Nossa avaliação inicial é gratuita.</p>
+                <a href="#" class="btn btn-ghost btn-block" id="btn-wa-disqualify">Ainda assim, quero falar com um especialista</a>
+                <button type="button" class="btn btn-primary btn-block" id="btn-retry" style="margin-top:12px;">Refazer questionário</button>
+            </div>
+        </section>
+
+    </main>
+</div>
+
+<p class="footer-mini"><span class="brand">MP Assessoria Previdenciária</span> · &copy; 2026</p>
+
+<script src="../attribution.js?v=1"></script>
+<script src="../supabase-leads.js?v=11"></script>
+<script src="../quiz.js?v=3"></script>
+</body>
+</html>
