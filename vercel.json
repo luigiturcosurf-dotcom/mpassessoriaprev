@@ -17,6 +17,11 @@
       "source": "/pensaopormorte",
       "destination": "/pensaopormorte1.1/",
       "permanent": true
+    },
+    {
+      "source": "/pensaopormorte/",
+      "destination": "/pensaopormorte1.1/",
+      "permanent": true
     }
   ]
 }
