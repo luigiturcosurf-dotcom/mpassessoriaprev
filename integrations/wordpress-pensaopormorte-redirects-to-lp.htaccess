@@ -1,0 +1,19 @@
+# MP Assessoria · Redirecionar Pensão por Morte (WordPress → lp Vercel)
+# Cole na RAIZ do WordPress (.htaccess principal) OU via plugin Redirection.
+#
+# Destino oficial: https://lp.mpassessoriaprevidenciaria.com.br
+
+RewriteEngine On
+
+# /pensaopormorte → LP preta
+RewriteRule ^pensaopormorte/?$ https://lp.mpassessoriaprevidenciaria.com.br/pensaopormorte1.1/ [R=301,L,QSA]
+RewriteRule ^pensaopormorte/(.*)$ https://lp.mpassessoriaprevidenciaria.com.br/pensaopormorte1.1/$1 [R=301,L,QSA]
+
+RewriteRule ^pensaopormorte1\.1/?$ https://lp.mpassessoriaprevidenciaria.com.br/pensaopormorte1.1/ [R=301,L,QSA]
+RewriteRule ^pensaopormorte1\.1/(.*)$ https://lp.mpassessoriaprevidenciaria.com.br/pensaopormorte1.1/$1 [R=301,L,QSA]
+
+RewriteRule ^pensaopormorte2/?$ https://lp.mpassessoriaprevidenciaria.com.br/pensaopormorte2/ [R=301,L,QSA]
+RewriteRule ^pensaopormorte2/(.*)$ https://lp.mpassessoriaprevidenciaria.com.br/pensaopormorte2/$1 [R=301,L,QSA]
+
+RewriteRule ^pensaopormorte4/?$ https://lp.mpassessoriaprevidenciaria.com.br/pensaopormorte4/ [R=301,L,QSA]
+RewriteRule ^pensaopormorte4/(.*)$ https://lp.mpassessoriaprevidenciaria.com.br/pensaopormorte4/$1 [R=301,L,QSA]
