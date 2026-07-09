@@ -1,4 +1,11 @@
 {
   "cleanUrls": true,
-  "trailingSlash": true
+  "trailingSlash": true,
+  "redirects": [
+    {
+      "source": "/pensaopormorte",
+      "destination": "/pensaopormorte1.1/",
+      "permanent": true
+    }
+  ]
 }

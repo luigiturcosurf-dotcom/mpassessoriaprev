@@ -319,7 +319,12 @@
         if (stepId === 'q1') goToIndex(1);
     }
 
-    function generateEventId() {
+    function getQuizBasePath() {
+        var path = window.location.pathname || '';
+        if (/\/analise-de-beneficio\/?$/.test(path)) return '../';
+        return '';
+    }
+
         if (typeof crypto !== 'undefined' && crypto.randomUUID) {
             return crypto.randomUUID();
         }
@@ -434,11 +439,12 @@
         if (answers.q2) parts.push('• Data do falecimento: ' + LABELS.q2[answers.q2]);
         if (answers.q3) parts.push('• Benefício do INSS do falecido: ' + LABELS.q3[answers.q3]);
         if (answers.q4) parts.push('• Situação de contribuição: ' + LABELS.q4[answers.q4]);
-        if (answers.q5) parts.push('• Minha idade: ' + LABELS.q5[answers.q5]);
-        if (answers.q6) parts.push('• Casamento/União estável: ' + LABELS.q6[answers.q6]);
-        if (answers.q7) parts.push('• Tempo de relação: ' + LABELS.q7[answers.q7]);
-        if (answers.q8) parts.push('• Filhos em comum: ' + LABELS.q8[answers.q8]);
-        if (answers.q9) parts.push('• Dependência financeira: ' + LABELS.q9[answers.q9]);
+        var flow = getQuestionFlow();
+        if (flow.indexOf('q5') !== -1 && answers.q5) parts.push('• Minha idade: ' + LABELS.q5[answers.q5]);
+        if (flow.indexOf('q6') !== -1 && answers.q6) parts.push('• Casamento/União estável: ' + LABELS.q6[answers.q6]);
+        if (flow.indexOf('q7') !== -1 && answers.q7) parts.push('• Tempo de relação: ' + LABELS.q7[answers.q7]);
+        if (flow.indexOf('q8') !== -1 && answers.q8) parts.push('• Filhos em comum: ' + LABELS.q8[answers.q8]);
+        if (flow.indexOf('q9') !== -1 && answers.q9) parts.push('• Dependência financeira: ' + LABELS.q9[answers.q9]);
         parts.push('');
         if (type === 'qualified') {
             parts.push('Pelo questionário, acredito ter perfil para a pensão por morte. Gostaria de falar com um advogado.');
@@ -534,6 +540,9 @@
         }
 
         if (v === 'filho') {
+            if (answers.q5 && answers.q5 !== 'menos-22') {
+                return { step: 'disqualified', resultado: 'disqualified', wa: 'disqualify', reason: 'filho-idade' };
+            }
             if (encerra > 0 && approve === 0) {
                 return { step: 'disqualified', resultado: 'disqualified', wa: 'disqualify', reason: ressalvaReason };
             }
@@ -583,8 +592,16 @@
         else showQualifiedResult(r.step, r.resultado, r.wa);
     }
 
+    function clearIrrelevantAnswers() {
+        var flow = getQuestionFlow();
+        ['q2', 'q3', 'q4', 'q5', 'q6', 'q7', 'q8', 'q9'].forEach(function (q) {
+            if (flow.indexOf(q) === -1) answers[q] = null;
+        });
+    }
+
     function handleQ1(v) {
         answers.q1 = v;
+        clearIrrelevantAnswers();
         goToStep('q2');
     }
 
@@ -671,13 +688,13 @@
 
     btnBack.addEventListener('click', function () {
         if (currentIndex <= 1 && new URLSearchParams(window.location.search).get('iniciar') === '1') {
-            window.location.href = '../index.html';
+            window.location.href = getQuizBasePath() + 'index.html';
             return;
         }
         if (currentIndex > 0) prevQuestion();
     });
 
-    btnRestart.addEventListener('click', function () { window.location.href = '../index.html'; });
+    btnRestart.addEventListener('click', function () { window.location.href = getQuizBasePath() + 'index.html'; });
     document.getElementById('btn-retry').addEventListener('click', resetQuiz);
     document.getElementById('btn-wa-qualified').addEventListener('click', function (e) { e.preventDefault(); goToWhatsApp('qualified', 'qualified'); });
     document.getElementById('btn-wa-soft').addEventListener('click', function (e) { e.preventDefault(); goToWhatsApp('soft', 'qualified-soft'); });
