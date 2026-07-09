@@ -46,13 +46,19 @@ window.MPLeads = (function () {
         };
     }
 
+    var LP_PAGE_SLUGS = {
+        'analise-de-beneficio': true,
+        'analise': true
+    };
+
     function detectLpSlug() {
         var parts = window.location.pathname.split('/').filter(Boolean);
         var i;
         for (i = parts.length - 1; i >= 0; i--) {
-            if (parts[i].indexOf('.html') === -1) {
-                return parts[i];
-            }
+            var part = parts[i];
+            if (part.indexOf('.html') !== -1) continue;
+            if (LP_PAGE_SLUGS[part]) continue;
+            return part;
         }
         return 'unknown';
     }
@@ -73,11 +79,9 @@ window.MPLeads = (function () {
     function buildHeaders(prefer) {
         var headers = {
             apikey: SUPABASE_KEY,
+            Authorization: 'Bearer ' + SUPABASE_KEY,
             'Content-Type': 'application/json'
         };
-        if (SUPABASE_KEY.indexOf('sb_publishable_') !== 0) {
-            headers.Authorization = 'Bearer ' + SUPABASE_KEY;
-        }
         if (prefer) headers.Prefer = prefer;
         return headers;
     }
@@ -224,6 +228,8 @@ window.MPLeads = (function () {
             payload.clicou_whatsapp = true;
             payload.clicou_whatsapp_em = new Date().toISOString();
         }
+        if (opts.eventoMeta) payload.evento_meta = opts.eventoMeta;
+        if (opts.metaEventId) payload.meta_event_id = opts.metaEventId;
         return payload;
     }
 
