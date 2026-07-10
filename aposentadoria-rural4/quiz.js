@@ -1,13 +1,16 @@
 (function () {
-    var WA_NUMBER = '5511947642923';
+    var WA_NUMBER = '5511963922594';
     var META_PIXEL_ID = '1752369442414230';
+    var CAPI_ENDPOINT = 'https://jiuxiyxsausauqfsudus.supabase.co/functions/v1/capi-lead-router';
     var COUNTDOWN_SECONDS = 3;
     var countdownTimer = null;
     var waAutoRedirectTimer = null;
     var waRedirectDone = false;
+    var lastMetaEvent = { name: null, id: null };
 
     var STEPS = ['intro', 'contact', 'q1', 'q2', 'q3', 'q4', 'q5'];
     var QUESTION_STEPS = ['q1', 'q2', 'q3', 'q4', 'q5'];
+    var STRONG_DOCS = ['dap-caf', 'sindicato', 'family-docs'];
     var currentIndex = 0;
     var hasUncertain = false;
 
@@ -54,9 +57,11 @@
             mixed: 'Misto (campo + cidade)'
         },
         q5: {
-            'dap-caf': 'DAP/CAF, bloco de produtor ou nota fiscal rural',
+            'dap-caf': 'DAP/CAF, bloco de produtor ou nota fiscal rural (no próprio nome)',
             sindicato: 'Cadastro em sindicato rural ou colônia de pescadores',
-            photos: 'Fotos, declarações de vizinhos ou testemunhos',
+            'family-docs': 'Documentos no nome do marido, pai ou família (bloco, notas, ITR, contrato de terra)',
+            certidoes: 'Certidões antigas (casamento/nascimento) com profissão de lavrador(a)',
+            photos: 'Só fotos, declarações de vizinhos ou testemunhos',
             'no-docs': 'Não tem nenhum documento',
             'unsure-docs': 'Não sabe o que tem'
         }
@@ -117,14 +122,99 @@
         window.dataLayer.push(payload);
     }
 
-    function trackMetaLead(source) {
+    function getCookie(name) {
+        var escaped = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        var match = document.cookie.match(new RegExp('(?:^|; )' + escaped + '=([^;]*)'));
+        return match ? decodeURIComponent(match[1]) : null;
+    }
+
+    function getAttributionForCapi() {
+        var prefix = 'mp_track_';
+        var p = new URLSearchParams(window.location.search);
+        var fbclid = p.get('fbclid') || sessionStorage.getItem(prefix + 'fbclid') || null;
+        var fbc = sessionStorage.getItem(prefix + 'fbc') || getCookie('_fbc');
+        if (!fbc && fbclid) {
+            fbc = 'fb.1.' + Date.now() + '.' + fbclid;
+        }
+        return {
+            fbclid: fbclid,
+            fbp: sessionStorage.getItem(prefix + 'fbp') || getCookie('_fbp'),
+            fbc: fbc
+        };
+    }
+
+    function generateEventId() {
+        if (typeof crypto !== 'undefined' && crypto.randomUUID) {
+            return crypto.randomUUID();
+        }
+        return 'evt_' + Date.now() + '_' + Math.random().toString(36).slice(2, 11);
+    }
+
+    function resultadoToMetaEvent(resultado) {
+        if (resultado === 'qualified') return 'Lead';
+        if (resultado === 'disqualified') return 'LeadDesqualificado';
+        if (resultado === 'sem-provas') return 'SemDocumento';
+        return null;
+    }
+
+    function trackCadastroContato() {
         if (typeof fbq === 'function') {
-            fbq('trackSingle', META_PIXEL_ID, 'Lead', {
+            fbq('trackSingle', META_PIXEL_ID, 'CadastroContato', {
                 content_name: 'Aposentadoria Rural INSS',
-                content_category: 'previdenciario',
-                lead_source: source || 'form'
+                content_category: 'previdenciario'
             });
         }
+    }
+
+    function dispatchMetaConversion(eventName, eventId, resultado, motivo) {
+        lastMetaEvent = { name: eventName, id: eventId };
+        var pixelParams = {
+            eventID: eventId,
+            content_name: 'Aposentadoria Rural INSS',
+            content_category: 'previdenciario',
+            documentacao: answers.q5 || ''
+        };
+        if (resultado) pixelParams.resultado = resultado;
+        if (motivo) pixelParams.motivo = motivo;
+
+        if (typeof fbq === 'function') {
+            fbq('trackSingle', META_PIXEL_ID, eventName, pixelParams, { eventID: eventId });
+        }
+
+        var attr = getAttributionForCapi();
+        fetch(CAPI_ENDPOINT, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                event_name: eventName,
+                event_id: eventId,
+                email: contact.email,
+                telefone: contact.telefone,
+                beneficio: BENEFICIO,
+                documentacao: answers.q5 || '',
+                resultado: resultado || '',
+                motivo: motivo || '',
+                fonte: getLpSlug(),
+                url: window.location.href,
+                user_agent: navigator.userAgent,
+                fbp: attr.fbp,
+                fbc: attr.fbc,
+                fbclid: attr.fbclid
+            }),
+            keepalive: true
+        }).catch(function (err) {
+            console.error('[Quiz] CAPI falhou:', err);
+        });
+    }
+
+    function trackMetaQuizResult(resultado, motivo) {
+        var eventName = resultadoToMetaEvent(resultado);
+        if (!eventName) return;
+        dispatchMetaConversion(eventName, generateEventId(), resultado, motivo);
+    }
+
+    function hasStrongDocumentation() {
+        return STRONG_DOCS.indexOf(answers.q5) !== -1;
     }
 
     function clearCountdown() {
@@ -290,7 +380,7 @@
             progressLabel.textContent = 'Pergunta ' + (qIndex + 1) + ' de ' + QUESTION_STEPS.length;
         }
 
-        var isResult = stepId === 'qualified' || stepId === 'qualified-soft' || stepId === 'disqualified';
+        var isResult = stepId === 'qualified' || stepId === 'qualified-soft' || stepId === 'disqualified' || stepId === 'no-proof';
         btnBack.disabled = stepId === 'intro' || isResult;
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -302,14 +392,7 @@
 
     function persistLead(resultado, motivo) {
         if (typeof MPLeads === 'undefined') return Promise.resolve(null);
-        return MPLeads.saveQuizLead({
-            beneficio: BENEFICIO,
-            resultado: resultado,
-            motivo: motivo || null,
-            answers: answers,
-            labels: LABELS,
-            contact: contact
-        }).then(function (id) {
+        return MPLeads.saveQuizLead(buildLeadSaveOpts(resultado, motivo)).then(function (id) {
             if (!id) console.error('[MPLeads] Quiz não gravado no Supabase. Resultado:', resultado);
             return id;
         });
@@ -322,7 +405,9 @@
             motivo: motivo || null,
             answers: answers,
             labels: LABELS,
-            contact: contact
+            contact: contact,
+            eventoMeta: lastMetaEvent.name,
+            metaEventId: lastMetaEvent.id
         };
     }
 
@@ -353,6 +438,8 @@
         parts.push('');
         if (type === 'qualified') {
             parts.push('Pelo questionário, acredito ter perfil para a Aposentadoria Rural. Gostaria de falar com um especialista.');
+        } else if (type === 'noproof') {
+            parts.push('Ainda não localizei documentos do trabalho rural. Gostaria de orientação para reunir as provas do meu caso.');
         } else if (type === 'soft') {
             parts.push('Gostaria de uma análise do meu caso com um especialista.');
         } else {
@@ -392,12 +479,15 @@
     }
 
     function showQualifiedResult(stepId, resultado, waType) {
+        trackMetaQuizResult(resultado, null);
         persistLead(resultado).then(function (id) {
             if (!id) console.error('[MPLeads] Resultado não gravado:', resultado);
 
-            pushDataLayer('lead_quiz_complete', {
+            pushDataLayer(resultado === 'qualified' ? 'lead_qualified' : 'lead_soft', {
                 resultado: resultado,
-                telefone_preenchido: !!contact.telefone
+                telefone_preenchido: !!contact.telefone,
+                documentacao: answers.q5 || '',
+                event_id: lastMetaEvent.id
             });
 
             showStep(stepId);
@@ -420,11 +510,13 @@
         var msg = DISQUALIFY_MSG[reason] || DISQUALIFY_MSG['no-rural'];
         document.getElementById('disqualify-title').textContent = msg.title;
         document.getElementById('disqualify-text').textContent = msg.text;
+        trackMetaQuizResult('disqualified', reason);
         persistLead('disqualified', reason).then(function () {
-            pushDataLayer('lead_quiz_complete', {
+            pushDataLayer('lead_desqualified', {
                 resultado: 'disqualified',
                 motivo: reason,
-                telefone_preenchido: !!contact.telefone
+                telefone_preenchido: !!contact.telefone,
+                event_id: lastMetaEvent.id
             });
             showStep('disqualified');
         });
@@ -471,14 +563,31 @@
 
     function handleQ5(value, action) {
         answers.q5 = value;
-        if (action === 'uncertain' || value === 'no-docs' || value === 'unsure-docs') {
+        if (value === 'no-docs') {
+            showNoProof();
+            return;
+        }
+        if (action === 'uncertain' || value === 'certidoes' || value === 'photos' || value === 'unsure-docs') {
             hasUncertain = true;
         }
-        if (hasUncertain) {
+        if (hasUncertain || !hasStrongDocumentation()) {
             showQualifiedResult('qualified-soft', 'qualified-soft', 'soft');
         } else {
             showQualifiedResult('qualified', 'qualified', 'qualified');
         }
+    }
+
+    function showNoProof() {
+        trackMetaQuizResult('sem-provas', 'no-docs');
+        persistLead('sem-provas', 'no-docs').then(function () {
+            pushDataLayer('lead_sem_documento', {
+                resultado: 'sem-provas',
+                motivo: 'no-docs',
+                telefone_preenchido: !!contact.telefone,
+                event_id: lastMetaEvent.id
+            });
+            showStep('no-proof');
+        });
     }
 
     function resetQuiz() {
@@ -528,8 +637,8 @@
                 return;
             }
 
-            trackMetaLead('form');
-            pushDataLayer('lead_form_submit', {
+            trackCadastroContato();
+            pushDataLayer('cadastro_contato', {
                 telefone_preenchido: !!contact.telefone,
                 email_preenchido: !!contact.email
             });
@@ -587,6 +696,19 @@
         e.preventDefault();
         goToWhatsApp('disqualify', 'disqualified');
     });
+
+    var btnWaNoProof = document.getElementById('btn-wa-noproof');
+    if (btnWaNoProof) {
+        btnWaNoProof.addEventListener('click', function (e) {
+            e.preventDefault();
+            goToWhatsApp('noproof', 'sem-provas');
+        });
+    }
+
+    var btnRetryNoProof = document.getElementById('btn-retry-noproof');
+    if (btnRetryNoProof) {
+        btnRetryNoProof.addEventListener('click', resetQuiz);
+    }
 
     document.querySelectorAll('.options-list').forEach(function (list) {
         var question = list.getAttribute('data-question');

@@ -224,6 +224,8 @@ window.MPLeads = (function () {
             payload.clicou_whatsapp = true;
             payload.clicou_whatsapp_em = new Date().toISOString();
         }
+        if (opts.eventoMeta) payload.evento_meta = opts.eventoMeta;
+        if (opts.metaEventId) payload.meta_event_id = opts.metaEventId;
         return payload;
     }
 

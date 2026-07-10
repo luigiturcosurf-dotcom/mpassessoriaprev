@@ -237,21 +237,30 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 </div>
                 <p class="brand-name">MP Assessoria Previdenciária</p>
             </div>
-            <h2 class="quiz-question">Você possui algum documento que comprove o trabalho rural?</h2>
+            <h2 class="quiz-question">Você — ou alguém da sua família — tem algum documento do trabalho rural?</h2>
+            <p class="quiz-question-sub">Documentos no nome do marido, esposa ou pais também valem como prova.</p>
             <div class="options-list" data-question="q5">
                 <button type="button" class="option-btn" data-value="dap-caf">
-                    <span>Sim, tenho DAP/CAF, bloco de produtor ou nota fiscal rural</span>
+                    <span>Sim, no meu nome: DAP/CAF, bloco de produtor ou nota fiscal rural</span>
                     <span class="option-radio"></span>
                 </button>
                 <button type="button" class="option-btn" data-value="sindicato">
-                    <span>Sim, tenho cadastro em sindicato rural ou colônia de pescadores</span>
+                    <span>Sim, cadastro em sindicato rural ou colônia de pescadores</span>
                     <span class="option-radio"></span>
                 </button>
-                <button type="button" class="option-btn" data-value="photos">
-                    <span>Tenho fotos, declarações de vizinhos ou testemunhos</span>
+                <button type="button" class="option-btn" data-value="family-docs">
+                    <span>Sim, mas no nome do marido, pai ou família (bloco, notas, ITR, contrato de terra)</span>
                     <span class="option-radio"></span>
                 </button>
-                <button type="button" class="option-btn" data-value="no-docs" data-action="uncertain">
+                <button type="button" class="option-btn" data-value="certidoes" data-action="uncertain">
+                    <span>Só certidões antigas (casamento/nascimento) com profissão de lavrador(a)</span>
+                    <span class="option-radio"></span>
+                </button>
+                <button type="button" class="option-btn" data-value="photos" data-action="uncertain">
+                    <span>Só fotos, declarações de vizinhos ou testemunhos</span>
+                    <span class="option-radio"></span>
+                </button>
+                <button type="button" class="option-btn" data-value="no-docs">
                     <span>Não tenho nenhum documento</span>
                     <span class="option-radio"></span>
                 </button>
@@ -289,6 +298,25 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </div>
         </section>
 
+        <!-- RESULTADO: SEM PROVAS DOCUMENTAIS -->
+        <section class="quiz-step" data-step="no-proof">
+            <div class="result-card">
+                <div class="result-icon neutral">📄</div>
+                <h2>Falta só um passo: reunir suas provas</h2>
+                <p>O INSS exige pelo menos um documento que mostre o trabalho rural — só testemunhas não bastam. A boa notícia: documentos no nome do <strong>marido, esposa ou pais</strong> também valem para você. Veja onde procurar:</p>
+                <ul class="result-list">
+                    <li>Certidão de casamento ou nascimento dos filhos com profissão "lavrador(a)"</li>
+                    <li>Sindicato rural ou colônia de pescadores da sua cidade</li>
+                    <li>Notas de venda de produção, bloco de produtor, ITR ou contrato de terra (mesmo do marido/pai)</li>
+                    <li>Matrícula dos filhos em escola rural, prontuário de posto de saúde rural</li>
+                    <li>Documentos do INCRA, EMATER ou CadÚnico</li>
+                </ul>
+                <p>Se encontrar qualquer um desses, seu caso pode ser analisado. Nossa equipe também pode te orientar onde buscar.</p>
+                <a href="#" class="btn btn-whatsapp btn-block" id="btn-wa-noproof">Quero ajuda para encontrar meus documentos</a>
+                <button type="button" class="btn btn-ghost btn-block" id="btn-retry-noproof" style="margin-top:12px;">Encontrei um documento — refazer análise</button>
+            </div>
+        </section>
+
         <!-- RESULTADO: ENCERRADO -->
         <section class="quiz-step" data-step="disqualified">
             <div class="result-card disqualified">
@@ -313,7 +341,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
 <script src="attribution.js?v=1"></script>
-<script src="supabase-leads.js?v=9"></script>
-<script src="quiz.js?v=5"></script>
+<script src="supabase-leads.js?v=10"></script>
+<script src="quiz.js?v=8"></script>
 </body>
 </html>

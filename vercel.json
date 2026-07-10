@@ -10,17 +10,17 @@
           "value": "lp.mpassessoriaprevidenciaria.com.br"
         }
       ],
-      "destination": "/pensaopormorte1.1/",
+      "destination": "/pensaopormorte1.1",
       "permanent": false
     },
     {
       "source": "/pensaopormorte",
-      "destination": "/pensaopormorte1.1/",
+      "destination": "/pensaopormorte1.1",
       "permanent": true
     },
     {
       "source": "/pensaopormorte/",
-      "destination": "/pensaopormorte1.1/",
+      "destination": "/pensaopormorte1.1",
       "permanent": true
     }
   ]
