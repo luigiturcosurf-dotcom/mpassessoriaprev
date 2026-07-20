@@ -32,7 +32,7 @@
 
     var LABELS = {
         q1: {
-            'less-age': 'Menos de 55 anos (mulher) ou menos de 65 anos (homem)',
+            'less-age': 'Menos de 55 anos (mulher) ou menos de 60 anos (homem)',
             'man-60-plus': 'Homem com 60 anos ou mais',
             'woman-55-plus': 'Mulher com 55 anos ou mais',
             'prefer-not': 'Prefiro não informar'
