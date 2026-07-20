@@ -194,7 +194,8 @@ function fetchLeads_() {
     });
 
     if (res.getResponseCode() !== 200) {
-      throw new Error('Supabase retornou ' + res.getResponseCode() + ': ' + res.getContentText());
+      throw new Error('Supabase retornou ' + res.getResponseCode() + ': ' + res.getContentText()
+        + ' — confira se SUPABASE_SECRET é a Secret key (sb_secret_...), não a publishable.');
     }
 
     var batch = JSON.parse(res.getContentText());
@@ -206,6 +207,34 @@ function fetchLeads_() {
   }
 
   return all;
+}
+
+/** Diagnóstico rápido: rode no Apps Script para ver se a chave lê o Supabase. */
+function testSupabaseConnection() {
+  var cfg = getConfig_();
+  var endpoint = cfg.url + '/rest/v1/quiz_leads?select=id,created_at,nome,resultado&order=created_at.desc&limit=5';
+  var res = UrlFetchApp.fetch(endpoint, {
+    method: 'get',
+    muteHttpExceptions: true,
+    headers: supabaseHeaders_('GET')
+  });
+  var code = res.getResponseCode();
+  var body = res.getContentText();
+  Logger.log('HTTP ' + code);
+  Logger.log(body);
+  if (code !== 200) {
+    throw new Error('Falha ao ler Supabase: HTTP ' + code + ' — ' + body);
+  }
+  var rows = JSON.parse(body);
+  if (!rows.length) {
+    throw new Error('Conectou, mas retornou 0 leads. SUPABASE_SECRET provavelmente é publishable (sem SELECT). Use a Secret key.');
+  }
+  SpreadsheetApp.getActiveSpreadsheet().toast(
+    'OK: ' + rows.length + ' leads recentes. Mais recente: ' + (rows[0].nome || rows[0].id),
+    'MP Assessoria',
+    8
+  );
+  return rows;
 }
 
 function patchLeadById_(leadId, payload) {
@@ -345,24 +374,34 @@ function syncLeadsFromSupabase() {
     sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAME);
   }
 
+  // Busca e monta as linhas ANTES de limpar a aba — evita planilha vazia se a API falhar.
   var rawLeads = fetchLeads_();
   var leads = dedupeLeads_(rawLeads);
   var rows = leads.map(leadToRow_);
-  var lastRow = sheet.getLastRow();
+
+  if (!rows.length) {
+    throw new Error(
+      'Sync abortado: Supabase retornou 0 leads. ' +
+      'Não limpei a planilha. Rode testSupabaseConnection() e confira SUPABASE_SECRET (precisa ser sb_secret_...).'
+    );
+  }
 
   clearAllDataValidations_(sheet);
 
+  var lastRow = Math.max(sheet.getLastRow(), rows.length + 1);
   if (lastRow > 1) {
     sheet.getRange(2, 1, lastRow - 1, HEADERS.length).clearContent();
   }
 
-  if (rows.length > 0) {
-    sheet.getRange(2, 1, rows.length, HEADERS.length).setValues(rows);
-  }
-
+  sheet.getRange(2, 1, rows.length, HEADERS.length).setValues(rows);
   applyStatusValidation_(sheet);
-  sheet.autoResizeColumns(1, HEADERS.length);
+  // autoResizeColumns em milhares de linhas estoura o tempo do trigger — só no setupSheet.
   Logger.log('Sync OK: ' + rows.length + ' leads (de ' + rawLeads.length + ' registros no Supabase)');
+  SpreadsheetApp.getActiveSpreadsheet().toast(
+    'Sync OK: ' + rows.length + ' leads',
+    'MP Assessoria',
+    5
+  );
 }
 
 function repairSheetValidations() {
@@ -409,6 +448,70 @@ function removeTimeTrigger() {
       ScriptApp.deleteTrigger(t);
     }
   });
+}
+
+/* ============================================================
+ * AUTO-PERDIDO — marca como Perdido leads parados em "Novo"
+ * há mais de AUTO_PERDIDO_DIAS dias (sem interação do time).
+ * Pensão por Morte fica de fora por padrão (produto performando).
+ * Rode markStaleLeadsAsPerdido() na mão para testar, e
+ * createDailyPerdidoTrigger() UMA VEZ para rodar todo dia.
+ * ============================================================ */
+
+var AUTO_PERDIDO_DIAS = 7;
+var AUTO_PERDIDO_EXCLUIR_BENEFICIOS = ['pensao-por-morte'];
+
+function markStaleLeadsAsPerdido() {
+  var cfg = getConfig_();
+  var cutoff = new Date(Date.now() - AUTO_PERDIDO_DIAS * 24 * 60 * 60 * 1000).toISOString();
+
+  var filter = 'status_comercial=eq.Novo&created_at=lt.' + encodeURIComponent(cutoff);
+  if (AUTO_PERDIDO_EXCLUIR_BENEFICIOS.length) {
+    filter += '&beneficio=not.in.(' + AUTO_PERDIDO_EXCLUIR_BENEFICIOS.map(function (b) {
+      return '"' + b + '"';
+    }).join(',') + ')';
+  }
+
+  var endpoint = cfg.url + '/rest/v1/quiz_leads?' + filter;
+  var headers = supabaseHeaders_('PATCH');
+  headers.Prefer = 'return=representation';
+
+  var res = UrlFetchApp.fetch(endpoint, {
+    method: 'PATCH',
+    muteHttpExceptions: true,
+    headers: headers,
+    payload: JSON.stringify({ status_comercial: 'Perdido' })
+  });
+
+  if (res.getResponseCode() >= 300) {
+    throw new Error('Auto-Perdido falhou: ' + res.getResponseCode() + ' ' + res.getContentText());
+  }
+
+  var updated = JSON.parse(res.getContentText()).length;
+  Logger.log('Auto-Perdido: ' + updated + ' leads marcados (Novo há +' + AUTO_PERDIDO_DIAS + ' dias, exceto ' + AUTO_PERDIDO_EXCLUIR_BENEFICIOS.join(', ') + ')');
+  SpreadsheetApp.getActiveSpreadsheet().toast(
+    'Auto-Perdido: ' + updated + ' leads marcados como Perdido.',
+    'MP Assessoria',
+    8
+  );
+  if (updated > 0) syncLeadsFromSupabase();
+  return updated;
+}
+
+function createDailyPerdidoTrigger() {
+  ScriptApp.getProjectTriggers().forEach(function (t) {
+    if (t.getHandlerFunction() === 'markStaleLeadsAsPerdido') {
+      ScriptApp.deleteTrigger(t);
+    }
+  });
+
+  ScriptApp.newTrigger('markStaleLeadsAsPerdido')
+    .timeBased()
+    .everyDays(1)
+    .atHour(7)
+    .create();
+
+  Logger.log('Trigger criado: auto-Perdido diário às 7h');
 }
 
 function handleStatusEdit(e) {
