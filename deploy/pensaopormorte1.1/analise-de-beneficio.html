@@ -1,4 +1,4 @@
-<!-- Pensão por Morte · analise-de-beneficio.html · Pré-qualificação 9 perguntas -->
+<!-- Pensão por Morte · analise-de-beneficio.html · Pré-qualificação com fluxo condicional por vínculo -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -26,7 +26,7 @@ src="https://www.facebook.com/tr?id=1229096362421532&ev=PageView&noscript=1"
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <base href="/pensaopormorte1.1/">
     <title>Análise de Benefício – Pensão por Morte | MP Assessoria</title>
-    <meta name="description" content="Responda 9 perguntas rápidas e descubra se você pode ter direito à pensão por morte do INSS. Análise gratuita.">
+    <meta name="description" content="Responda perguntas rápidas e descubra se você pode ter direito à pensão por morte do INSS. Análise gratuita.">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -110,8 +110,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <div class="options-list" data-question="q1">
                 <button type="button" class="option-btn" data-value="conjuge"><span>Cônjuge (casado no civil)</span><span class="option-radio"></span></button>
                 <button type="button" class="option-btn" data-value="companheiro"><span>Companheiro(a) — união estável</span><span class="option-radio"></span></button>
-                <button type="button" class="option-btn" data-value="filho"><span>Filho(a)</span><span class="option-radio"></span></button>
                 <button type="button" class="option-btn" data-value="responsavel-menor"><span>Mãe/pai ou responsável por filho(a) menor de 21 anos do falecido</span><span class="option-radio"></span></button>
+                <button type="button" class="option-btn" data-value="filho"><span>Filho(a)</span><span class="option-radio"></span></button>
                 <button type="button" class="option-btn" data-value="pai-mae"><span>Pai / Mãe</span><span class="option-radio"></span></button>
                 <button type="button" class="option-btn" data-value="irmao"><span>Irmão(ã)</span><span class="option-radio"></span></button>
             </div>
@@ -139,6 +139,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </div>
         </section>
 
+        <section class="quiz-step" data-step="q3b">
+            <p class="quiz-block-label">Bloco 1 · Sobre quem faleceu</p>
+            <h2 class="quiz-question">Ele(a) chegou a trabalhar registrado ou contribuir para o INSS em algum momento da vida?</h2>
+            <p class="quiz-question-sub">Mesmo contribuições antigas podem garantir o direito — vale carteira assinada, autônomo, MEI ou trabalho rural.</p>
+            <div class="options-list" data-question="q3b">
+                <button type="button" class="option-btn" data-value="passado"><span>Sim, trabalhou registrado ou contribuiu no passado</span><span class="option-radio"></span></button>
+                <button type="button" class="option-btn" data-value="nao-sei"><span>Não sei informar</span><span class="option-radio"></span></button>
+                <button type="button" class="option-btn" data-value="nunca"><span>Não, nunca trabalhou registrado nem contribuiu</span><span class="option-radio"></span></button>
+            </div>
+        </section>
+
         <section class="quiz-step" data-step="q4">
             <p class="quiz-block-label">Bloco 1 · Sobre quem faleceu</p>
             <h2 class="quiz-question">Ela trabalhava registrada, contribuía como assegurado(a) especial ou mantinha vínculo com o INSS na época do falecimento — ou parou de contribuir há pouco tempo?</h2>
@@ -154,14 +165,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <h2 class="quiz-question">Qual é a sua idade?</h2>
             <p class="quiz-question-sub">Para cônjuge/companheiro(a), a idade define a duração do benefício.</p>
             <div class="options-list" data-question="q5">
-                <button type="button" class="option-btn" data-audience="filho" data-value="1-17"><span>Entre 1 e 17 anos</span><span class="option-radio"></span></button>
-                <button type="button" class="option-btn" data-audience="filho" data-value="18-mais"><span>18 anos ou mais</span><span class="option-radio"></span></button>
-                <button type="button" class="option-btn" data-audience="conjuge" data-value="menos-22"><span>Menos de 22 anos</span><span class="option-radio"></span></button>
-                <button type="button" class="option-btn" data-audience="conjuge" data-value="22-27"><span>Entre 22 e 27 anos</span><span class="option-radio"></span></button>
-                <button type="button" class="option-btn" data-audience="conjuge" data-value="28-30"><span>Entre 28 e 30 anos</span><span class="option-radio"></span></button>
-                <button type="button" class="option-btn" data-audience="conjuge" data-value="31-41"><span>Entre 31 e 41 anos</span><span class="option-radio"></span></button>
-                <button type="button" class="option-btn" data-audience="conjuge" data-value="42-44"><span>Entre 42 e 44 anos</span><span class="option-radio"></span></button>
-                <button type="button" class="option-btn" data-audience="conjuge" data-value="45-mais"><span>45 anos ou mais</span><span class="option-radio"></span></button>
+                <button type="button" class="option-btn" data-value="menos-22"><span>Menos de 22 anos</span><span class="option-radio"></span></button>
+                <button type="button" class="option-btn" data-value="22-27"><span>Entre 22 e 27 anos</span><span class="option-radio"></span></button>
+                <button type="button" class="option-btn" data-value="28-30"><span>Entre 28 e 30 anos</span><span class="option-radio"></span></button>
+                <button type="button" class="option-btn" data-value="31-41"><span>Entre 31 e 41 anos</span><span class="option-radio"></span></button>
+                <button type="button" class="option-btn" data-value="42-44"><span>Entre 42 e 44 anos</span><span class="option-radio"></span></button>
+                <button type="button" class="option-btn" data-value="45-mais"><span>45 anos ou mais</span><span class="option-radio"></span></button>
             </div>
         </section>
 
@@ -241,6 +250,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <script src="attribution.js?v=1"></script>
 <script src="supabase-leads.js?v=11"></script>
-<script src="quiz.js?v=5"></script>
+<script src="quiz.js?v=6"></script>
 </body>
 </html>

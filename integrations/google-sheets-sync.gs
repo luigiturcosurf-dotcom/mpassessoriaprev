@@ -1,10 +1,13 @@
 /**
  * MP Assessoria · Sync Supabase → Google Sheets + Meta CAPI ao marcar Vendido
- * v2 — integrado ao quiz v2 (Lead/LeadDesqualificado)
+ * v2.1 — quiz pensão com fluxo condicional (q3b + LeadSecundario)
+ *
+ * MUDANÇAS v2.1:
+ *  - Nova coluna "Q3b · Contribuição em vida" (qualidade de segurado)
+ *  - Evento Meta passa a incluir LeadSecundario (pai/mãe e irmão qualificados)
  *
  * MUDANÇAS v2:
- *  - Nova coluna "Evento Meta" (Lead | LeadDesqualificado) — termômetro de
- *    qualidade da campanha direto na planilha
+ *  - Nova coluna "Evento Meta" (Lead | LeadDesqualificado | LeadSecundario)
  *  - Correção de bug em repairSheetValidations (statusColumnA1 sem underscore)
  *  - Purchase enviado com action_source 'system_generated' (CRM automatizado)
  *
@@ -25,7 +28,7 @@
  * 5. Execute createTimeTrigger (sync a cada 1 min)
  * 6. Execute createEditTrigger (envia CAPI ao mudar Status para Vendido)
  *
- * Colunas Q1–Q4: auxílio-acidente / aposentadoria rural
+ * Colunas Q1–Q4 (+ Q3b): auxílio-acidente / aposentadoria rural / pensão
  * Colunas Q5–Q9: pensão por morte
  */
 
@@ -49,6 +52,7 @@ var HEADERS = [
   'Q1 · Situação / Parentesco',
   'Q2 · Vínculo / Tempo do falecimento',
   'Q3 · Afastamento INSS / Benefício do falecido',
+  'Q3b · Contribuição em vida',
   'Q4 · Sequelas / Contribuição antes do óbito',
   'Q5 · Idade',
   'Q6 · Estado civil',
@@ -343,6 +347,7 @@ function leadToRow_(lead) {
     fromRespostas_(r, 'q1'),
     fromRespostas_(r, 'q2'),
     fromRespostas_(r, 'q3'),
+    fromRespostas_(r, 'q3b'),
     fromRespostas_(r, 'q4'),
     fromRespostas_(r, 'q5'),
     fromRespostas_(r, 'q6'),

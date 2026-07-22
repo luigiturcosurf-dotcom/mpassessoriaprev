@@ -1,5 +1,5 @@
 (function () {
-    var WA_NUMBER = '5511963922594';
+    var WA_NUMBER = '5511947642923';
     var META_PIXEL_ID = '1229096362421532';
     var CAPI_ENDPOINT = 'https://jiuxiyxsausauqfsudus.supabase.co/functions/v1/capi-lead-router';
     var WA_AUTO_REDIRECT_MS = 3000;
@@ -7,21 +7,37 @@
     var waAutoRedirectTimer = null;
     var waRedirectDone = false;
 
-    var STEPS = ['intro', 'contact', 'q1', 'q2', 'q3', 'q4', 'q5', 'q6', 'q7', 'q8', 'q9'];
-    var QUESTION_STEPS = ['q1', 'q2', 'q3', 'q4', 'q5', 'q6', 'q7', 'q8', 'q9'];
-    var currentIndex = 0;
+    var FIXED_STEPS = ['intro', 'contact', 'q1'];
+    var currentStep = 'intro';
+    var skipQ4 = false;
 
     var contact = { nome: '', telefone: '', email: '', lgpdAceite: false, lgpdAceiteEm: null };
-    var answers = { q1: null, q2: null, q3: null, q4: null, q5: null, q6: null, q7: null, q8: null, q9: null };
-    var skipQ4 = false;
-    var lastMetaEvent = { name: null, id: null };
+    var answers = { q1: null, q2: null, q3: null, q3b: null, q4: null, q5: null, q6: null, q7: null, q8: null, q9: null };
+
+    // ============================================================
+    // FLUXOS CONDICIONAIS POR VÍNCULO (após q1)
+    // - Cônjuge/companheira: idade define duração (q5) + provas do vínculo (q6-q8)
+    // - Responsável por menor de 21: direito é do menor; dependência presumida
+    // - Filho: só a idade decide (menor de 21 = direito; 21+ = ressalva invalidez)
+    // - Pai/Mãe e Irmão: dependência econômica é decisiva (q9)
+    // Dependência (q9) NÃO é perguntada a cônjuge/filho: é presumida por lei
+    // (Art. 16, §4º, Lei 8.213/91).
+    // ============================================================
+    var FLOWS = {
+        'conjuge': ['q2', 'q3', 'q4', 'q5', 'q6', 'q7', 'q8'],
+        'companheiro': ['q2', 'q3', 'q4', 'q5', 'q6', 'q7', 'q8'],
+        'responsavel-menor': ['q2', 'q3', 'q4'],
+        'filho': ['q2', 'q3', 'q4', 'q5'],
+        'pai-mae': ['q2', 'q3', 'q4', 'q9'],
+        'irmao': ['q2', 'q3', 'q4', 'q9']
+    };
 
     var LABELS = {
         q1: {
             conjuge: 'Cônjuge (casado no civil)',
             companheiro: 'Companheiro(a) — união estável',
+            'responsavel-menor': 'Mãe/pai ou responsável por filho(a) menor de 21 anos',
             filho: 'Filho(a)',
-            'responsavel-menor': 'Mãe/pai ou responsável por filho(a) menor de 21 anos do falecido',
             'pai-mae': 'Pai / Mãe',
             irmao: 'Irmão(ã)'
         },
@@ -36,6 +52,11 @@
             contribuia: 'Não recebia, mas trabalhava registrado, contribuía ou era assegurado(a) especial',
             'nao-contribuia': 'Não recebia e não contribuía'
         },
+        q3b: {
+            passado: 'Sim, trabalhou registrado ou contribuiu no passado',
+            'nao-sei': 'Não sei informar',
+            nunca: 'Não, nunca trabalhou registrado nem contribuiu'
+        },
         q4: {
             trabalhando: 'Sim, estava trabalhando / contribuindo',
             'parou-12m': 'Parou há menos de 12 meses',
@@ -43,8 +64,6 @@
             'skip-aprovado': 'Não se aplica (benefício ativo do falecido)'
         },
         q5: {
-            '1-17': 'Entre 1 e 17 anos',
-            '18-mais': '18 anos ou mais',
             'menos-22': 'Menos de 22 anos',
             '22-27': 'Entre 22 e 27 anos',
             '28-30': 'Entre 28 e 30 anos',
@@ -73,10 +92,6 @@
     };
 
     var RESSALVA_MSG = {
-        'filho-idade': {
-            title: 'Filhos com mais de 17 anos não têm direito à pensão',
-            text: 'Pela legislação do INSS, filhos maiores de 17 anos só mantêm direito à pensão em casos específicos (invalidez ou deficiência comprovada). Se você acredita que se enquadra em alguma exceção, nossa equipe pode orientar.'
-        },
         irmao: {
             title: 'Seu caso exige análise detalhada',
             text: 'Irmãos(ãs) só recebem pensão em situações específicas, na ausência de cônjuge, filhos ou pais, e com dependência econômica comprovada. Mesmo assim, vale falar com nosso especialista — há exceções que só uma análise individual confirma.'
@@ -88,6 +103,14 @@
         dependencia: {
             title: 'Dependência econômica precisa ser comprovada',
             text: 'Para pais, mães ou irmãos, a dependência financeira do falecido é decisiva. Mesmo sem certeza agora, documentos e provas podem existir — fale com um especialista antes de desistir.'
+        },
+        'sem-contribuicao': {
+            title: 'Sem contribuição ao INSS, a pensão é negada',
+            text: 'A Pensão por Morte exige que a pessoa falecida tivesse qualidade de segurado — ou seja, que contribuísse para o INSS ou já recebesse benefício. Se ela nunca trabalhou registrado nem contribuiu de nenhuma forma, o INSS nega o pedido. Exceção rara: se ela já tinha cumprido todos os requisitos para se aposentar e não pediu. Se acredita que é o caso, fale com nosso especialista.'
+        },
+        'filho-maior-21': {
+            title: 'Filhos com mais de 21 anos não têm direito à pensão',
+            text: 'Pela lei, filhos recebem pensão apenas até os 21 anos — a exceção é para filhos inválidos ou com deficiência, em qualquer idade. Se este for o seu caso, fale com nosso especialista. Importante: a viúva ou companheira(o) do falecido (por exemplo, sua mãe) pode ter direito à pensão — compartilhe esta análise com ela.'
         },
         default: {
             title: 'Seu caso merece uma análise individual',
@@ -119,25 +142,43 @@
         return '(' + d.slice(0, 2) + ') ' + d.slice(2, 7) + '-' + d.slice(7, 11);
     }
 
-    function getCookie(name) {
-        var escaped = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-        var match = document.cookie.match(new RegExp('(?:^|; )' + escaped + '=([^;]*)'));
-        return match ? decodeURIComponent(match[1]) : null;
+    // ============================================================
+    // FLUXO DINÂMICO
+    // ============================================================
+    function activeFlow() {
+        var flow = FLOWS[answers.q1] || FLOWS['conjuge'];
+        // v2.1: falecido "não recebia e não contribuía" → pergunta condicional
+        // sobre contribuição em qualquer momento da vida (qualidade de segurado)
+        if (answers.q3 === 'nao-contribuia') {
+            var i = flow.indexOf('q3');
+            flow = flow.slice(0, i + 1).concat(['q3b']).concat(flow.slice(i + 1));
+        }
+        if (skipQ4) {
+            flow = flow.filter(function (s) { return s !== 'q4'; });
+        }
+        return flow;
     }
 
-    function getAttributionForCapi() {
-        var prefix = 'mp_track_';
-        var p = new URLSearchParams(window.location.search);
-        var fbclid = p.get('fbclid') || sessionStorage.getItem(prefix + 'fbclid') || null;
-        var fbc = sessionStorage.getItem(prefix + 'fbc') || getCookie('_fbc');
-        if (!fbc && fbclid) {
-            fbc = 'fb.1.' + Date.now() + '.' + fbclid;
-        }
-        return {
-            fbclid: fbclid,
-            fbp: sessionStorage.getItem(prefix + 'fbp') || getCookie('_fbp'),
-            fbc: fbc
-        };
+    function fullStepList() {
+        return FIXED_STEPS.concat(activeFlow());
+    }
+
+    function questionList() {
+        return ['q1'].concat(activeFlow());
+    }
+
+    function nextAfter(stepId) {
+        var steps = fullStepList();
+        var i = steps.indexOf(stepId);
+        if (i === -1 || i === steps.length - 1) return null;
+        return steps[i + 1];
+    }
+
+    function prevBefore(stepId) {
+        var steps = fullStepList();
+        var i = steps.indexOf(stepId);
+        if (i <= 0) return null;
+        return steps[i - 1];
     }
 
     function loadStoredContact() {
@@ -158,30 +199,6 @@
     }
 
     function storeContact() { sessionStorage.setItem('mp_lead_contact', JSON.stringify(contact)); }
-
-    function getQuestionFlow() {
-        var v = answers.q1;
-        if (v === 'conjuge' || v === 'companheiro') {
-            return ['q1', 'q2', 'q3', 'q4', 'q5', 'q6', 'q7', 'q8'];
-        }
-        if (v === 'responsavel-menor') {
-            return ['q1', 'q2', 'q3', 'q4'];
-        }
-        if (v === 'filho') {
-            return ['q1', 'q2', 'q3', 'q4', 'q5'];
-        }
-        if (v === 'pai-mae' || v === 'irmao') {
-            return ['q1', 'q2', 'q3', 'q4', 'q9'];
-        }
-        return QUESTION_STEPS.slice();
-    }
-
-    function getVisibleFlow() {
-        return getQuestionFlow().filter(function (q) {
-            if (q === 'q4' && skipQ4) return false;
-            return true;
-        });
-    }
 
     function showFieldError(fieldId, errId, message) {
         var field = document.getElementById(fieldId);
@@ -244,46 +261,8 @@
         return false;
     }
 
-    function isFilhoIdadeQualificada(idade) {
-        return idade === '1-17';
-    }
-
-    function updateQ5Presentation() {
-        var q5Step = document.querySelector('[data-step="q5"]');
-        if (!q5Step) return;
-        var isFilho = answers.q1 === 'filho';
-        var title = q5Step.querySelector('.quiz-question');
-        var sub = q5Step.querySelector('.quiz-question-sub');
-        if (title) title.textContent = 'Qual é a sua idade?';
-        if (sub) {
-            sub.textContent = isFilho
-                ? 'Filhos de 1 a 17 anos têm direito à pensão. Acima de 17, só em casos específicos (invalidez ou deficiência).'
-                : 'Para cônjuge/companheiro(a), a idade define a duração do benefício.';
-        }
-        q5Step.querySelectorAll('.option-btn').forEach(function (btn) {
-            var audience = btn.getAttribute('data-audience') || 'conjuge';
-            var show = isFilho ? audience === 'filho' : audience === 'conjuge';
-            btn.style.display = show ? '' : 'none';
-            if (!show) btn.classList.remove('selected');
-        });
-        if (answers.q5) {
-            var filhoVal = isFilhoIdadeQualificada(answers.q5) || answers.q5 === '18-mais';
-            if (isFilho && !filhoVal) answers.q5 = null;
-            if (!isFilho && filhoVal) answers.q5 = null;
-        }
-    }
-
-    function updateQuestionVisibility() {
-        var flow = answers.q1 ? getQuestionFlow() : ['q1'];
-        QUESTION_STEPS.forEach(function (q) {
-            var el = document.querySelector('[data-step="' + q + '"]');
-            if (!el) return;
-            el.style.display = flow.indexOf(q) !== -1 ? '' : 'none';
-        });
-    }
-
     function updateProgress(stepId) {
-        var visible = getVisibleFlow();
+        var visible = questionList();
         var qIndex = visible.indexOf(stepId);
         if (qIndex === -1) return;
         progressFill.style.width = ((qIndex + 1) / visible.length * 100) + '%';
@@ -291,145 +270,29 @@
     }
 
     function showStep(stepId) {
+        currentStep = stepId;
         document.querySelectorAll('.quiz-step').forEach(function (el) { el.classList.remove('active'); });
         var step = document.querySelector('[data-step="' + stepId + '"]');
         if (step) step.classList.add('active');
 
-        updateQuestionVisibility();
-        var q4El = document.querySelector('[data-step="q4"]');
-        if (q4El && getQuestionFlow().indexOf('q4') !== -1) {
-            q4El.style.display = skipQ4 ? 'none' : '';
-        }
-
-        var isQuestion = QUESTION_STEPS.indexOf(stepId) !== -1;
+        var isQuestion = questionList().indexOf(stepId) !== -1;
         progressWrap.hidden = !isQuestion;
         if (isQuestion) updateProgress(stepId);
-        if (stepId === 'q5') updateQ5Presentation();
 
         var isResult = stepId === 'qualified' || stepId === 'qualified-soft' || stepId === 'disqualified';
         btnBack.disabled = stepId === 'intro' || isResult;
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    function goToIndex(i) {
-        currentIndex = i;
-        showStep(STEPS[currentIndex]);
+    function advance(fromStep) {
+        var next = nextAfter(fromStep);
+        if (next) showStep(next);
+        else finishQuiz();
     }
 
-    function goToStep(stepId) {
-        var i = STEPS.indexOf(stepId);
-        if (i >= 0) goToIndex(i);
-    }
-
-    function nextAfterQ3() {
-        if (skipQ4) {
-            answers.q4 = 'skip-aprovado';
-            nextQuestion('q3');
-        } else {
-            goToStep('q4');
-        }
-    }
-
-    function nextQuestion(currentQ) {
-        var flow = getVisibleFlow();
-        var idx = flow.indexOf(currentQ);
-        if (idx === -1 || idx === flow.length - 1) {
-            finishQuiz();
-            return;
-        }
-        goToStep(flow[idx + 1]);
-    }
-
-    function prevQuestion() {
-        var stepId = STEPS[currentIndex];
-        var flow = getVisibleFlow();
-        var idx = flow.indexOf(stepId);
-        if (idx > 0) {
-            goToStep(flow[idx - 1]);
-            return;
-        }
-        if (stepId === 'q1') goToIndex(1);
-    }
-
-    function getQuizBasePath() {
-        var path = window.location.pathname || '';
-        if (/\/analise-de-beneficio\/?$/.test(path)) return '../';
-        return '';
-    }
-
-    function generateEventId() {
-        if (typeof crypto !== 'undefined' && crypto.randomUUID) {
-            return crypto.randomUUID();
-        }
-        return 'evt_' + Date.now() + '_' + Math.random().toString(36).slice(2, 11);
-    }
-
-    function getLpSlug() {
-        var parts = window.location.pathname.split('/').filter(Boolean);
-        var skip = { 'analise-de-beneficio': true, 'analise': true };
-        var i;
-        for (i = parts.length - 1; i >= 0; i--) {
-            if (parts[i].indexOf('.html') !== -1) continue;
-            if (skip[parts[i]]) continue;
-            return parts[i];
-        }
-        return 'pensao-por-morte';
-    }
-
-    function pushDataLayer(eventName, extra) {
-        window.dataLayer = window.dataLayer || [];
-        var payload = {
-            event: eventName,
-            beneficio: BENEFICIO,
-            lp_slug: getLpSlug()
-        };
-        if (extra) {
-            Object.keys(extra).forEach(function (key) {
-                payload[key] = extra[key];
-            });
-        }
-        window.dataLayer.push(payload);
-    }
-
-    function dispatchMetaConversion(eventName, eventId) {
-        lastMetaEvent = { name: eventName, id: eventId };
-        if (typeof fbq === 'function') {
-            fbq('trackSingle', META_PIXEL_ID, eventName, {
-                eventID: eventId,
-                content_name: 'Pensão por Morte INSS',
-                content_category: 'previdenciario'
-            }, { eventID: eventId });
-        }
-        var attr = getAttributionForCapi();
-        fetch(CAPI_ENDPOINT, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                event_name: eventName,
-                event_id: eventId,
-                email: contact.email,
-                telefone: contact.telefone,
-                vinculo: answers.q1,
-                fonte: getLpSlug(),
-                url: window.location.href,
-                user_agent: navigator.userAgent,
-                fbp: attr.fbp,
-                fbc: attr.fbc,
-                fbclid: attr.fbclid
-            }),
-            keepalive: true
-        }).catch(function (err) {
-            console.error('[Quiz] CAPI falhou:', err);
-        });
-    }
-
-    function trackCadastroContato() {
-        if (typeof fbq === 'function') {
-            fbq('trackSingle', META_PIXEL_ID, 'CadastroContato', {
-                content_name: 'Pensão por Morte INSS',
-                content_category: 'previdenciario'
-            });
-        }
+    function persistLead(resultado, motivo) {
+        if (typeof MPLeads === 'undefined') return Promise.resolve(null);
+        return MPLeads.saveQuizLead(buildLeadSaveOpts(resultado, motivo));
     }
 
     function buildLeadSaveOpts(resultado, motivo) {
@@ -440,14 +303,9 @@
             answers: answers,
             labels: LABELS,
             contact: contact,
-            eventoMeta: lastMetaEvent.name,
+            eventoMeta: lastMetaEvent.nome,
             metaEventId: lastMetaEvent.id
         };
-    }
-
-    function persistLead(resultado, motivo) {
-        if (typeof MPLeads === 'undefined') return Promise.resolve(null);
-        return MPLeads.saveQuizLead(buildLeadSaveOpts(resultado, motivo));
     }
 
     function persistContact() {
@@ -471,13 +329,13 @@
         if (answers.q1) parts.push('• Vínculo com o falecido: ' + LABELS.q1[answers.q1]);
         if (answers.q2) parts.push('• Data do falecimento: ' + LABELS.q2[answers.q2]);
         if (answers.q3) parts.push('• Benefício do INSS do falecido: ' + LABELS.q3[answers.q3]);
+        if (answers.q3b) parts.push('• Contribuição em vida: ' + LABELS.q3b[answers.q3b]);
         if (answers.q4) parts.push('• Situação de contribuição: ' + LABELS.q4[answers.q4]);
-        var flow = getQuestionFlow();
-        if (flow.indexOf('q5') !== -1 && answers.q5) parts.push('• Minha idade: ' + LABELS.q5[answers.q5]);
-        if (flow.indexOf('q6') !== -1 && answers.q6) parts.push('• Casamento/União estável: ' + LABELS.q6[answers.q6]);
-        if (flow.indexOf('q7') !== -1 && answers.q7) parts.push('• Tempo de relação: ' + LABELS.q7[answers.q7]);
-        if (flow.indexOf('q8') !== -1 && answers.q8) parts.push('• Filhos em comum: ' + LABELS.q8[answers.q8]);
-        if (flow.indexOf('q9') !== -1 && answers.q9) parts.push('• Dependência financeira: ' + LABELS.q9[answers.q9]);
+        if (answers.q5) parts.push('• Minha idade: ' + LABELS.q5[answers.q5]);
+        if (answers.q6) parts.push('• Casamento/União estável: ' + LABELS.q6[answers.q6]);
+        if (answers.q7) parts.push('• Tempo de relação: ' + LABELS.q7[answers.q7]);
+        if (answers.q8) parts.push('• Filhos em comum: ' + LABELS.q8[answers.q8]);
+        if (answers.q9) parts.push('• Dependência financeira: ' + LABELS.q9[answers.q9]);
         parts.push('');
         if (type === 'qualified') {
             parts.push('Pelo questionário, acredito ter perfil para a pensão por morte. Gostaria de falar com um advogado.');
@@ -487,6 +345,115 @@
             parts.push('Sei que meu caso exige análise mais detalhada. Gostaria de orientação com um especialista.');
         }
         return encodeURIComponent(parts.join('\n'));
+    }
+
+    function getLpSlug() {
+        var parts = window.location.pathname.split('/').filter(Boolean);
+        var i;
+        for (i = parts.length - 1; i >= 0; i--) {
+            if (parts[i].indexOf('.html') === -1) return parts[i];
+        }
+        return 'pensao-por-morte';
+    }
+
+    function pushDataLayer(eventName, extra) {
+        window.dataLayer = window.dataLayer || [];
+        var payload = {
+            event: eventName,
+            beneficio: BENEFICIO,
+            lp_slug: getLpSlug()
+        };
+        if (extra) {
+            Object.keys(extra).forEach(function (key) {
+                payload[key] = extra[key];
+            });
+        }
+        window.dataLayer.push(payload);
+    }
+
+    // ============================================================
+    // TRACKING META — Lead SÓ após o quiz, com roteamento e dedup
+    // ============================================================
+    function gerarEventId() {
+        if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
+        return 'ev-' + Date.now() + '-' + Math.random().toString(36).slice(2, 10);
+    }
+
+    function getCookie(name) {
+        var m = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]+)'));
+        return m ? m[1] : null;
+    }
+
+    // fbp/fbc: prioriza a atribuição persistida pelo attribution.js
+    // (inclui fbc reconstruído do fbclid — match superior ao cookie puro)
+    function getFbp() {
+        return sessionStorage.getItem('mp_track_fbp') || getCookie('_fbp') || null;
+    }
+    function getFbc() {
+        var fbc = sessionStorage.getItem('mp_track_fbc') || getCookie('_fbc');
+        if (fbc) return fbc;
+        var fbclid = new URLSearchParams(window.location.search).get('fbclid')
+            || sessionStorage.getItem('mp_track_fbclid');
+        return fbclid ? ('fb.1.' + Date.now() + '.' + fbclid) : null;
+    }
+
+    function enviarEventoCAPI(eventName, eventId) {
+        try {
+            fetch(CAPI_ENDPOINT, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                keepalive: true,
+                body: JSON.stringify({
+                    event_name: eventName,
+                    event_id: eventId,
+                    email: contact.email || null,
+                    telefone: contact.telefone || null,
+                    vinculo: answers.q1 || null,
+                    fonte: getLpSlug(),
+                    fbp: getFbp(),
+                    fbc: getFbc(),
+                    url: window.location.href,
+                    user_agent: navigator.userAgent
+                })
+            });
+        } catch (e) {}
+    }
+
+    var lastMetaEvent = { nome: null, id: null };
+
+    // Chamado APENAS em finishQuiz — nunca no formulário de contato.
+    // v2.1: pai/mãe e irmão(ã) qualificados viram LeadSecundario (custom,
+    // fora da otimização) — o evento Lead fica restrito à persona-alvo.
+    function trackMetaQuizResult(resultado, motivo) {
+        var qualificado = (resultado !== 'disqualified');
+        var secundario = qualificado && (answers.q1 === 'pai-mae' || answers.q1 === 'irmao');
+        var eventName = !qualificado ? 'LeadDesqualificado' : (secundario ? 'LeadSecundario' : 'Lead');
+        var eventId = gerarEventId();
+        lastMetaEvent = { nome: eventName, id: eventId };
+
+        if (typeof fbq === 'function') {
+            var params = {
+                content_name: 'Pensão por Morte INSS',
+                content_category: 'previdenciario',
+                lp_slug: getLpSlug(),
+                vinculo: answers.q1 || '',
+                resultado: resultado
+            };
+            if (eventName === 'Lead') {
+                fbq('trackSingle', META_PIXEL_ID, 'Lead', params, { eventID: eventId });
+            } else {
+                if (eventName === 'LeadDesqualificado') params.motivo = motivo || '';
+                fbq('trackSingleCustom', META_PIXEL_ID, eventName, params, { eventID: eventId });
+            }
+        }
+        enviarEventoCAPI(eventName, eventId);
+
+        pushDataLayer(eventName === 'Lead' ? 'lead_qualificado' : (eventName === 'LeadSecundario' ? 'lead_secundario' : 'lead_desqualificado'), {
+            resultado: resultado,
+            vinculo: answers.q1 || '',
+            motivo: motivo || null,
+            event_id: eventId
+        });
     }
 
     function goToWhatsApp(type, resultado) {
@@ -504,20 +471,8 @@
         savePromise.finally(function () { window.location.href = url; });
     }
 
-    function finalizeWithMeta(result) {
-        var metaEvent = result.step === 'disqualified' ? 'LeadDesqualificado' : 'Lead';
-        var eventId = generateEventId();
-        dispatchMetaConversion(metaEvent, eventId);
-        pushDataLayer(metaEvent === 'Lead' ? 'lead_qualified' : 'lead_desqualified', {
-            resultado: result.resultado,
-            event_id: eventId,
-            vinculo: answers.q1
-        });
-        return persistLead(result.resultado, result.reason).then(function () { return result; });
-    }
-
     function showQualifiedResult(stepId, resultado, waType) {
-        finalizeWithMeta({ step: stepId, resultado: resultado, wa: waType, reason: null }).then(function () {
+        persistLead(resultado).then(function () {
             showStep(stepId);
             waRedirectDone = false;
             var hintId = waType === 'soft' ? 'wa-redirect-hint-soft' : 'wa-redirect-hint-qualified';
@@ -531,142 +486,120 @@
         var msg = RESSALVA_MSG[reason] || RESSALVA_MSG.default;
         document.getElementById('disqualify-title').textContent = msg.title;
         document.getElementById('disqualify-text').textContent = msg.text;
-        finalizeWithMeta({ step: 'disqualified', resultado: 'disqualified', wa: 'disqualify', reason: reason }).then(function () {
-            showStep('disqualified');
-        });
+        persistLead('disqualified', reason).then(function () { showStep('disqualified'); });
     }
 
-    function scoreDeceased() {
+    // ============================================================
+    // SCORING CORRIGIDO
+    // - Filho com 22+ anos: desqualificação direta (exceção invalidez
+    //   tratada na ressalva/atendimento)
+    // - q5 (45+) só pontua para cônjuge/companheira (regra da vitalícia)
+    // - q9 (dependência) só existe para pai/mãe/irmão
+    // - Responsável por menor de 21: dependência do menor é presumida
+    // ============================================================
+    function computeResult() {
         var approve = 0;
         var uncertain = 0;
         var encerra = 0;
-        var reason = 'default';
+        var ressalvaReason = 'default';
+        var isConjugal = (answers.q1 === 'conjuge' || answers.q1 === 'companheiro');
 
+        // --- v2.1: falecido nunca contribuiu = sem qualidade de segurado ---
+        if (answers.q3 === 'nao-contribuia' && answers.q3b === 'nunca') {
+            return { step: 'disqualified', resultado: 'disqualified', wa: 'disqualify', reason: 'sem-contribuicao' };
+        }
+
+        // --- Desqualificação direta: filho com 22 anos ou mais ---
+        if (answers.q1 === 'filho' && answers.q5 && answers.q5 !== 'menos-22') {
+            return { step: 'disqualified', resultado: 'disqualified', wa: 'disqualify', reason: 'filho-maior-21' };
+        }
+
+        // q1 — vínculo
+        if (isConjugal || answers.q1 === 'responsavel-menor') approve++;
+        else if (answers.q1 === 'filho') approve++; // já validado: menos de 22
+        else if (answers.q1 === 'pai-mae') uncertain++;
+        else if (answers.q1 === 'irmao') { encerra++; ressalvaReason = 'irmao'; }
+
+        // q2 — data do óbito
         if (answers.q2 === 'menos-90' || answers.q2 === '90d-5a') approve++;
         else if (answers.q2 === 'mais-5a') uncertain++;
 
-        if (answers.q3 === 'aposentado' || answers.q3 === 'auxilio' || answers.q3 === 'contribuia') approve++;
-        else uncertain++;
+        // q3 — situação do falecido no INSS
+        if (answers.q3 === 'aposentado' || answers.q3 === 'auxilio') approve++;
+        else if (answers.q3 === 'contribuia') approve++;
+        else {
+            uncertain++;
+            // v2.1: contribuiu só no passado ou não sabe → análise de CNIS obrigatória
+            if (answers.q3b === 'passado' || answers.q3b === 'nao-sei') uncertain++;
+        }
 
+        // q4 — qualidade de segurado
         if (answers.q4 === 'trabalhando' || answers.q4 === 'parou-12m' || answers.q4 === 'skip-aprovado') approve++;
-        else if (answers.q4 === 'parou-mais-12m') { encerra++; reason = 'parou-mais-12m'; }
+        else if (answers.q4 === 'parou-mais-12m') { encerra++; ressalvaReason = 'parou-mais-12m'; }
 
-        return { approve: approve, uncertain: uncertain, encerra: encerra, reason: reason };
-    }
+        // q5 — idade: só pontua para cônjuge/companheira (duração/vitalícia)
+        if (isConjugal && answers.q5 === '45-mais') approve++;
 
-    function computeResult() {
-        var v = answers.q1;
-        var base = scoreDeceased();
-        var approve = base.approve;
-        var uncertain = base.uncertain;
-        var encerra = base.encerra;
-        var ressalvaReason = base.reason;
-
-        if (v === 'responsavel-menor') {
-            if (encerra > 0 && approve === 0) {
-                return { step: 'disqualified', resultado: 'disqualified', wa: 'disqualify', reason: ressalvaReason };
-            }
-            if (uncertain > 0) {
-                return { step: 'qualified-soft', resultado: 'qualified-soft', wa: 'soft', reason: null };
-            }
-            return { step: 'qualified', resultado: 'qualified', wa: 'qualified', reason: null };
-        }
-
-        if (v === 'filho') {
-            if (answers.q5 && !isFilhoIdadeQualificada(answers.q5)) {
-                return { step: 'disqualified', resultado: 'disqualified', wa: 'disqualify', reason: 'filho-idade' };
-            }
-            if (encerra > 0 && approve === 0) {
-                return { step: 'disqualified', resultado: 'disqualified', wa: 'disqualify', reason: ressalvaReason };
-            }
-            if (uncertain > 0) {
-                return { step: 'qualified-soft', resultado: 'qualified-soft', wa: 'soft', reason: null };
-            }
-            return { step: 'qualified', resultado: 'qualified', wa: 'qualified', reason: null };
-        }
-
-        if (v === 'conjuge' || v === 'companheiro') {
-            approve++;
-            if (answers.q5 === '45-mais') approve++;
+        // q6/q7/q8 — só existem no fluxo conjugal
+        if (isConjugal) {
             if (answers.q6 === 'casado') approve++;
             else if (answers.q6 === 'uniao-estavel') uncertain++;
             else if (answers.q6 === 'nao') uncertain++;
+
             if (answers.q7 === '2a-mais') approve++;
             else if (answers.q7 === 'menos-2a') uncertain++;
+
             if (answers.q8 === 'sim') approve++;
-        } else if (v === 'pai-mae') {
-            uncertain++;
-            if (answers.q9 === 'total') approve++;
-            else if (answers.q9 === 'parcial') uncertain++;
-            else if (answers.q9 === 'nao') { encerra++; ressalvaReason = 'dependencia'; }
-        } else if (v === 'irmao') {
-            encerra++;
-            ressalvaReason = 'irmao';
-            if (answers.q9 === 'total') { encerra = 0; uncertain++; }
-            else if (answers.q9 === 'parcial') uncertain++;
-            else if (answers.q9 === 'nao') { encerra++; ressalvaReason = 'dependencia'; }
         }
 
-        if (encerra > 0 && approve === 0) {
-            return { step: 'disqualified', resultado: 'disqualified', wa: 'disqualify', reason: ressalvaReason };
+        // q9 — dependência: só existe para pai/mãe/irmão
+        if (answers.q1 === 'pai-mae' || answers.q1 === 'irmao') {
+            if (answers.q9 === 'total') approve++;
+            else if (answers.q9 === 'parcial') uncertain++;
+            else if (answers.q9 === 'nao') {
+                return { step: 'disqualified', resultado: 'disqualified', wa: 'disqualify', reason: 'dependencia' };
+            }
         }
-        if (encerra > 0 || uncertain >= 2) {
-            return { step: 'qualified-soft', resultado: 'qualified-soft', wa: 'soft', reason: null };
-        }
-        if (uncertain > 0) {
-            return { step: 'qualified-soft', resultado: 'qualified-soft', wa: 'soft', reason: null };
-        }
+
+        if (encerra > 0 && approve === 0) return { step: 'disqualified', resultado: 'disqualified', wa: 'disqualify', reason: ressalvaReason };
+        if (encerra > 0 || uncertain >= 2) return { step: 'qualified-soft', resultado: 'qualified-soft', wa: 'soft', reason: null };
+        if (uncertain > 0) return { step: 'qualified-soft', resultado: 'qualified-soft', wa: 'soft', reason: null };
         return { step: 'qualified', resultado: 'qualified', wa: 'qualified', reason: null };
     }
 
     function finishQuiz() {
         var r = computeResult();
+        // Evento Meta roteado pelo resultado — ÚNICO ponto de disparo do Lead
+        trackMetaQuizResult(r.resultado, r.reason);
         if (r.step === 'disqualified') showRessalva(r.reason);
         else showQualifiedResult(r.step, r.resultado, r.wa);
     }
 
-    function clearIrrelevantAnswers() {
-        var flow = getQuestionFlow();
-        ['q2', 'q3', 'q4', 'q5', 'q6', 'q7', 'q8', 'q9'].forEach(function (q) {
-            if (flow.indexOf(q) === -1) answers[q] = null;
-        });
-    }
-
-    function handleQ1(v) {
-        answers.q1 = v;
-        clearIrrelevantAnswers();
-        goToStep('q2');
-    }
-
-    function handleQ2(v) { answers.q2 = v; nextQuestion('q2'); }
-
+    function handleQ1(v) { answers.q1 = v; advance('q1'); }
+    function handleQ2(v) { answers.q2 = v; advance('q2'); }
     function handleQ3(v) {
         answers.q3 = v;
+        if (v !== 'nao-contribuia') answers.q3b = null;
         skipQ4 = (v === 'aposentado' || v === 'auxilio');
-        nextAfterQ3();
+        if (skipQ4) answers.q4 = 'skip-aprovado';
+        advance('q3');
     }
-
-    function handleQ4(v) { answers.q4 = v; nextQuestion('q4'); }
-
-    function handleQ5(v) {
-        answers.q5 = v;
-        if (answers.q1 === 'filho' && !isFilhoIdadeQualificada(v)) {
-            showRessalva('filho-idade');
-            return;
-        }
-        nextQuestion('q5');
+    function handleQ3b(v) {
+        answers.q3b = v;
+        if (v === 'nunca') { finishQuiz(); return; }
+        advance('q3b');
     }
-
-    function handleQ6(v) { answers.q6 = v; nextQuestion('q6'); }
-    function handleQ7(v) { answers.q7 = v; nextQuestion('q7'); }
-    function handleQ8(v) { answers.q8 = v; finishQuiz(); }
-    function handleQ9(v) { answers.q9 = v; finishQuiz(); }
+    function handleQ4(v) { answers.q4 = v; advance('q4'); }
+    function handleQ5(v) { answers.q5 = v; advance('q5'); }
+    function handleQ6(v) { answers.q6 = v; advance('q6'); }
+    function handleQ7(v) { answers.q7 = v; advance('q7'); }
+    function handleQ8(v) { answers.q8 = v; advance('q8'); }
+    function handleQ9(v) { answers.q9 = v; advance('q9'); }
 
     function resetQuiz() {
         if (waAutoRedirectTimer) { clearTimeout(waAutoRedirectTimer); waAutoRedirectTimer = null; }
         waRedirectDone = false;
         skipQ4 = false;
-        lastMetaEvent = { name: null, id: null };
         ['wa-redirect-hint-qualified', 'wa-redirect-hint-soft'].forEach(function (id) {
             var el = document.getElementById(id);
             if (el) el.hidden = true;
@@ -674,14 +607,13 @@
         if (typeof MPLeads !== 'undefined') MPLeads.resetSession();
         contact = { nome: '', telefone: '', email: '', lgpdAceite: false, lgpdAceiteEm: null };
         inputNome.value = ''; inputTelefone.value = ''; inputEmail.value = ''; inputLgpd.checked = false;
-        answers = { q1: null, q2: null, q3: null, q4: null, q5: null, q6: null, q7: null, q8: null, q9: null };
+        answers = { q1: null, q2: null, q3: null, q3b: null, q4: null, q5: null, q6: null, q7: null, q8: null, q9: null };
         document.querySelectorAll('.option-btn.selected').forEach(function (b) { b.classList.remove('selected'); });
         clearFieldErrors();
-        currentIndex = 0;
         showStep('intro');
     }
 
-    btnStart.addEventListener('click', function () { goToIndex(1); });
+    btnStart.addEventListener('click', function () { showStep('contact'); });
 
     contactForm.addEventListener('submit', function (e) {
         e.preventDefault();
@@ -697,8 +629,15 @@
                 return;
             }
 
-            trackCadastroContato();
-            pushDataLayer('cadastro_contato', {
+            // IMPORTANTE: aqui NÃO dispara mais o Lead.
+            // Evento custom de funil (fora da otimização) para medir o passo.
+            if (typeof fbq === 'function') {
+                fbq('trackSingleCustom', META_PIXEL_ID, 'CadastroContato', {
+                    content_name: 'Pensão por Morte INSS',
+                    lp_slug: getLpSlug()
+                });
+            }
+            pushDataLayer('lead_form_submit', {
                 telefone_preenchido: !!contact.telefone,
                 email_preenchido: !!contact.email
             });
@@ -707,7 +646,7 @@
             setTimeout(function () {
                 btnContactSubmit.disabled = false;
                 btnContactSubmit.textContent = 'Iniciar análise';
-                goToStep('q1');
+                showStep('q1');
             }, 400);
         });
     });
@@ -720,20 +659,24 @@
     });
 
     btnBack.addEventListener('click', function () {
-        if (currentIndex <= 1 && new URLSearchParams(window.location.search).get('iniciar') === '1') {
-            window.location.href = getQuizBasePath() + 'index.html';
+        if (currentStep === 'contact' && new URLSearchParams(window.location.search).get('iniciar') === '1') {
+            window.location.href = 'index.html';
             return;
         }
-        if (currentIndex > 0) prevQuestion();
+        var prev = prevBefore(currentStep);
+        if (prev) {
+            // Voltar do q5 quando q4 foi pulado já é tratado pelo fluxo dinâmico
+            showStep(prev);
+        }
     });
 
-    btnRestart.addEventListener('click', function () { window.location.href = getQuizBasePath() + 'index.html'; });
+    btnRestart.addEventListener('click', function () { window.location.href = 'index.html'; });
     document.getElementById('btn-retry').addEventListener('click', resetQuiz);
     document.getElementById('btn-wa-qualified').addEventListener('click', function (e) { e.preventDefault(); goToWhatsApp('qualified', 'qualified'); });
     document.getElementById('btn-wa-soft').addEventListener('click', function (e) { e.preventDefault(); goToWhatsApp('soft', 'qualified-soft'); });
     document.getElementById('btn-wa-disqualify').addEventListener('click', function (e) { e.preventDefault(); goToWhatsApp('disqualify', 'disqualified'); });
 
-    var handlers = { q1: handleQ1, q2: handleQ2, q3: handleQ3, q4: handleQ4, q5: handleQ5, q6: handleQ6, q7: handleQ7, q8: handleQ8, q9: handleQ9 };
+    var handlers = { q1: handleQ1, q2: handleQ2, q3: handleQ3, q3b: handleQ3b, q4: handleQ4, q5: handleQ5, q6: handleQ6, q7: handleQ7, q8: handleQ8, q9: handleQ9 };
     document.querySelectorAll('.options-list').forEach(function (list) {
         var question = list.getAttribute('data-question');
         list.querySelectorAll('.option-btn').forEach(function (btn) {
@@ -747,6 +690,6 @@
     });
 
     loadStoredContact();
-    if (new URLSearchParams(window.location.search).get('iniciar') === '1') goToIndex(1);
+    if (new URLSearchParams(window.location.search).get('iniciar') === '1') showStep('contact');
     else showStep('intro');
 })();
