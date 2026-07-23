@@ -340,12 +340,23 @@
                 jaFoi = true;
                 window.location.href = url;
             }
+            // Prefer gtag se o GTM injetou; senão dispara via dataLayer (tag GTM precisa ouvir o evento).
             if (typeof gtag === 'function') {
                 gtag('event', 'conversion', {
                     send_to: 'AW-17670340948/AuYoCJTl0b8cENSC8OlB',
                     value: 1.0,
                     currency: 'BRL',
                     event_callback: seguir
+                });
+                setTimeout(seguir, 1500);
+            } else if (window.dataLayer && typeof window.dataLayer.push === 'function') {
+                window.dataLayer.push({
+                    event: 'ads_conversion_whatsapp',
+                    send_to: 'AW-17670340948/AuYoCJTl0b8cENSC8OlB',
+                    value: 1.0,
+                    currency: 'BRL',
+                    eventCallback: seguir,
+                    eventTimeout: 1500
                 });
                 setTimeout(seguir, 1500);
             } else {
@@ -407,7 +418,6 @@
             showDisqualified('menos-2-anos');
             return;
         }
-        if (action === 'qualify-soft' || value === 'unsure') temSoft = true;
         goToIndex(5); // → q3 (afastamento)
     }
 
@@ -422,8 +432,11 @@
             showDisqualified('no');
             return;
         }
-        if (action === 'qualify-soft' || value === 'unsure') temSoft = true;
         goToIndex(7); // → q6docs
+    }
+
+    function isSoftPath() {
+        return answers.q3carencia === 'unsure' || answers.q4 === 'unsure';
     }
 
     function handleQ6Docs(value, action) {
@@ -432,6 +445,7 @@
             showDisqualified('sem-documentos');
             return;
         }
+        temSoft = isSoftPath();
         if (temSoft) {
             showQualifiedResult('qualified-soft', 'qualified-soft', 'soft');
         } else {

@@ -4,3 +4,5 @@
 node_modules/
 .venv/
 *.zip
+anonymized-export/
+anonymized-export-*.zip

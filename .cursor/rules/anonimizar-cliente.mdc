@@ -1,0 +1,36 @@
+---
+description: Anonimizar dados do cliente ao compartilhar código, zips ou reviews
+alwaysApply: true
+---
+
+# Anonimização do cliente
+
+Ao **exportar, colar, revisar ou compartilhar** trechos deste repositório fora do ambiente interno:
+
+1. **Nunca altere as LPs de produção** para anonimizar. Use a cópia gerada pelo script.
+2. Gere a cópia com: `./scripts/anonimizar-para-compartilhar.sh` (ou `--zip`).
+3. Em respostas no chat que incluam código com dados reais, **substitua** antes de mostrar:
+
+| Real | Placeholder |
+|---|---|
+| Nome da empresa / marca | `[CLIENTE]` |
+| Domínio do site | `[DOMINIO]` |
+| Telefone / WhatsApp | `[TELEFONE]` |
+| Pixel Meta, GTM, Ads, projeto Supabase | `[ID_CONTA]` |
+| Chave API / publishable | `[CHAVE_API]` |
+
+4. Prefixo de campanha Meta (ex.: nomes com marca do cliente) → `[CAMPANHA]`.
+5. Mantenha a estrutura do código; só remova a identificação.
+6. Não cole secrets (Supabase key, tokens) em issues, PRs públicos ou chats externos.
+
+Exemplo:
+
+```js
+// ❌ ruim ao compartilhar
+var WA_NUMBER = '5511XXXXXXXXX';
+fbq('init', '1234567890');
+
+// ✅ ok
+var WA_NUMBER = '[TELEFONE]';
+fbq('init', '[ID_CONTA]');
+```
