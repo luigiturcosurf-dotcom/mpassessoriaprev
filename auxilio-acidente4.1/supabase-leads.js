@@ -41,6 +41,8 @@ window.MPLeads = (function () {
             utm_term: trackVal('utm_term'),
             fbclid: fbclid,
             gclid: trackVal('gclid'),
+            gbraid: trackVal('gbraid'),
+            wbraid: trackVal('wbraid'),
             fbp: sessionStorage.getItem(TRACK_PREFIX + 'fbp') || getCookie('_fbp'),
             fbc: fbc
         };
@@ -121,6 +123,8 @@ window.MPLeads = (function () {
             utm_term: attr.utm_term,
             fbclid: attr.fbclid,
             gclid: attr.gclid,
+            gbraid: attr.gbraid,
+            wbraid: attr.wbraid,
             fbp: attr.fbp,
             fbc: attr.fbc,
             status_comercial: 'Novo'

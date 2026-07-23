@@ -4,9 +4,10 @@
     var WA_AUTO_REDIRECT_MS = 3000;
     var waAutoRedirectTimer = null;
     var waRedirectDone = false;
+    var temSoft = false;
 
-    var STEPS = ['intro', 'contact', 'q1', 'q2', 'q3', 'q4'];
-    var QUESTION_STEPS = ['q1', 'q2', 'q3', 'q4'];
+    var STEPS = ['intro', 'contact', 'q1', 'q2', 'q3carencia', 'q3', 'q4', 'q6docs'];
+    var QUESTION_STEPS = ['q1', 'q2', 'q3carencia', 'q3', 'q4', 'q6docs'];
     var currentIndex = 0;
 
     var contact = {
@@ -20,8 +21,10 @@
     var answers = {
         q1: null,
         q2: null,
+        q3carencia: null,
         q3: null,
-        q4: null
+        q4: null,
+        q6docs: null
     };
 
     var LABELS = {
@@ -42,6 +45,11 @@
             'sem-registro': 'Sem registro',
             unsure: 'Não sabe dizer'
         },
+        q3carencia: {
+            'mais-2-anos': 'Contribuía há mais de 2 anos',
+            'menos-2-anos': 'Contribuía há menos de 2 anos',
+            unsure: 'Não sabe o tempo de contribuição'
+        },
         q3: {
             'yes-benefit': 'Ficou afastado(a) e recebeu benefício INSS',
             no: 'Não ficou afastado(a) pelo INSS',
@@ -51,6 +59,12 @@
             yes: 'Ainda tem limitações, dores ou sequelas',
             unsure: 'Não sabe dizer sobre sequelas',
             no: 'Recuperou totalmente'
+        },
+        q6docs: {
+            'tenho-todos': 'Tem os documentos',
+            'tenho-parte': 'Tem parte dos documentos',
+            'em-tratamento': 'Ainda em tratamento',
+            'sem-documentos': 'Não tem nenhum documento'
         }
     };
 
@@ -67,9 +81,17 @@
             title: 'É necessário vínculo com o INSS na época do acidente',
             text: 'Quem trabalhava sem registro não tinha qualidade de segurado do INSS no momento do fato. Sem esse vínculo, o auxílio-acidente não se aplica. Se sua situação mudou, refaça a análise.'
         },
+        'menos-2-anos': {
+            title: 'É necessário tempo mínimo de contribuição',
+            text: 'O auxílio-acidente exige qualidade de segurado no momento do acidente, o que normalmente pressupõe um histórico de contribuições. Se você contribuiu por outros períodos que não considerou, refaça a análise.'
+        },
         no: {
             title: 'É necessário sequela permanente',
             text: 'O auxílio-acidente exige que o acidente tenha deixado uma sequela que reduza permanentemente sua capacidade de trabalho. Se você desenvolveu limitações depois, fale conosco.'
+        },
+        'sem-documentos': {
+            title: 'A comprovação do acidente é essencial',
+            text: 'Para pedir o auxílio-acidente é preciso comprovar o acidente e a sequela com documentos (CAT, laudos, exames, atestados). Se você conseguir reunir esses documentos, fale conosco — podemos orientar sobre o que buscar.'
         }
     };
 
@@ -262,8 +284,10 @@
         parts.push('');
         if (answers.q1) parts.push('• Situação: ' + LABELS.q1[answers.q1]);
         if (answers.q2) parts.push('• Vínculo na época: ' + LABELS.q2[answers.q2]);
+        if (answers.q3carencia) parts.push('• Tempo de contribuição: ' + LABELS.q3carencia[answers.q3carencia]);
         if (answers.q3) parts.push('• Afastamento INSS: ' + LABELS.q3[answers.q3]);
         if (answers.q4) parts.push('• Sequelas atuais: ' + LABELS.q4[answers.q4]);
+        if (answers.q6docs) parts.push('• Documentos: ' + LABELS.q6docs[answers.q6docs]);
         parts.push('');
         if (type === 'qualified') {
             parts.push('Pelo questionário, acredito ter perfil para o auxílio-acidente. Gostaria de falar com um advogado.');
@@ -310,7 +334,23 @@
         }
 
         savePromise.finally(function () {
-            window.location.href = url;
+            var jaFoi = false;
+            function seguir() {
+                if (jaFoi) return;
+                jaFoi = true;
+                window.location.href = url;
+            }
+            if (typeof gtag === 'function') {
+                gtag('event', 'conversion', {
+                    send_to: 'AW-17670340948/AuYoCJTl0b8cENSC8OlB',
+                    value: 1.0,
+                    currency: 'BRL',
+                    event_callback: seguir
+                });
+                setTimeout(seguir, 1500);
+            } else {
+                seguir();
+            }
         });
     }
 
@@ -358,12 +398,22 @@
             showDisqualified('sem-registro');
             return;
         }
-        goToIndex(4);
+        goToIndex(4); // → q3carencia
+    }
+
+    function handleQ3Carencia(value, action) {
+        answers.q3carencia = value;
+        if (action === 'disqualify' || value === 'menos-2-anos') {
+            showDisqualified('menos-2-anos');
+            return;
+        }
+        if (action === 'qualify-soft' || value === 'unsure') temSoft = true;
+        goToIndex(5); // → q3 (afastamento)
     }
 
     function handleQ3(value) {
         answers.q3 = value;
-        goToIndex(5);
+        goToIndex(6); // → q4
     }
 
     function handleQ4(value, action) {
@@ -372,11 +422,21 @@
             showDisqualified('no');
             return;
         }
-        if (action === 'qualify-soft' || value === 'unsure') {
-            showQualifiedResult('qualified-soft', 'qualified-soft', 'soft');
+        if (action === 'qualify-soft' || value === 'unsure') temSoft = true;
+        goToIndex(7); // → q6docs
+    }
+
+    function handleQ6Docs(value, action) {
+        answers.q6docs = value;
+        if (action === 'disqualify' || value === 'sem-documentos') {
+            showDisqualified('sem-documentos');
             return;
         }
-        showQualifiedResult('qualified', 'qualified', 'qualified');
+        if (temSoft) {
+            showQualifiedResult('qualified-soft', 'qualified-soft', 'soft');
+        } else {
+            showQualifiedResult('qualified', 'qualified', 'qualified');
+        }
     }
 
     function resetQuiz() {
@@ -385,6 +445,7 @@
             waAutoRedirectTimer = null;
         }
         waRedirectDone = false;
+        temSoft = false;
         ['wa-redirect-hint-qualified', 'wa-redirect-hint-soft'].forEach(function (id) {
             var el = document.getElementById(id);
             if (el) el.hidden = true;
@@ -395,7 +456,7 @@
         inputTelefone.value = '';
         inputEmail.value = '';
         inputLgpd.checked = false;
-        answers = { q1: null, q2: null, q3: null, q4: null };
+        answers = { q1: null, q2: null, q3carencia: null, q3: null, q4: null, q6docs: null };
         document.querySelectorAll('.option-btn.selected').forEach(function (b) {
             b.classList.remove('selected');
         });
@@ -494,8 +555,10 @@
                 setTimeout(function () {
                     if (question === 'q1') handleQ1(value, action);
                     else if (question === 'q2') handleQ2(value, action);
+                    else if (question === 'q3carencia') handleQ3Carencia(value, action);
                     else if (question === 'q3') handleQ3(value);
                     else if (question === 'q4') handleQ4(value, action);
+                    else if (question === 'q6docs') handleQ6Docs(value, action);
                 }, 280);
             });
         });

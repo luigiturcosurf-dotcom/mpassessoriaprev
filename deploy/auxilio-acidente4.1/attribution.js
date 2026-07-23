@@ -1,10 +1,10 @@
 /**
- * MP Assessoria · Captura UTMs + fbclid/gclid/fbp/fbc e repassa para links internos.
+ * MP Assessoria · Captura UTMs + fbclid/gclid/gbraid/wbraid/fbp/fbc e repassa para links internos.
  */
 (function () {
     var TRACK_KEYS = [
         'utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term',
-        'fbclid', 'gclid'
+        'fbclid', 'gclid', 'gbraid', 'wbraid'
     ];
     var PREFIX = 'mp_track_';
 
@@ -71,6 +71,14 @@
             link.setAttribute('href', appendTracking(link.getAttribute('href'), query));
         });
     }
+
+    window.pegarClickId = function (name) {
+        try {
+            return sessionStorage.getItem(PREFIX + name) || '';
+        } catch (e) {
+            return '';
+        }
+    };
 
     captureFromUrl();
 

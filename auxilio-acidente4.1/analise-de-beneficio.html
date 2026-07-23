@@ -52,7 +52,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <div class="progress-wrap" id="progress-wrap" hidden>
         <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
-        <p class="progress-label" id="progress-label">Pergunta 1 de 4</p>
+        <p class="progress-label" id="progress-label">Pergunta 1 de 6</p>
     </div>
 
     <main class="quiz-body">
@@ -189,6 +189,32 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </div>
         </section>
 
+        <!-- Q3 · CARÊNCIA (nova) -->
+        <section class="quiz-step" data-step="q3carencia">
+            <div class="brand-block">
+                <div class="brand-logo">
+                    <img src="https://mpassessoriaprevidenciaria.com.br/wp-content/uploads/2025/10/logo-branca-dourada-vertical.png" alt="MP Assessoria">
+                </div>
+                <p class="brand-name">MP Assessoria Previdenciária</p>
+            </div>
+            <h2 class="quiz-question">Antes da situação, você já contribuía para o INSS há pelo menos 2 anos?</h2>
+            <p class="quiz-question-sub">Some todos os períodos em que trabalhou registrado ou contribuiu.</p>
+            <div class="options-list" data-question="q3carencia">
+                <button type="button" class="option-btn" data-value="mais-2-anos">
+                    <span>Sim, mais de 2 anos</span>
+                    <span class="option-radio"></span>
+                </button>
+                <button type="button" class="option-btn" data-value="menos-2-anos" data-action="disqualify">
+                    <span>Menos de 2 anos</span>
+                    <span class="option-radio"></span>
+                </button>
+                <button type="button" class="option-btn" data-value="unsure" data-action="qualify-soft">
+                    <span>Não sei dizer</span>
+                    <span class="option-radio"></span>
+                </button>
+            </div>
+        </section>
+
         <!-- Q3 -->
         <section class="quiz-step" data-step="q3">
             <div class="brand-block">
@@ -239,6 +265,36 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </div>
         </section>
 
+        <!-- Q6 · DOCUMENTOS (nova) -->
+        <section class="quiz-step" data-step="q6docs">
+            <div class="brand-block">
+                <div class="brand-logo">
+                    <img src="https://mpassessoriaprevidenciaria.com.br/wp-content/uploads/2025/10/logo-branca-dourada-vertical.png" alt="MP Assessoria">
+                </div>
+                <p class="brand-name">MP Assessoria Previdenciária</p>
+            </div>
+            <h2 class="quiz-question">Você tem documentos do acidente ou do tratamento?</h2>
+            <p class="quiz-question-sub">CAT, laudos, exames, atestados ou receitas.</p>
+            <div class="options-list" data-question="q6docs">
+                <button type="button" class="option-btn" data-value="tenho-todos">
+                    <span>Sim, tenho os documentos</span>
+                    <span class="option-radio"></span>
+                </button>
+                <button type="button" class="option-btn" data-value="tenho-parte">
+                    <span>Tenho parte deles</span>
+                    <span class="option-radio"></span>
+                </button>
+                <button type="button" class="option-btn" data-value="em-tratamento">
+                    <span>Ainda estou em tratamento</span>
+                    <span class="option-radio"></span>
+                </button>
+                <button type="button" class="option-btn" data-value="sem-documentos" data-action="disqualify">
+                    <span>Não tenho nenhum</span>
+                    <span class="option-radio"></span>
+                </button>
+            </div>
+        </section>
+
         <!-- RESULTADO: QUALIFICADO -->
         <section class="quiz-step" data-step="qualified">
             <div class="result-card">
@@ -282,8 +338,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <p class="footer-mini"><span class="brand">MP Assessoria Previdenciária</span> · &copy; 2026</p>
 
-<script src="attribution.js?v=1"></script>
-<script src="supabase-leads.js?v=9"></script>
-<script src="quiz.js?v=14"></script>
+<script src="attribution.js?v=2"></script>
+<script src="supabase-leads.js?v=10"></script>
+<script src="quiz.js?v=15"></script>
 </body>
 </html>

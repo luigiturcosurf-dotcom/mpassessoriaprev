@@ -23,6 +23,8 @@ CREATE TABLE IF NOT EXISTS public.quiz_leads (
     utm_term TEXT,
     fbclid TEXT,
     gclid TEXT,
+    gbraid TEXT,
+    wbraid TEXT,
     fbp TEXT,
     fbc TEXT,
     status_comercial TEXT NOT NULL DEFAULT 'Novo',
