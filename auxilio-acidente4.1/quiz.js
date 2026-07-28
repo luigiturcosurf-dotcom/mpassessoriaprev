@@ -81,6 +81,10 @@
             title: 'É necessário vínculo com o INSS na época do acidente',
             text: 'Quem trabalhava sem registro não tinha qualidade de segurado do INSS no momento do fato. Sem esse vínculo, o auxílio-acidente não se aplica. Se sua situação mudou, refaça a análise.'
         },
+        'autonomo-mei': {
+            title: 'Autônomo e MEI exigem comprovação específica de contribuição',
+            text: 'Para autônomo ou MEI, comprovar o pagamento correto ao INSS na época do acidente é mais complexo e, na maioria dos casos, o pedido acaba inviável sem essa prova. Se você tiver guias (DAS/GPS) e extrato do CNIS em dia, fale conosco — podemos orientar o que verificar.'
+        },
         'menos-2-anos': {
             title: 'É necessário tempo mínimo de contribuição',
             text: 'O auxílio-acidente exige qualidade de segurado no momento do acidente, o que normalmente pressupõe um histórico de contribuições. Se você contribuiu por outros períodos que não considerou, refaça a análise.'
@@ -405,6 +409,10 @@
 
     function handleQ2(value, action) {
         answers.q2 = value;
+        if (value === 'autonomo-mei' || (action === 'disqualify' && value === 'autonomo-mei')) {
+            showDisqualified('autonomo-mei');
+            return;
+        }
         if (action === 'disqualify' || value === 'sem-registro') {
             showDisqualified('sem-registro');
             return;
