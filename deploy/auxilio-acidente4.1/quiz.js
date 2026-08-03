@@ -1,5 +1,5 @@
 (function () {
-    var WA_NUMBER = '5511963922594';
+    var WA_NUMBER = '5511946530321';
     var META_PIXEL_ID = '2851865198508090';
     var WA_AUTO_REDIRECT_MS = 3000;
     var waAutoRedirectTimer = null;

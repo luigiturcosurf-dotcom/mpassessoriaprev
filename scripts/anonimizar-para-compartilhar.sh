@@ -84,8 +84,7 @@ find "${OUT_DIR}" -type f \( \
     s/\bmpassessoria\b/[CLIENTE_SLUG]/g;
     s/Mamae Protegida/[CLIENTE]/g;
     s/mamae-protegida-app/[CLIENTE_SLUG]/g;
-    s/5511947642923/[TELEFONE]/g;
-    s/5511963922594/[TELEFONE_B]/g;
+    s/5511946530321/[TELEFONE]/g;
     s/2851865198508090/[ID_CONTA_PIXEL_A]/g;
     s/1229096362421532/[ID_CONTA_PIXEL_B]/g;
     s/1752369442414230/[ID_CONTA_PIXEL_C]/g;
@@ -115,7 +114,7 @@ Gerada por `scripts/anonimizar-para-compartilhar.sh`.
 EOF
 
 echo "==> Conferência rápida"
-if rg -n "mpassessoriaprevidenciaria|5511947642923|5511963922594|jiuxiyxsausauqfsudus|sb_publishable_EQd" "${OUT_DIR}" 2>/dev/null; then
+if rg -n "mpassessoriaprevidenciaria|5511946530321|jiuxiyxsausauqfsudus|sb_publishable_EQd" "${OUT_DIR}" 2>/dev/null; then
   echo "AVISO: ainda há identificadores reais — revise o script."
   exit 1
 fi

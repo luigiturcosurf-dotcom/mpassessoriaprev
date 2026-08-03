@@ -1,5 +1,5 @@
 (function () {
-    var WA_NUMBER = '5511947642923';
+    var WA_NUMBER = '5511946530321';
     var WA_TEXT = encodeURIComponent('Olá, vi o anúncio. Gostaria de analisar meu direito à Aposentadoria Rural.');
     var WA_URL = 'https://wa.me/' + WA_NUMBER + '?text=' + WA_TEXT;
     var BENEFICIO = 'aposentadoria-rural';

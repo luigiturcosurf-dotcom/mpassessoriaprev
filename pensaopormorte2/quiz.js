@@ -1,5 +1,5 @@
 (function () {
-    var WA_NUMBER = '5511947642923';
+    var WA_NUMBER = '5511946530321';
     var META_PIXEL_ID = '1229096362421532';
     var CAPI_ENDPOINT = 'https://jiuxiyxsausauqfsudus.supabase.co/functions/v1/capi-lead-router';
     var WA_AUTO_REDIRECT_MS = 3000;
