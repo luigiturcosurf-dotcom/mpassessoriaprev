@@ -296,13 +296,25 @@ window.MPLeads = (function () {
 
         document.querySelectorAll(waSelectors).forEach(function (link) {
             if (link.classList.contains('quiz-cta')) return;
-            bindOnce(link, function () {
+            bindOnce(link, function (e) {
                 saveWaLead({
                     beneficio: beneficio,
                     cta: link.getAttribute('data-cta') || 'whatsapp',
                     resultado: 'whatsapp-direct',
                     clicouWhatsapp: true
                 });
+
+                // Conversão Google: target=_blank mantém a página; same-tab precisa atrasar o redirect.
+                if (typeof MPGoogleAds === 'undefined') return;
+                var href = link.href || '';
+                if (!href || href.indexOf('wa.me') === -1) return;
+                var opensBlank = (link.getAttribute('target') || '') === '_blank';
+                if (opensBlank) {
+                    MPGoogleAds.trackConversion();
+                    return;
+                }
+                e.preventDefault();
+                MPGoogleAds.redirectWithConversion(href);
             });
         });
 

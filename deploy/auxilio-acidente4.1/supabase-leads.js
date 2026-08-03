@@ -41,20 +41,24 @@ window.MPLeads = (function () {
             utm_term: trackVal('utm_term'),
             fbclid: fbclid,
             gclid: trackVal('gclid'),
-            gbraid: trackVal('gbraid'),
-            wbraid: trackVal('wbraid'),
             fbp: sessionStorage.getItem(TRACK_PREFIX + 'fbp') || getCookie('_fbp'),
             fbc: fbc
         };
     }
 
+    var LP_PAGE_SLUGS = {
+        'analise-de-beneficio': true,
+        'analise': true
+    };
+
     function detectLpSlug() {
         var parts = window.location.pathname.split('/').filter(Boolean);
         var i;
         for (i = parts.length - 1; i >= 0; i--) {
-            if (parts[i].indexOf('.html') === -1) {
-                return parts[i];
-            }
+            var part = parts[i];
+            if (part.indexOf('.html') !== -1) continue;
+            if (LP_PAGE_SLUGS[part]) continue;
+            return part;
         }
         return 'unknown';
     }
@@ -75,11 +79,9 @@ window.MPLeads = (function () {
     function buildHeaders(prefer) {
         var headers = {
             apikey: SUPABASE_KEY,
+            Authorization: 'Bearer ' + SUPABASE_KEY,
             'Content-Type': 'application/json'
         };
-        if (SUPABASE_KEY.indexOf('sb_publishable_') !== 0) {
-            headers.Authorization = 'Bearer ' + SUPABASE_KEY;
-        }
         if (prefer) headers.Prefer = prefer;
         return headers;
     }
@@ -123,8 +125,6 @@ window.MPLeads = (function () {
             utm_term: attr.utm_term,
             fbclid: attr.fbclid,
             gclid: attr.gclid,
-            gbraid: attr.gbraid,
-            wbraid: attr.wbraid,
             fbp: attr.fbp,
             fbc: attr.fbc,
             status_comercial: 'Novo'
@@ -228,6 +228,8 @@ window.MPLeads = (function () {
             payload.clicou_whatsapp = true;
             payload.clicou_whatsapp_em = new Date().toISOString();
         }
+        if (opts.eventoMeta) payload.evento_meta = opts.eventoMeta;
+        if (opts.metaEventId) payload.meta_event_id = opts.metaEventId;
         return payload;
     }
 
@@ -294,13 +296,25 @@ window.MPLeads = (function () {
 
         document.querySelectorAll(waSelectors).forEach(function (link) {
             if (link.classList.contains('quiz-cta')) return;
-            bindOnce(link, function () {
+            bindOnce(link, function (e) {
                 saveWaLead({
                     beneficio: beneficio,
                     cta: link.getAttribute('data-cta') || 'whatsapp',
                     resultado: 'whatsapp-direct',
                     clicouWhatsapp: true
                 });
+
+                // Conversão Google: target=_blank mantém a página; same-tab precisa atrasar o redirect.
+                if (typeof MPGoogleAds === 'undefined') return;
+                var href = link.href || '';
+                if (!href || href.indexOf('wa.me') === -1) return;
+                var opensBlank = (link.getAttribute('target') || '') === '_blank';
+                if (opensBlank) {
+                    MPGoogleAds.trackConversion();
+                    return;
+                }
+                e.preventDefault();
+                MPGoogleAds.redirectWithConversion(href);
             });
         });
 

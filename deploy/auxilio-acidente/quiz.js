@@ -299,19 +299,18 @@
         }
 
         var url = getWhatsAppUrl(type);
-        var savePromise;
-
+        // CRM em paralelo (keepalive). Conversão Google ANTES do redirect.
         if (typeof MPLeads !== 'undefined' && resultado) {
-            savePromise = MPLeads.saveQuizWithWhatsApp(buildLeadSaveOpts(resultado));
+            MPLeads.saveQuizWithWhatsApp(buildLeadSaveOpts(resultado));
         } else if (typeof MPLeads !== 'undefined') {
-            savePromise = MPLeads.markWhatsAppClick();
-        } else {
-            savePromise = Promise.resolve();
+            MPLeads.markWhatsAppClick();
         }
 
-        savePromise.finally(function () {
+        if (typeof MPGoogleAds !== 'undefined') {
+            MPGoogleAds.redirectWithConversion(url);
+        } else {
             window.location.href = url;
-        });
+        }
     }
 
     function showQualifiedResult(stepId, resultado, waType) {

@@ -18,6 +18,7 @@ for dir in "${LP_DIRS[@]}"; do
   if [ -d "$target" ]; then
     cp "$SHARED/supabase-leads.js" "$target/supabase-leads.js"
     cp "$SHARED/attribution.js" "$target/attribution.js"
+    cp "$SHARED/google-ads.js" "$target/google-ads.js"
     echo "✓ $dir"
   fi
 done

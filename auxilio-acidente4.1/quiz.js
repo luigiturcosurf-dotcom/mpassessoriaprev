@@ -327,46 +327,18 @@
         }
 
         var url = getWhatsAppUrl(type);
-        var savePromise;
-
+        // CRM em paralelo (keepalive). Conversão Google ANTES do redirect.
         if (typeof MPLeads !== 'undefined' && resultado) {
-            savePromise = MPLeads.saveQuizWithWhatsApp(buildLeadSaveOpts(resultado));
+            MPLeads.saveQuizWithWhatsApp(buildLeadSaveOpts(resultado));
         } else if (typeof MPLeads !== 'undefined') {
-            savePromise = MPLeads.markWhatsAppClick();
-        } else {
-            savePromise = Promise.resolve();
+            MPLeads.markWhatsAppClick();
         }
 
-        savePromise.finally(function () {
-            var jaFoi = false;
-            function seguir() {
-                if (jaFoi) return;
-                jaFoi = true;
-                window.location.href = url;
-            }
-            // Prefer gtag se o GTM injetou; senão dispara via dataLayer (tag GTM precisa ouvir o evento).
-            if (typeof gtag === 'function') {
-                gtag('event', 'conversion', {
-                    send_to: 'AW-17670340948/AuYoCJTl0b8cENSC8OlB',
-                    value: 1.0,
-                    currency: 'BRL',
-                    event_callback: seguir
-                });
-                setTimeout(seguir, 1500);
-            } else if (window.dataLayer && typeof window.dataLayer.push === 'function') {
-                window.dataLayer.push({
-                    event: 'ads_conversion_whatsapp',
-                    send_to: 'AW-17670340948/AuYoCJTl0b8cENSC8OlB',
-                    value: 1.0,
-                    currency: 'BRL',
-                    eventCallback: seguir,
-                    eventTimeout: 1500
-                });
-                setTimeout(seguir, 1500);
-            } else {
-                seguir();
-            }
-        });
+        if (typeof MPGoogleAds !== 'undefined') {
+            MPGoogleAds.redirectWithConversion(url);
+        } else {
+            window.location.href = url;
+        }
     }
 
     function showQualifiedResult(stepId, resultado, waType) {

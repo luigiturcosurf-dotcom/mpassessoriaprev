@@ -465,10 +465,18 @@
         });
         if (waAutoRedirectTimer) { clearTimeout(waAutoRedirectTimer); waAutoRedirectTimer = null; }
         var url = 'https://wa.me/' + WA_NUMBER + '?text=' + buildWaMessage(type);
-        var savePromise = (typeof MPLeads !== 'undefined' && resultado)
-            ? MPLeads.saveQuizWithWhatsApp(buildLeadSaveOpts(resultado))
-            : (typeof MPLeads !== 'undefined' ? MPLeads.markWhatsAppClick() : Promise.resolve());
-        savePromise.finally(function () { window.location.href = url; });
+        // CRM em paralelo (keepalive). Conversão Google ANTES do redirect.
+        if (typeof MPLeads !== 'undefined' && resultado) {
+            MPLeads.saveQuizWithWhatsApp(buildLeadSaveOpts(resultado));
+        } else if (typeof MPLeads !== 'undefined') {
+            MPLeads.markWhatsAppClick();
+        }
+
+        if (typeof MPGoogleAds !== 'undefined') {
+            MPGoogleAds.redirectWithConversion(url);
+        } else {
+            window.location.href = url;
+        }
     }
 
     function showQualifiedResult(stepId, resultado, waType) {

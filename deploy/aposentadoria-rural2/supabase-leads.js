@@ -46,13 +46,19 @@ window.MPLeads = (function () {
         };
     }
 
+    var LP_PAGE_SLUGS = {
+        'analise-de-beneficio': true,
+        'analise': true
+    };
+
     function detectLpSlug() {
         var parts = window.location.pathname.split('/').filter(Boolean);
         var i;
         for (i = parts.length - 1; i >= 0; i--) {
-            if (parts[i].indexOf('.html') === -1) {
-                return parts[i];
-            }
+            var part = parts[i];
+            if (part.indexOf('.html') !== -1) continue;
+            if (LP_PAGE_SLUGS[part]) continue;
+            return part;
         }
         return 'unknown';
     }
@@ -73,11 +79,9 @@ window.MPLeads = (function () {
     function buildHeaders(prefer) {
         var headers = {
             apikey: SUPABASE_KEY,
+            Authorization: 'Bearer ' + SUPABASE_KEY,
             'Content-Type': 'application/json'
         };
-        if (SUPABASE_KEY.indexOf('sb_publishable_') !== 0) {
-            headers.Authorization = 'Bearer ' + SUPABASE_KEY;
-        }
         if (prefer) headers.Prefer = prefer;
         return headers;
     }
@@ -292,13 +296,25 @@ window.MPLeads = (function () {
 
         document.querySelectorAll(waSelectors).forEach(function (link) {
             if (link.classList.contains('quiz-cta')) return;
-            bindOnce(link, function () {
+            bindOnce(link, function (e) {
                 saveWaLead({
                     beneficio: beneficio,
                     cta: link.getAttribute('data-cta') || 'whatsapp',
                     resultado: 'whatsapp-direct',
                     clicouWhatsapp: true
                 });
+
+                // Conversão Google: target=_blank mantém a página; same-tab precisa atrasar o redirect.
+                if (typeof MPGoogleAds === 'undefined') return;
+                var href = link.href || '';
+                if (!href || href.indexOf('wa.me') === -1) return;
+                var opensBlank = (link.getAttribute('target') || '') === '_blank';
+                if (opensBlank) {
+                    MPGoogleAds.trackConversion();
+                    return;
+                }
+                e.preventDefault();
+                MPGoogleAds.redirectWithConversion(href);
             });
         });
 
